@@ -2,6 +2,7 @@ package org.tinycloud.tinyjob.utils.quartz;
 
 import org.quartz.JobExecutionContext;
 import org.tinycloud.tinyjob.bean.entity.TJobInfo;
+import org.tinycloud.tinyjob.bean.pojo.JobResult;
 
 
 /**
@@ -11,7 +12,7 @@ import org.tinycloud.tinyjob.bean.entity.TJobInfo;
 public class QuartzJobExecution extends AbstractQuartzJob {
 
     @Override
-    protected String doExecute(JobExecutionContext context, TJobInfo jobInfo) throws Exception {
+    protected JobResult doExecute(JobExecutionContext context, TJobInfo jobInfo) throws Exception {
         // 开始执行http请求
 
         return null;

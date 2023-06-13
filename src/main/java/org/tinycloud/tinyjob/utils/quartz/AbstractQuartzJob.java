@@ -8,22 +8,28 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.tinycloud.tinyjob.bean.entity.TJobInfo;
 import org.tinycloud.tinyjob.bean.entity.TJobLog;
+import org.tinycloud.tinyjob.bean.pojo.JobResult;
 import org.tinycloud.tinyjob.constant.ScheduleConst;
 import org.tinycloud.tinyjob.service.JobLogService;
 import org.tinycloud.tinyjob.utils.ExceptionUtil;
 import org.tinycloud.tinyjob.utils.SpringContextUtils;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
 /**
  * 抽象quartz调用
  *
+ * 实现序列化接口、防止重启应用出现quartz Couldn't retrieve job because a required class was not found 的问题
+ *
  * @author liuxingyu01
- * @date 2021-08-27-12:45
+ * @since  2022-08-27-12:45
  **/
-public abstract class AbstractQuartzJob implements org.quartz.Job {
+public abstract class AbstractQuartzJob implements org.quartz.Job, Serializable {
     private static final Logger log = LoggerFactory.getLogger(AbstractQuartzJob.class);
+
+    private static final long serialVersionUID =  9155949248117098529L;
 
     /**
      * 线程本地变量
@@ -35,7 +41,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
         TJobInfo jobInfo = new TJobInfo();
         // 执行结果，即为请求返回的信息
-        String result = null;
+        JobResult result = null;
         BeanUtils.copyProperties(context.getMergedJobDataMap().get(ScheduleConst.TASK_PROPERTIES), jobInfo);
         try {
             before(context, jobInfo);
@@ -66,7 +72,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
      * @param context 工作执行上下文对象
      * @param job     系统计划任务
      */
-    protected void after(JobExecutionContext context, TJobInfo job, String result, Exception e) {
+    protected void after(JobExecutionContext context, TJobInfo job, JobResult result, Exception e) {
         Date startTime = threadLocal.get();
         threadLocal.remove();
 
@@ -75,11 +81,12 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
         jobLog.setJobName(job.getJobName());
         jobLog.setJobGroup(job.getJobGroup());
         jobLog.setJobType(job.getJobType());
-        jobLog.setJobUrl(job.getJobUrl());
+        // 这里存最终路由出来的地址
+        jobLog.setJobUrl(result.getRouteJobUrl());
         jobLog.setJobHeader(job.getJobHeader());
         jobLog.setJobParam(job.getJobParam());
         jobLog.setExecuteAt(startTime);
-        jobLog.setReturnInfo(result);
+        jobLog.setReturnInfo(result.getReturnInfo());
 
         // jobLog.setStartTime(startTime);
         // jobLog.setStopTime(new Date());
@@ -106,5 +113,5 @@ public abstract class AbstractQuartzJob implements org.quartz.Job {
      * @param jobInfo 系统计划任务
      * @throws Exception 执行过程中的异常
      */
-    protected abstract String doExecute(JobExecutionContext context, TJobInfo jobInfo) throws Exception;
+    protected abstract JobResult doExecute(JobExecutionContext context, TJobInfo jobInfo) throws Exception;
 }

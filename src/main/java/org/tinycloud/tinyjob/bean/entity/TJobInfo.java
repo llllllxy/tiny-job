@@ -145,4 +145,10 @@ public class TJobInfo implements Serializable {
      */
     @TableField("remark")
     private String remark;
+
+    /**
+     * 执行策略（FIRST、LAST、ROUND、RANDOM）
+     */
+    @TableField("strategy")
+    private String strategy;
 }

@@ -85,6 +85,12 @@
             <artifactId>commons-net</artifactId>
             <version>3.6</version>
         </dependency>
+        <!--Apache Httpclient-->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.12</version>
+        </dependency>
         <!-- hibernate验证-->
         <dependency>
             <groupId>org.hibernate.validator</groupId>

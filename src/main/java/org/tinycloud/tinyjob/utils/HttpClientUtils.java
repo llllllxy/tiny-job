@@ -63,7 +63,7 @@ public class HttpClientUtils {
      * @param headerMap
      * @return
      */
-    public static String get(String url, Map<String, Object> paramMap, Map<String, Object> headerMap) {
+    public static String get(String url, Map<String, Object> paramMap, Map<String, Object> headerMap) throws Exception {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         CloseableHttpResponse response = null;
         String result = "";
@@ -100,6 +100,7 @@ public class HttpClientUtils {
             }
         } catch (Exception e) {
             logger.error("Error in getMap", e);
+            throw e;
         } finally {
             org.apache.http.client.utils.HttpClientUtils.closeQuietly(httpclient);
             org.apache.http.client.utils.HttpClientUtils.closeQuietly(response);
@@ -114,7 +115,7 @@ public class HttpClientUtils {
      * @param formDataParam
      * @return
      */
-    public static String post(String url, Map<String, Object> formDataParam, Map<String, Object> headerMap) {
+    public static String post(String url, Map<String, Object> formDataParam, Map<String, Object> headerMap) throws Exception {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         CloseableHttpResponse response = null;
         String result = "";
@@ -142,7 +143,6 @@ public class HttpClientUtils {
                 }
             }
 
-
             // 发送请求
             response = httpclient.execute(httpPost);
             result = EntityUtils.toString(response.getEntity(), Charsets.UTF_8);
@@ -151,6 +151,7 @@ public class HttpClientUtils {
             }
         } catch (Exception e) {
             logger.error("Error in postFormData", e);
+            throw e;
         } finally {
             org.apache.http.client.utils.HttpClientUtils.closeQuietly(httpclient);
             org.apache.http.client.utils.HttpClientUtils.closeQuietly(response);
@@ -165,7 +166,7 @@ public class HttpClientUtils {
      * @param jsonParam
      * @return
      */
-    public static String postJson(String url, String jsonParam, Map<String, Object> headerMap) {
+    public static String postJson(String url, String jsonParam, Map<String, Object> headerMap) throws Exception {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         CloseableHttpResponse response = null;
         String result = "";
@@ -197,6 +198,7 @@ public class HttpClientUtils {
             }
         } catch (Exception e) {
             logger.error("Error in postJson", e);
+            throw e;
         } finally {
             org.apache.http.client.utils.HttpClientUtils.closeQuietly(httpclient);
             org.apache.http.client.utils.HttpClientUtils.closeQuietly(response);
@@ -210,7 +212,7 @@ public class HttpClientUtils {
      *
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         String url = "https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api.php?resource_id=6006&format=json&query=" + "101.43.9.251";
 
         HashMap hashMap = new HashMap();

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -81,11 +82,11 @@ public class TUser implements Serializable {
      * 创建时间
      */
     @TableField("created_at")
-    private String createdAt;
+    private Date createdAt;
 
     /**
      * 更新时间
      */
     @TableField("updated_at")
-    private String updatedAt;
+    private Date updatedAt;
 }

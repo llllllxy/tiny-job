@@ -30,7 +30,7 @@ layui.define(["jquery", "layer"], function (exports) {
                     headerLogoBg: '#192027', //logo背景颜色,
                     headerLogoColor: 'rgb(191, 187, 187)', //logo字体颜色,
                     leftMenuNavMore: 'rgb(191, 187, 187)', //左侧菜单更多下拉样式,
-                    leftMenuBg: '#28333E', //左侧菜单背景,
+                    leftMenuBg: '#192027', //左侧菜单背景,
                     leftMenuBgThis: '#1E9FFF', //左侧菜单选中背景,
                     leftMenuChildBg: '#0c0f13', //左侧菜单子菜单背景,
                     leftMenuColor: 'rgb(191, 187, 187)', //左侧菜单字体颜色,

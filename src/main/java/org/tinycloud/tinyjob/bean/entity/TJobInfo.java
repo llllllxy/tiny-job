@@ -120,13 +120,13 @@ public class TJobInfo implements Serializable {
      * 创建者
      */
     @TableField("created_by")
-    private Long createdBy;
+    private String createdBy;
 
     /**
      * 更新人
      */
     @TableField("updated_by")
-    private Long updatedBy;
+    private String updatedBy;
 
     /**
      * 创建时间

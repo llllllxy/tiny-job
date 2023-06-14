@@ -9,7 +9,7 @@ server:
 
 spring:
   application:
-    name: csp-gundam
+    name: tiny-job
   mvc:
     throw-exception-if-no-handler-found: true
   # 设置上传文件大小

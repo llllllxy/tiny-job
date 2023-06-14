@@ -91,12 +91,6 @@
             <artifactId>httpclient</artifactId>
             <version>4.5.12</version>
         </dependency>
-        <!-- hibernate验证-->
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>6.2.0.Final</version>
-        </dependency>
         <!-- tiny-security本地引入 -->
         <dependency>
             <groupId>org.tinycloud</groupId>

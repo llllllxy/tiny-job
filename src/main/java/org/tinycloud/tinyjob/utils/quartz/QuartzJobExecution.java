@@ -13,8 +13,6 @@ public class QuartzJobExecution extends AbstractQuartzJob {
 
     @Override
     protected JobResult doExecute(JobExecutionContext context, TJobInfo jobInfo) throws Exception {
-        // 开始执行http请求
-
-        return null;
+        return JobInvokeUtil.invoke(jobInfo);
     }
 }

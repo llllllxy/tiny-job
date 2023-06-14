@@ -2,6 +2,7 @@ package org.tinycloud.tinyjob.utils.quartz;
 
 import org.quartz.*;
 import org.tinycloud.tinyjob.bean.entity.TJobInfo;
+import org.tinycloud.tinyjob.constant.JobStatusEnum;
 import org.tinycloud.tinyjob.constant.ScheduleConst;
 import org.tinycloud.tinyjob.exception.TaskException;
 
@@ -66,7 +67,7 @@ public class ScheduleUtils {
         scheduler.scheduleJob(jobDetail, trigger);
 
         // 暂停任务
-        if (job.getStatus().equals(ScheduleConst.Status.PAUSE.getValue())) {
+        if (job.getStatus().equals(JobStatusEnum.PAUSE.getValue())) {
             scheduler.pauseJob(ScheduleUtils.getJobKey(jobId, jobGroup));
         }
     }

@@ -61,27 +61,4 @@ public class ScheduleConst {
      * https请求
      */
     public static final String HTTPS = "https://";
-
-
-    public enum Status {
-        /**
-         * 正常
-         */
-        NORMAL("0"),
-        /**
-         * 暂停
-         */
-        PAUSE("1");
-
-        private String value;
-
-        private Status(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-
 }

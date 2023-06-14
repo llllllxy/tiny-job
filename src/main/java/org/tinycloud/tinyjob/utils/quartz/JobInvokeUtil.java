@@ -19,7 +19,7 @@ public class JobInvokeUtil {
     private static final Logger log = LoggerFactory.getLogger(JobInvokeUtil.class);
 
     public static JobResult invoke(TJobInfo jobInfo) throws Exception {
-
+        log.info("invoke jobInfo: {}", jobInfo);
 
 
         return null;

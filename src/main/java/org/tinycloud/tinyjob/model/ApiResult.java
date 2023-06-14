@@ -75,6 +75,10 @@ public class ApiResult<T> {
         return new ApiResult<>(CommonCode.SUCCESS.getCode(), msg, data);
     }
 
+    public static <T> ApiResult<T> fail(String msg) {
+        return new ApiResult<>(CommonCode.UNKNOWN_ERROR.getCode(), msg, null);
+    }
+
     public static <T> ApiResult<T> fail(String code, String msg) {
         return new ApiResult<>(code, msg, null);
     }

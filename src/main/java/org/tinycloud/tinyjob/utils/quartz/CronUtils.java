@@ -86,6 +86,8 @@ public class CronUtils {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
+        System.out.println(getNextExecution("0/5 * * * * ?"));
+
         System.out.println(CronUtils.getNextExecTime("0/5 * * * * ?", 5) + "\n");
     }
 

@@ -73,7 +73,7 @@ public class JobInfoAddDto implements Serializable {
     private String cronExpression;
 
     /**
-     * 计划执行错误策略（1立即执行 2执行一次 3放弃执行）
+     * 计划执行错误策略（0默认 1立即执行 2执行一次 3放弃执行）
      */
     @NotEmpty(message = "计划执行错误策略不能为空")
     @Length(max = 1, min = 1, message = "计划执行错误策略只能为1个字符")

@@ -85,7 +85,7 @@ public class ScheduleUtils {
                 return cb.withMisfireHandlingInstructionIgnoreMisfires();
             case ScheduleConst.MISFIRE_FIRE_AND_PROCEED:
                 return cb.withMisfireHandlingInstructionFireAndProceed();
-            case ScheduleConst.MISFIRE_DO_NOTHING:
+            case ScheduleConst.MISFIRE_DO_NOTHING: // quartz默认的是这个
                 return cb.withMisfireHandlingInstructionDoNothing();
             default:
                 throw new TaskException("The task misfire policy '" + job.getMisfirePolicy()

@@ -1,6 +1,7 @@
 package org.tinycloud.tinyjob.utils.quartz;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
@@ -13,7 +14,6 @@ import org.tinycloud.tinyjob.constant.JobLogStatusEnum;
 import org.tinycloud.tinyjob.constant.ScheduleConst;
 import org.tinycloud.tinyjob.service.JobInfoService;
 import org.tinycloud.tinyjob.service.JobLogService;
-import org.tinycloud.tinyjob.utils.ExceptionUtil;
 import org.tinycloud.tinyjob.utils.SpringContextUtils;
 
 import java.io.Serializable;
@@ -85,18 +85,18 @@ public abstract class AbstractQuartzJob implements org.quartz.Job, Serializable 
         jobLog.setJobGroup(job.getJobGroup());
         jobLog.setJobType(job.getJobType());
         // 这里存最终路由出来的地址
-        jobLog.setJobUrl(result.getRouteJobUrl());
+        jobLog.setJobUrl(result == null ? job.getJobUrl() : result.getRouteJobUrl());
         jobLog.setJobHeader(job.getJobHeader());
         jobLog.setJobParam(job.getJobParam());
         jobLog.setExecuteAt(startTime); // 执行时间
-        jobLog.setReturnInfo(result.getReturnInfo()); // http请求返回的结果
+        jobLog.setReturnInfo(result == null ? null : result.getReturnInfo()); // http请求返回的结果
 
         // jobLog.setStopTime(new Date()); // 结束时间，暂时表里没有这个字段，后期可以加上
-        long consuming = startTime.getTime() - new Date().getTime();
+        long consuming = new Date().getTime() - startTime.getTime();
         jobLog.setConsuming((int) consuming);
         if (e != null) {
             jobLog.setStatus(JobLogStatusEnum.FAILED.getValue()); // 失败
-            String errorMsg = StringUtils.substring(ExceptionUtil.getExceptionMessage(e), 0, 2000);
+            String errorMsg = StringUtils.substring(ExceptionUtils.getStackTrace(e), 0, 2000);
             jobLog.setExceptionInfo(errorMsg);
         } else {
             jobLog.setStatus(JobLogStatusEnum.SUCCESS.getValue()); // 成功

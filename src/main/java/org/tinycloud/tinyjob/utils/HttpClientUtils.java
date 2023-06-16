@@ -17,6 +17,8 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -179,8 +181,8 @@ public class HttpClientUtils {
         httpPost.setConfig(requestConfig);
         // 设置请求头和请求参数
         if (StringUtils.isNotEmpty(jsonParam)) {
-            StringEntity entity = new StringEntity(jsonParam, "utf-8");
-            entity.setContentEncoding("UTF-8");
+            StringEntity entity = new StringEntity(jsonParam, StandardCharsets.UTF_8);
+            // entity.setContentEncoding("UTF-8"); // 这个参数设置有问题，部分接口在设置这个参数后无法访问
             entity.setContentType("application/json");
             httpPost.setEntity(entity);
         }
@@ -213,10 +215,19 @@ public class HttpClientUtils {
      * @param args
      */
     public static void main(String[] args) throws Exception {
-        String url = "https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api.php?resource_id=6006&format=json&query=" + "101.43.9.251";
+        String url = "https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api.php";
+        String url2 = "https://opendata.baidu.com/api.php";
 
         HashMap hashMap = new HashMap();
+        hashMap.put("resource_id", "6006");
+        hashMap.put("format", "json");
+        hashMap.put("query", "101.43.9.251");
+        hashMap.put("oe", "utf8");
+
         String map = get(url, hashMap, null);
         System.out.println(map);
+
+        String map2 = get(url2, hashMap, null);
+        System.out.println(map2);
     }
 }

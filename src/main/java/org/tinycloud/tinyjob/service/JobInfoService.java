@@ -17,6 +17,8 @@ import org.tinycloud.tinyjob.utils.BeanConvertUtils;
 import org.tinycloud.tinyjob.utils.quartz.CronUtils;
 import org.tinycloud.tinyjob.utils.quartz.ScheduleUtils;
 
+import java.util.Date;
+
 @Service
 public class JobInfoService {
 
@@ -122,5 +124,20 @@ public class JobInfoService {
         }
 
         return rows;
+    }
+
+    /**
+     * 更新下次执行时间
+     *
+     * @param id 任务id
+     * @param cronExpression cron表达式
+     * @return int
+     */
+    public int updateNextExecuteTime(Long id, String cronExpression) {
+        Date nextExecuteTime = CronUtils.getNextExecution(cronExpression);
+        LambdaUpdateWrapper<TJobInfo> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.eq(TJobInfo::getId, id);
+        wrapper.set(TJobInfo::getNextExecuteTime, nextExecuteTime);
+        return jobInfoMapper.update(null, wrapper);
     }
 }

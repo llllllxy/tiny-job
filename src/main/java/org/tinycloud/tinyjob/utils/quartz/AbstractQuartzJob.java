@@ -11,6 +11,7 @@ import org.tinycloud.tinyjob.bean.entity.TJobLog;
 import org.tinycloud.tinyjob.bean.pojo.JobResult;
 import org.tinycloud.tinyjob.constant.JobLogStatusEnum;
 import org.tinycloud.tinyjob.constant.ScheduleConst;
+import org.tinycloud.tinyjob.service.JobInfoService;
 import org.tinycloud.tinyjob.service.JobLogService;
 import org.tinycloud.tinyjob.utils.ExceptionUtil;
 import org.tinycloud.tinyjob.utils.SpringContextUtils;
@@ -103,8 +104,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job, Serializable 
         SpringContextUtils.getBean(JobLogService.class).addJobLog(jobLog);
 
         // 第二步、更新t_job_info表的下次执行时间
-
-
+        SpringContextUtils.getBean(JobInfoService.class).updateNextExecuteTime(job.getId(), job.getCronExpression());
     }
 
 

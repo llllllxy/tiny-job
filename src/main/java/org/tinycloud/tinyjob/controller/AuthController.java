@@ -73,27 +73,34 @@ public class AuthController {
         Map<String, Object> initInfo = new HashMap<String, Object>();
 
         Map<String, String> menuItem1 = new HashMap<>();
-        menuItem1.put("title", "执行器管理");
-        menuItem1.put("href", "page/menu.html");
-        menuItem1.put("icon", "fa fa-window-maximize");
+        menuItem1.put("title", "项目管理");
+        menuItem1.put("href", "page/form.html");
+        menuItem1.put("icon", "fa fa-navicon");
         menuItem1.put("target", "_self");
 
         Map<String, String> menuItem2 = new HashMap<>();
-        menuItem2.put("title", "任务管理");
-        menuItem2.put("href", "page/setting.html");
-        menuItem2.put("icon", "fa fa-gears");
+        menuItem2.put("title", "主机管理");
+        menuItem2.put("href", "page/menu.html");
+        menuItem2.put("icon", "fa fa-navicon");
         menuItem2.put("target", "_self");
 
         Map<String, String> menuItem3 = new HashMap<>();
-        menuItem3.put("title", "任务日志");
-        menuItem3.put("href", "page/table.html");
-        menuItem3.put("icon", "fa fa-file-text");
+        menuItem3.put("title", "任务管理");
+        menuItem3.put("href", "page/setting.html");
+        menuItem3.put("icon", "fa fa-navicon");
         menuItem3.put("target", "_self");
+
+        Map<String, String> menuItem4 = new HashMap<>();
+        menuItem4.put("title", "任务日志");
+        menuItem4.put("href", "page/table.html");
+        menuItem4.put("icon", "fa fa-navicon");
+        menuItem4.put("target", "_self");
 
         List<Map<String, String>> menuList = new ArrayList<>();
         menuList.add(menuItem1);
         menuList.add(menuItem2);
         menuList.add(menuItem3);
+        menuList.add(menuItem4);
 
         Map<String, String> homeInfo = new HashMap<>();
         homeInfo.put("title", "首页");

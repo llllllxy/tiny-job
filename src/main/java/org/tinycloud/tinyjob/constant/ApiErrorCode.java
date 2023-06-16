@@ -12,6 +12,7 @@ public enum ApiErrorCode {
     USERNAME_OR_PASSWORD_MISMATCH("1001", "用户名或密码错误！"),
     USER_IS_DISABLED("1002", "用户已被停用！"),
 
+    CRON_EXPRESSION_ERROR("4001", "Cron表达式不正确！"),
     ;
 
     private String code;

@@ -2,4 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.tinycloud.tinyjob.mapper.JobInfoMapper">
 
+    <!-- 查询所有操作任务 -->
+    <select id="pageList" resultType="org.tinycloud.tinyjob.bean.vo.JobInfoQueryVo"
+            parameterType="org.tinycloud.tinyjob.bean.dto.JobInfoQueryDto">
+        select
+            tji.*,
+            tpi.project_name,
+            thi.host_name
+        from t_job_info tji
+        left join t_project_info tpi on tji.project_id = tpi.id
+        left join t_hosts_info thi on tji.host_id = thi.id
+        where tji.del_flag = 0
+        <if test="dto.jobName != null and dto.jobName != ''">
+            and tji.job_name like CONCAT('%',#{dto.jobName},'%')
+        </if>
+        <if test="dto.jobGroup != null and dto.jobGroup != ''">
+            and tji.job_group like CONCAT('%',#{dto.jobGroup},'%')
+        </if>
+        <if test="dto.projectId != null">
+            and tji.project_id = #{dto.projectId}
+        </if>
+        <if test="dto.hostId != null">
+            and tji.host_id = #{dto.hostId}
+        </if>
+        <choose>
+            <when test="dto.sortFiled != null and dto.sortFiled != '' and dto.sortType != null and dto.sortType != ''">
+                order by ${dto.sortFiled} ${dto.sortType}
+            </when>
+            <otherwise>
+                order by tji.id desc
+            </otherwise>
+        </choose>
+    </select>
 </mapper>

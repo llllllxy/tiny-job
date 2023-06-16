@@ -8,8 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.tinycloud.tinyjob.bean.dto.JobInfoAddDto;
+import org.tinycloud.tinyjob.bean.dto.JobInfoEditDto;
+import org.tinycloud.tinyjob.bean.dto.JobInfoQueryDto;
+import org.tinycloud.tinyjob.bean.vo.JobInfoQueryVo;
 import org.tinycloud.tinyjob.exception.TaskException;
 import org.tinycloud.tinyjob.model.ApiResult;
+import org.tinycloud.tinyjob.model.PageModel;
 import org.tinycloud.tinyjob.service.JobInfoService;
 
 @RestController
@@ -21,54 +25,85 @@ public class JobInfoController {
     private JobInfoService jobInfoService;
 
 
+    /**
+     * 分页查询任务
+     *
+     * @return
+     */
+    @PostMapping("/query")
+    public ApiResult<PageModel<JobInfoQueryVo>> query(@RequestBody JobInfoQueryDto dto) {
+        return ApiResult.success(jobInfoService.query(dto), "查询成功!");
+    }
+
 
     /**
      * 新增任务
+     *
      * @return
      */
     @PostMapping("/add")
     public ApiResult<Object> add(@Validated @RequestBody JobInfoAddDto dto) throws SchedulerException, TaskException {
         int num = jobInfoService.add(dto);
         if (num > 0) {
-            return ApiResult.success(null, "新增成功!" );
+            return ApiResult.success(null, "新增成功!");
         } else {
-            return ApiResult.fail("新增失败，请联系后台管理员!" );
+            return ApiResult.fail("新增失败，请联系后台管理员!");
         }
     }
 
 
     /**
+     * 修改任务
+     *
+     * @return
+     */
+    @PostMapping("/edit")
+    public ApiResult<Object> edit(@Validated @RequestBody JobInfoEditDto dto) throws SchedulerException, TaskException {
+        int num = jobInfoService.edit(dto);
+        if (num > 0) {
+            return ApiResult.success(null, "修改成功!");
+        } else {
+            return ApiResult.fail("修改失败，请联系后台管理员!");
+        }
+    }
+
+
+
+    /**
      * 启动任务
+     *
      * @return
      */
     @GetMapping("/start")
     public ApiResult<Object> start(@RequestParam("id") Long id) throws SchedulerException, TaskException {
         int num = jobInfoService.start(id);
         if (num > 0) {
-            return ApiResult.success(null, "启动成功!" );
+            return ApiResult.success(null, "启动成功!");
         } else {
-            return ApiResult.fail("启动失败，请联系后台管理员!" );
+            return ApiResult.fail("启动失败，请联系后台管理员!");
         }
     }
 
 
     /**
      * 停止任务
+     *
      * @return
      */
     @GetMapping("/stop")
     public ApiResult<Object> stop(@RequestParam("id") Long id) throws SchedulerException, TaskException {
         int num = jobInfoService.stop(id);
         if (num > 0) {
-            return ApiResult.success(null, "停止成功!" );
+            return ApiResult.success(null, "停止成功!");
         } else {
-            return ApiResult.fail("停止失败，请联系后台管理员!" );
+            return ApiResult.fail("停止失败，请联系后台管理员!");
         }
     }
 
 
     /**
      * 执行一次任务
+     *
      * @return
      */
     @GetMapping("/executeonce")
@@ -80,15 +115,16 @@ public class JobInfoController {
 
     /**
      * 删除任务
+     *
      * @return
      */
     @GetMapping("/delete")
     public ApiResult<?> delete(@RequestParam("id") Long id) throws SchedulerException, TaskException {
-        int  num = jobInfoService.delete(id);
+        int num = jobInfoService.delete(id);
         if (num > 0) {
-            return ApiResult.success(null, "删除成功!" );
+            return ApiResult.success(null, "删除成功!");
         } else {
-            return ApiResult.fail("删除失败，请联系后台管理员!" );
+            return ApiResult.fail("删除失败，请联系后台管理员!");
         }
     }
 

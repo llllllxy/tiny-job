@@ -103,6 +103,11 @@ public class TJobLog implements Serializable {
     @TableField("execute_at")
     private Date executeAt;
 
+    /**
+     * 结束时间
+     */
+    @TableField("end_at")
+    private Date endAt;
 
     /**
      * 执行耗时

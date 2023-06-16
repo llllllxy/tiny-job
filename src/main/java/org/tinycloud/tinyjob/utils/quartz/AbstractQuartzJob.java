@@ -89,10 +89,10 @@ public abstract class AbstractQuartzJob implements org.quartz.Job, Serializable 
         jobLog.setJobHeader(job.getJobHeader());
         jobLog.setJobParam(job.getJobParam());
         jobLog.setExecuteAt(startTime); // 执行时间
+        jobLog.setEndAt(new Date()); // 结束时间
         jobLog.setReturnInfo(result == null ? null : result.getReturnInfo()); // http请求返回的结果
 
-        // jobLog.setStopTime(new Date()); // 结束时间，暂时表里没有这个字段，后期可以加上
-        long consuming = new Date().getTime() - startTime.getTime();
+        long consuming = jobLog.getEndAt().getTime() - startTime.getTime(); // 总耗时
         jobLog.setConsuming((int) consuming);
         if (e != null) {
             jobLog.setStatus(JobLogStatusEnum.FAILED.getValue()); // 失败

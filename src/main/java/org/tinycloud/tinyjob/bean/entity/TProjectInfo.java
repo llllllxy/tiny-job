@@ -25,13 +25,13 @@ public class TProjectInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 日志id（主键id）
+     * 项目id（主键id）
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
-     * 任务id
+     * 项目名称
      */
     @TableField("project_name")
     private Long projectName;

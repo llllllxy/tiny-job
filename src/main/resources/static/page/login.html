@@ -56,8 +56,9 @@
     </div>
 </div>
 <script src="/lib/jquery/jquery-3.4.1.min.js" charset="utf-8"></script>
-<script src="/lib/layui/layui.js" charset="utf-8"></script>
 <script src="/lib/jq-module/jquery.particleground.min.js" charset="utf-8"></script>
+<script src="/lib/layui/layui.js" charset="utf-8"></script>
+<script src="/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
 <script src="/js/common.js?v=2.0.0" charset="utf-8"></script>
 <script src="/lib/crypto/md5.js?v=2.0.0" charset="utf-8"></script>
 <script>
@@ -67,7 +68,7 @@
             layer = layui.layer,
             miniAjax = layui.miniAjax;
 
-        // 登录过期的时候，跳出ifram框架
+        // 登录过期的时候，跳出iframe框架
         if (top.location != self.location) {
             top.location = self.location;
         }
@@ -94,7 +95,7 @@
             // 加密
             data.password = md5.MD5(data.password);
 
-            miniAjax.postJOSN({
+            miniAjax.postJSON({
                 url: '/auth/login',
                 data: JSON.stringify(data),
                 success: function (res) {

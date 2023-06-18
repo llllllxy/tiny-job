@@ -83,7 +83,7 @@ layui.define(["jquery"], function (exports) {
         /**
          * POST-JSON 请求
          */
-        postJOSN: function (options) {
+        postJSON: function (options) {
             if (!options.url) {
                 alert('请求错误，url不可为空!');
                 return false;

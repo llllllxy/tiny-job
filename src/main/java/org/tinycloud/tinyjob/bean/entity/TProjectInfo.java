@@ -20,7 +20,7 @@ import java.util.Date;
  */
 @Getter
 @Setter
-@TableName("t_project_log")
+@TableName("t_project_info")
 public class TProjectInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -34,13 +34,13 @@ public class TProjectInfo implements Serializable {
      * 项目名称
      */
     @TableField("project_name")
-    private Long projectName;
+    private String projectName;
 
     /**
      * 删除标志（0--未删除1--已删除）
      */
     @TableField("del_flag")
-    private int delFlag;
+    private Integer delFlag;
 
     /**
      * 创建者

@@ -61,9 +61,11 @@
 <script src="/js/common.js?v=2.0.0" charset="utf-8"></script>
 <script src="/lib/crypto/md5.js?v=2.0.0" charset="utf-8"></script>
 <script>
-    layui.use(['form'], function () {
-        var form = layui.form,
-            layer = layui.layer;
+    layui.use(['form', 'miniAjax', 'layer'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            layer = layui.layer,
+            miniAjax = layui.miniAjax;
 
         // 登录过期的时候，跳出ifram框架
         if (top.location != self.location) {
@@ -92,7 +94,7 @@
             // 加密
             data.password = md5.MD5(data.password);
 
-            AjaxUtil.postJOSN({
+            miniAjax.postJOSN({
                 url: '/auth/login',
                 data: JSON.stringify(data),
                 success: function (res) {

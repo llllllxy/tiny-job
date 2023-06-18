@@ -16,6 +16,7 @@ layui.config({
     miniMenu: "layuimini/miniMenu", // layuimini 菜单扩展
     miniPage: "layuimini/miniPage", // layuimini 单页扩展
     miniTheme: "layuimini/miniTheme", // layuimini 主题扩展
+    miniAjax: "layuimini/miniAjax", // layuimini ajax扩展
     step: 'step-lay/step', // 分步表单扩展
     treetable: 'treetable-lay/treetable', //table树形扩展
     tableSelect: 'tableSelect/tableSelect', // table选择扩展

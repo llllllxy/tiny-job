@@ -119,13 +119,13 @@
 </div>
 <script src="/lib/layui/layui.js" charset="utf-8"></script>
 <script src="/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
-<script src="/lib/jquery/jquery-3.4.1.min.js" charset="utf-8"></script>
 <script src="/js/common.js?v=2.0.0" charset="utf-8"></script>
 <script>
-    layui.use(['jquery', 'layer', 'miniAdmin'], function () {
+    layui.use(['jquery', 'layer', 'miniAdmin', 'miniAjax'], function () {
         var $ = layui.jquery,
             layer = layui.layer,
-            miniAdmin = layui.miniAdmin;
+            miniAdmin = layui.miniAdmin,
+            miniAjax = layui.miniAjax;
 
         var options = {
             initUrl: "auth/init",    // 初始化接口
@@ -141,7 +141,7 @@
 
         $('.login-out').on("click", function () {
             // 请求后台logout接口
-            AjaxUtil.get({
+            miniAjax.get({
                 url: '/auth/logout',
                 success: function (res) {
                     if (res.code == 0) {
@@ -156,7 +156,7 @@
             });
         });
 
-        AjaxUtil.get({
+        miniAjax.get({
             url: '/auth/getUsername',
             success: function (res) {
                 console.log(JSON.stringify(res));

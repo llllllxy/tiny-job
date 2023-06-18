@@ -57,8 +57,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // 配置静态资源不被拦截
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
         // 配置swagger-ui不被拦截(knife4j)
         registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");

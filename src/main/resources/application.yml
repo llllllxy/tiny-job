@@ -25,6 +25,7 @@ spring:
   web:
     resources:
       static-locations: classpath:/static/
+      add-mappings: false
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/tiny-job?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&zeroDateTimeBehavior=convertToNull&useSSL=true
     driverClassName: com.mysql.cj.jdbc.Driver

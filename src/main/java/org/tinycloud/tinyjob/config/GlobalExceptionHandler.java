@@ -1,5 +1,6 @@
 package org.tinycloud.tinyjob.config;
 
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.tinycloud.security.exception.NoPermissionException;
 import org.tinycloud.security.exception.UnAuthorizedException;
 import org.tinycloud.tinyjob.constant.CommonCode;
@@ -28,7 +29,6 @@ import java.util.List;
  * @since 2023-05-30 13:28
  */
 @RestControllerAdvice
-@ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
 

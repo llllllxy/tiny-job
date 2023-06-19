@@ -58,8 +58,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // 配置静态资源映射
-        registry.addResourceHandler("/api/**")
-                .addResourceLocations("classpath:/static/api/");
         registry.addResourceHandler("/css/**")
                 .addResourceLocations("classpath:/static/css/");
         registry.addResourceHandler("/images/**")

@@ -1,4 +1,4 @@
-package org.tinycloud.tinyjob.utils;
+package org.tinycloud.tinyjob.utils.http;
 
 import org.apache.commons.codec.Charsets;
 import org.apache.commons.lang3.StringUtils;
@@ -16,8 +16,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tinycloud.tinyjob.utils.JsonUtils;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,10 +60,10 @@ public class HttpClientUtils {
     /**
      * get请求
      *
-     * @param url
-     * @param paramMap
-     * @param headerMap
-     * @return
+     * @param url       请求地址
+     * @param paramMap  请求参数
+     * @param headerMap 请求头
+     * @return 请求结果
      */
     public static String get(String url, Map<String, Object> paramMap, Map<String, Object> headerMap) throws Exception {
         CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -98,10 +98,10 @@ public class HttpClientUtils {
             response = httpclient.execute(httpGet);
             result = EntityUtils.toString(response.getEntity(), Charsets.UTF_8);
             if (response.getStatusLine().getStatusCode() != HTTP_SUCCESS_STATUS_CODE) {
-                logger.error("Error in getMap. Request URL is [{}], params [{}]. Result:[{}]", url, paramMap, result);
+                logger.error("Error in get Request URL is [{}], params [{}]. Result:[{}]", url, paramMap, result);
             }
         } catch (Exception e) {
-            logger.error("Error in getMap", e);
+            logger.error("Error in get", e);
             throw e;
         } finally {
             org.apache.http.client.utils.HttpClientUtils.closeQuietly(httpclient);
@@ -111,11 +111,12 @@ public class HttpClientUtils {
     }
 
     /**
-     * postFormData
+     * post-formData请求
      *
-     * @param url
-     * @param formDataParam
-     * @return
+     * @param url       请求地址
+     * @param formDataParam  请求参数
+     * @param headerMap 请求头
+     * @return 请求结果
      */
     public static String post(String url, Map<String, Object> formDataParam, Map<String, Object> headerMap) throws Exception {
         CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -149,10 +150,10 @@ public class HttpClientUtils {
             response = httpclient.execute(httpPost);
             result = EntityUtils.toString(response.getEntity(), Charsets.UTF_8);
             if (response.getStatusLine().getStatusCode() != HTTP_SUCCESS_STATUS_CODE) {
-                logger.error("Error in postFormData. Request URL is [{}], params [{}]. Result:[{}]", url, formDataParam, result);
+                logger.error("Error in post Request URL is [{}], params [{}]. Result:[{}]", url, formDataParam, result);
             }
         } catch (Exception e) {
-            logger.error("Error in postFormData", e);
+            logger.error("Error in post = ", e);
             throw e;
         } finally {
             org.apache.http.client.utils.HttpClientUtils.closeQuietly(httpclient);
@@ -162,13 +163,14 @@ public class HttpClientUtils {
     }
 
     /**
-     * postJson
+     * post-json
      *
-     * @param url
-     * @param jsonParam
-     * @return
+     * @param url       请求地址
+     * @param paramMap  请求参数
+     * @param headerMap 请求头
+     * @return 请求结果
      */
-    public static String postJson(String url, String jsonParam, Map<String, Object> headerMap) throws Exception {
+    public static String postJson(String url, Map<String, Object> paramMap, Map<String, Object> headerMap) throws Exception {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         CloseableHttpResponse response = null;
         String result = "";
@@ -179,7 +181,8 @@ public class HttpClientUtils {
 
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
-        // 设置请求头和请求参数
+        // 设置请求参数和请求头
+        String jsonParam = JsonUtils.writeValueAsString(paramMap);
         if (StringUtils.isNotEmpty(jsonParam)) {
             StringEntity entity = new StringEntity(jsonParam, StandardCharsets.UTF_8);
             // entity.setContentEncoding("UTF-8"); // 这个参数设置有问题，部分接口在设置这个参数后无法访问
@@ -196,10 +199,10 @@ public class HttpClientUtils {
             response = httpclient.execute(httpPost);
             result = EntityUtils.toString(response.getEntity(), Charsets.UTF_8);
             if (response.getStatusLine().getStatusCode() != HTTP_SUCCESS_STATUS_CODE) {
-                logger.error("Error in postJson. Request URL is [{}], params [{}]. Result:[{}]", url, jsonParam, result);
+                logger.error("Error in postJson Request URL is [{}], params [{}]. Result:[{}]", url, jsonParam, result);
             }
         } catch (Exception e) {
-            logger.error("Error in postJson", e);
+            logger.error("Error in postJson = ", e);
             throw e;
         } finally {
             org.apache.http.client.utils.HttpClientUtils.closeQuietly(httpclient);

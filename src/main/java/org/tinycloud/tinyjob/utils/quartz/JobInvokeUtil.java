@@ -3,15 +3,14 @@ package org.tinycloud.tinyjob.utils.quartz;
 import org.springframework.util.CollectionUtils;
 import org.tinycloud.tinyjob.bean.entity.TJobInfo;
 import org.tinycloud.tinyjob.bean.pojo.JobResult;
-import org.tinycloud.tinyjob.constant.JobTypeEnum;
 import org.tinycloud.tinyjob.service.HostsInfoService;
-import org.tinycloud.tinyjob.utils.HttpClientUtils;
 import org.tinycloud.tinyjob.utils.JsonUtils;
 import org.tinycloud.tinyjob.utils.SpringContextUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tinycloud.tinyjob.utils.http.HttpStrategy;
 import org.tinycloud.tinyjob.utils.route.ExecutorRouteStrategyEnum;
 
 import java.util.List;
@@ -67,16 +66,8 @@ public class JobInvokeUtil {
         Map<String, Object> paramMap = JsonUtils.readValue(jobParam, Map.class);
         Map<String, Object> headerMap = JsonUtils.readValue(jobHeader, Map.class);
 
-        String returnInfo = "";
-        if (JobTypeEnum.GET.getCode().equals(jobType)) {
-            returnInfo = HttpClientUtils.get(finalUrl, paramMap, headerMap);
-        }
-        if (JobTypeEnum.POST.getCode().equals(jobType)) {
-            returnInfo = HttpClientUtils.post(finalUrl, paramMap, headerMap);
-        }
-        if (JobTypeEnum.POST_JSON.getCode().equals(jobType)) {
-            returnInfo = HttpClientUtils.postJson(finalUrl, jobParam, headerMap);
-        }
+        // 策略模式调用，更加高级
+        String returnInfo = HttpStrategy.getResult(jobType, finalUrl, paramMap, headerMap);
 
         // 第三步、组织接口信息，返回执行结果
         JobResult jobResult = new JobResult();

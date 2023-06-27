@@ -85,7 +85,7 @@ mybatis-plus:
 
 logging:
   level:
-    com.csp.gundam: info
+    org.tinycloud.tinyjob: info
     org.springframework: warn
 
 tiny-security:

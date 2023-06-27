@@ -1,6 +1,7 @@
 package org.tinycloud.tinyjob.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.BeanUtils;
@@ -8,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import org.tinycloud.security.util.AuthUtil;
+import org.tinycloud.tinyjob.bean.dto.ProjectAddDto;
+import org.tinycloud.tinyjob.bean.dto.ProjectEditDto;
 import org.tinycloud.tinyjob.bean.dto.ProjectQueryDto;
 import org.tinycloud.tinyjob.bean.entity.TProjectInfo;
 import org.tinycloud.tinyjob.bean.vo.ProjectQueryVo;
@@ -35,7 +39,7 @@ public class ProjectInfoService {
     }
 
 
-    public PageModel<ProjectQueryVo>  query(ProjectQueryDto queryParam) {
+    public PageModel<ProjectQueryVo> query(ProjectQueryDto queryParam) {
         PageModel<ProjectQueryVo> responsePage = new PageModel<>(queryParam.getPageNo(), queryParam.getPageSize());
 
         LambdaQueryWrapper<TProjectInfo> queryWrapper = new LambdaQueryWrapper<>();
@@ -57,4 +61,35 @@ public class ProjectInfoService {
         return responsePage;
     }
 
+
+    public Boolean add(ProjectAddDto dto) {
+        TProjectInfo projectInfo = new TProjectInfo();
+        projectInfo.setProjectName(dto.getProjectName());
+        projectInfo.setRemark(dto.getRemark());
+        projectInfo.setDelFlag(GlobalConstant.NOT_DELETED);
+        projectInfo.setCreatedBy((String) AuthUtil.getLoginId());
+        int rows = this.projectInfoMapper.insert(projectInfo);
+        return rows > 0;
+    }
+
+
+    public Boolean edit(ProjectEditDto dto) {
+        LambdaUpdateWrapper<TProjectInfo> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.eq(TProjectInfo::getId, dto.getId());
+        wrapper.set(TProjectInfo::getProjectName, dto.getProjectName());
+        wrapper.set(TProjectInfo::getRemark, dto.getRemark());
+        wrapper.set(TProjectInfo::getUpdatedBy, (String) AuthUtil.getLoginId());
+        int rows = this.projectInfoMapper.update(null, wrapper);
+        return rows > 0;
+    }
+
+    public Boolean delete(Long id) {
+        // 逻辑删除
+        LambdaUpdateWrapper<TProjectInfo> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.eq(TProjectInfo::getId, id);
+        wrapper.set(TProjectInfo::getDelFlag, GlobalConstant.DELETED);
+        wrapper.set(TProjectInfo::getUpdatedBy, (String) AuthUtil.getLoginId());
+        int rows = this.projectInfoMapper.update(null, wrapper);
+        return rows > 0;
+    }
 }

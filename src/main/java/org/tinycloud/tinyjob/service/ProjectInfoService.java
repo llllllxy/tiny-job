@@ -43,6 +43,7 @@ public class ProjectInfoService {
         PageModel<ProjectQueryVo> responsePage = new PageModel<>(queryParam.getPageNo(), queryParam.getPageSize());
 
         LambdaQueryWrapper<TProjectInfo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(TProjectInfo::getDelFlag, GlobalConstant.NOT_DELETED);
         queryWrapper.like(StringUtils.hasLength(queryParam.getProjectName()),
                 TProjectInfo::getProjectName, queryParam.getProjectName());
 

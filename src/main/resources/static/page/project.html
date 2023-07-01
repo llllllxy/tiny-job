@@ -207,7 +207,7 @@
         });
 
         table.on('tool(currentTableFilter)', function (obj) {
-            var data = obj.data;
+            var lineData = obj.data;
             if (obj.event === 'edit') {
                 var index = layer.open({
                     title: '编辑项目',
@@ -219,9 +219,10 @@
                     content: $('#editDialog').html(),
                     success: function (layero, dIndex) {
                         // 回显表单数据
-                        form.val('edit-form', data);
+                        form.val('edit-form', lineData);
                         // 表单提交事件
                         form.on('submit(editSaveBtn)', function (data) {
+                            data.field.id = lineData.id;
                             miniAjax.postJSON({
                                 url: '/project/edit',
                                 data: JSON.stringify(data.field),
@@ -257,10 +258,12 @@
                 layer.confirm('确定删除此项目吗', function (index) {
                     layer.close(index);
                     miniAjax.get({
-                        url: '/project/delete?id=' + data.id,
+                        url: '/project/delete?id=' + lineData.id,
                         success: function (res) {
                             if (res.code == '0') {
                                 layer.msg(res.msg, {time: 1000, icon: 1});
+                                // 重载表格，刷新数据
+                                currTable.reload();
                             } else {
                                 layer.msg(res.msg, {time: 1000, icon: 2});
                             }

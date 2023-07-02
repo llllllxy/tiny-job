@@ -19,7 +19,12 @@
     font-size: 13px;!important;
 }
 
-/**必填红点 */
+.layuimini-form {
+    padding: 20px 30px 0 0;
+    background-color: #ffffff
+}
+
+/**表单必填红点 */
 .layui-form-item > .required:after {
     content: '*';
     color: red;
@@ -30,14 +35,6 @@
     top: 6px;
     right: 5px;
 }
-
-/*.layuimini-form > .layui-form-item > .layui-form-label {*/
-/*    width: 120px !important;*/
-/*}*/
-
-/*.layuimini-form > .layui-form-item > .layui-input-block {*/
-/*    margin-left: 150px !important;*/
-/*}*/
 
 .layui-form-item > .layui-input-block > tip {
     display: inline-block;

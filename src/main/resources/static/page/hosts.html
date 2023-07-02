@@ -1,0 +1,388 @@
+<div class="layuimini-container layuimini-page-anim">
+  <div class="layuimini-main">
+
+    <fieldset class="table-search-fieldset">
+      <legend>搜索信息</legend>
+      <div style="margin: 10px 10px 10px 10px">
+        <form class="layui-form" action="" lay-filter="search-form">
+          <div class="layui-form-item">
+            <div class="layui-inline">
+              <label class="layui-form-label">项目</label>
+              <div class="layui-input-inline">
+                <select name="projectId" lay-filter="projectId">
+                </select>
+              </div>
+            </div>
+            <div class="layui-inline">
+              <label class="layui-form-label">主机名称</label>
+              <div class="layui-input-inline">
+                <input type="text" name="hostName" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-inline">
+              <button type="submit" class="layui-btn" lay-submit lay-filter="data-search-btn">
+                <i class="layui-icon layui-icon-search"></i>搜 索
+              </button>
+              <button type="submit" class="layui-btn layui-btn-primary" lay-submit lay-filter="data-reset-btn">
+                <i class="layui-icon layui-icon-refresh"></i> 重 置
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </fieldset>
+
+    <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+  </div>
+</div>
+
+<script type="text/html" id="toolbarDemo">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm data-add-btn" lay-event="add"> 新增 </button>
+  </div>
+</script>
+
+<script type="text/html" id="currentTableBar">
+  <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+</script>
+
+<script type="text/html" id="addDialog">
+  <div class="layuimini-form">
+    <form class="layui-form" action="" lay-filter="add-form" id="add-form">
+      <div class="layui-form-item">
+        <label class="layui-form-label required">项目</label>
+        <div class="layui-input-block">
+          <select name="projectId" lay-filter="projectId" lay-verify="required">
+          </select>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label required">主机名称</label>
+        <div class="layui-input-block">
+          <input type="text" name="hostName" lay-verify="required" lay-reqtext="主机名称不能为空" placeholder="请输入主机名称" value="" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注信息</label>
+        <div class="layui-input-block">
+          <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息"></textarea>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label required">主机地址</label>
+        <div class="layui-input-block">
+          <input type="text" name="hostAddrs" value="" class="layui-hide"/>
+        </div>
+      </div>
+      <div class="layui-form-item text-right">
+        <button class="layui-btn" lay-submit lay-filter="addSaveBtn">保存</button>
+        <button class="layui-btn layui-btn-primary" type="button" lay-filter="closeAddDialog">取消</button>
+      </div>
+    </form>
+  </div>
+</script>
+
+
+<script type="text/html" id="editDialog">
+  <div class="layuimini-form">
+    <form class="layui-form" action="" lay-filter="edit-form" id="edit-form">
+      <div class="layui-form-item">
+        <label class="layui-form-label required">项目</label>
+        <div class="layui-input-block">
+          <select name="projectId" lay-filter="projectId" lay-verify="required">
+          </select>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label required">主机名称</label>
+        <div class="layui-input-block">
+          <input type="text" name="hostName" lay-verify="required" lay-reqtext="主机名称不能为空" placeholder="请输入主机名称" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注信息</label>
+        <div class="layui-input-block">
+          <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息"></textarea>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label required">主机地址</label>
+        <div class="layui-input-block">
+          <input type="text" name="hostAddrs" value="" class="layui-hide"/>
+        </div>
+      </div>
+      <div class="layui-form-item text-right">
+        <button class="layui-btn" lay-submit lay-filter="editSaveBtn">保存</button>
+        <button class="layui-btn layui-btn-primary" type="button" lay-filter="closeEditDialog">取消</button>
+      </div>
+    </form>
+  </div>
+</script>
+
+<script>
+  layui.use(['form', 'table', 'miniAjax', 'tagsInput'], function () {
+    var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            tagsInput = layui.tagsInput,
+            miniAjax = layui.miniAjax;
+
+    var urlRule = /(^#)|(^http(s*):\/\/[^\s]+\.[^\s]+)/;
+
+    var projectList = [];
+    miniAjax.get({
+      url: '/project/select',
+      success: function (res) {
+        if (res.code == '0') {
+          projectList = res.data;
+          // 动态渲染项目下拉栏
+          $("[lay-filter='projectId']").append('<option value="">请选择</option>');
+          for(let item of projectList){
+            $("[lay-filter='projectId']").append('<option value="'+item.id+'">'+item.projectName+'</option>');
+          }
+          form.render('select', 'search-form');
+        } else {
+          layer.msg(res.msg, {time: 1000, icon: 2});
+        }
+      }
+    });
+
+
+    var currTable = table.render({
+      elem: '#currentTableId',
+      url: '/hosts/query',
+      method: 'post',
+      contentType: 'application/json',
+      request: {
+        pageName: 'pageNo',
+        limitName: 'pageSize'
+      },
+      parseData: function(res) { //res 即为原始返回的数据
+        return {
+          "code": res.code,
+          "msg": res.msg,
+          "count": res.data.totalCount,
+          "data": res.data.records
+        };
+      },
+      toolbar: '#toolbarDemo',
+      defaultToolbar: ['filter', 'exports', 'print'],
+      cols: [[
+        {field: 'id', width: 50, title: 'ID', align: 'center', fixed: 'left'},
+        {field: 'hostName', width: 110, title: '主机名称'},
+        {field: 'projectName', width: 110, title: '项目名称'},
+        {field: 'hostAddrs', title: '主机地址', minWidth: 150},
+        {field: 'createdBy', width: 75, title: '创建人'},
+        {field: 'createdAt', title: '创建时间', minWidth: 150},
+        {field: 'updatedBy', width: 75, title: '更新人'},
+        {field: 'updatedAt', title: '更新时间', minWidth: 150},
+        {field: 'remark', width: 120, title: '备注信息'},
+        {title: '操作', minWidth: 120, toolbar: '#currentTableBar', align: "center"}
+      ]],
+      autoSort: false,
+      limits: [10, 15, 20, 25, 50, 100],
+      limit: 10,
+      page: true,
+      skin: 'line'
+    });
+
+    // 监听搜索操作
+    form.on('submit(data-search-btn)', function (data) {
+      // 执行搜索重载
+      table.reload('currentTableId', {
+        page: {
+          curr: 1
+        },
+        where: data.field
+      });
+      return false;
+    });
+
+    // 监听重置操作
+    form.on('submit(data-reset-btn)', function (data) {
+      form.val("search-form", {
+        "projectId": '',
+        "hostName": ''
+      });
+      // 执行搜索重载
+      currTable.reload({
+        page: {
+          curr: 1
+        },
+        where: form.val("search-form")
+      });
+      return false;
+    });
+
+    /**
+     * toolbar事件监听
+     */
+    table.on('toolbar(currentTableFilter)', function (obj) {
+      if (obj.event === 'add') { // 监听添加操作
+        var index = layer.open({
+          title: '新增主机',
+          type: 1,
+          shade: 0.2,
+          maxmin: true,
+          shadeClose: true,
+          area: '580px', // 宽度580, 高度自适应
+          content: $('#addDialog').html(),
+          success: function (layero, dIndex) {
+            // 渲染表单里的下拉框等
+            let selectHtml = '';
+            for (let item of projectList) {
+              selectHtml += '<option value="'+ item.id +'">'+ item.projectName +'</option>';
+            }
+            layero.find("[name='projectId']").html(selectHtml);
+            // 无边框样式
+            layero.find("[name='hostAddrs']").tagsInput({
+              skin: 'tagsinput-default',
+              defaultText: '+新增',
+              onAddTag: function (value) {
+                console.log('标签: ', value); // 这个是输入的值
+                if (!value || !urlRule.test(value)) {
+                  layer.msg('主机地址请输入一个正确的网址！', {time: 1000, icon: 2});
+                  // 校验不通过，那就直接删除
+                  layero.find("[name='hostAddrs']").removeTag(value);
+                }
+              }
+            });
+            form.render('select', 'add-form');
+
+            // 表单提交事件
+            form.on('submit(addSaveBtn)', function (data) {
+              console.log(JSON.stringify(data.field));
+
+              miniAjax.postJSON({
+                url: '/hosts/add',
+                data: JSON.stringify(data.field),
+                success: function (res) {
+                  if (res.code == '0') {
+                    layer.msg(res.msg, {
+                      time: 1000,
+                      icon: 1
+                    }, function () {
+                      layer.close(dIndex);
+                    });
+                  } else {
+                    layer.msg(res.msg, {time: 1000, icon: 2});
+                  }
+                }
+              });
+              return false;
+            });
+
+            // 监听取消按钮
+            $("button[lay-filter='closeAddDialog']").click(function(){
+              layer.close(dIndex);
+              return false;
+            });
+          },
+          end: function (index) {
+            // 重载表格，刷新数据
+            currTable.reload();
+          }
+        });
+      }
+    });
+
+    table.on('tool(currentTableFilter)', function (obj) {
+      var lineData = obj.data;
+      if (obj.event === 'edit') {
+        var index = layer.open({
+          title: '编辑主机',
+          type: 1,
+          shade: 0.2,
+          maxmin: true,
+          shadeClose: true,
+          area: '580px', // 宽度580, 高度自适应
+          content: $('#editDialog').html(),
+          success: function (layero, dIndex) {
+            // 渲染表单里的下拉框等
+            let selectHtml = '';
+            for (let item of projectList) {
+              selectHtml += '<option value="'+ item.id +'">'+ item.projectName +'</option>';
+            }
+            layero.find("[name='projectId']").html(selectHtml);
+            form.render('select', 'add-form');
+
+            // 无边框样式
+            layero.find("[name='hostAddrs']").tagsInput({
+              skin: 'tagsinput-default',
+              defaultText: '+新增',
+              onAddTag: function (value) {
+                console.log('标签: ', value); // 这个是输入的值
+                if (!value || !urlRule.test(value)) {
+                  layer.msg('主机地址请输入一个正确的网址！', {time: 1000, icon: 2});
+                  // 校验不通过，那就直接删除
+                  layero.find("[name='hostAddrs']").removeTag(value);
+                }
+              }
+            });
+            // 回显表单数据
+            form.val('edit-form', lineData);
+
+            // 回显tagsinput的数据
+            if (lineData.hostAddrs) {
+              layero.find("[name='hostAddrs']").importTags(lineData.hostAddrs);
+            }
+
+            // 表单提交事件
+            form.on('submit(editSaveBtn)', function (data) {
+              data.field.id = lineData.id;
+
+              console.log(JSON.stringify(data.field));
+
+              miniAjax.postJSON({
+                url: '/hosts/edit',
+                data: JSON.stringify(data.field),
+                success: function (res) {
+                  if (res.code == '0') {
+                    layer.msg(res.msg, {
+                      time: 1000,
+                      icon: 1
+                    }, function () {
+                      layer.close(dIndex);
+                    });
+                  } else {
+                    layer.msg(res.msg, {time: 1000, icon: 2});
+                  }
+                }
+              });
+              return false;
+            });
+
+            // 监听取消按钮
+            $("button[lay-filter='closeEditDialog']").click(function(){
+              layer.close(dIndex);
+              return false;
+            });
+          },
+          end: function (index) {
+            // 重载表格，刷新数据
+            currTable.reload();
+          }
+        });
+        return false;
+      } else if (obj.event === 'delete') {
+        layer.confirm('确定删除此主机信息吗', function (index) {
+          layer.close(index);
+          miniAjax.get({
+            url: '/hosts/delete?id=' + lineData.id,
+            success: function (res) {
+              if (res.code == '0') {
+                layer.msg(res.msg, {time: 1000, icon: 1});
+                // 重载表格，刷新数据
+                currTable.reload();
+              } else {
+                layer.msg(res.msg, {time: 1000, icon: 2});
+              }
+            }
+          });
+        });
+      }
+    });
+
+  });
+</script>

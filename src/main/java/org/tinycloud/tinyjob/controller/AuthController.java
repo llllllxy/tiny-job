@@ -80,7 +80,7 @@ public class AuthController {
 
         Map<String, String> menuItem2 = new HashMap<>();
         menuItem2.put("title", "主机管理");
-        menuItem2.put("href", "page/menu.html");
+        menuItem2.put("href", "page/hosts.html");
         menuItem2.put("icon", "fa fa-navicon");
         menuItem2.put("target", "_self");
 

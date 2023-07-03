@@ -258,15 +258,6 @@ CREATE TABLE `t_auth_token`  (
 -- Records of t_auth_token
 -- ----------------------------
 INSERT INTO `t_auth_token` VALUES (19, '2023-06-18 20:33:55', '2023-06-18 21:13:20', 'ebWlOwJsTa4d6zPvJgG701c49JewPb9bXoxJISsw87Rd7vinjwYKsbgw5jJPeNHnM5I_t3WhjHIClC4xEoL1pgUBeuyXcD58CJMHKKxLcWZEuwnAZBWBmPelAgZW1yj6', 'admin', '20230618214320');
-INSERT INTO `t_auth_token` VALUES (21, '2023-06-19 14:06:20', '2023-06-19 14:13:13', 'M3OGvXbRshnm9TkfROfRWJv1BhOjVUJW6NkTCnj621zjyTCoXsGOxd95DmfkMUEfeufqCjbJBto7hM3KlVKvufr1_3moFR23XH70dhabXTfCHphIWnMLMIZp2QPCH_xF', 'admin', '20230619144313');
-INSERT INTO `t_auth_token` VALUES (22, '2023-06-21 15:41:21', '2023-06-21 15:53:48', 'rbkHZnt4XNMBr7IxAPzdJOu3HsXdjAye6YtrU2A96muOQfJNXnjK74KXOaWTMMY2FO9tcxIj21LhzrOOuSmPYO1zJtBlsLaSLott877yaIw8TUfZwaGfB7_sQ6xIbpId', 'admin', '20230621162348');
-INSERT INTO `t_auth_token` VALUES (23, '2023-07-01 22:24:36', '2023-07-01 22:33:01', 'TEiVSfjQLspZ6EnkhCN2Tao4x_yWZurchRPUbwZaOZNVhUk79QoZSMS464Ptu7DbDTBlDXDYamyHjxwdKe3l4vV_7PFfZ8IC9AvznLXTBmDQ3gLu594BPdjDLlTf1oNb', 'admin', '20230701230301');
-INSERT INTO `t_auth_token` VALUES (24, '2023-07-01 23:04:53', '2023-07-01 23:07:05', '63BgTu1UDo8IeWEe5y9aQJAsoCpMgACZQCG8GW2IkBqm8ljZt3wvlvsfMhCEt_t4Yf199TAJw5N977GGgp2l2P8eVKgjYpigfr9o7CxvElTyWAyTAgExUMnP_n5EWYmx', 'admin', '20230701233705');
-INSERT INTO `t_auth_token` VALUES (25, '2023-07-02 11:09:44', '2023-07-02 12:06:42', 'YM2jXFBAt_6hy_GWCF_lM7BtctcsgXkDxaHFMbh3XmRN0XliTXM3TQR0Aj91B_Sit7YFA81dKFDcZQjmoExY0oHa3b82I4PYNTir4n7T50CXdc_aZh6Rt8y_Rd667R26', 'admin', '20230702123642');
-INSERT INTO `t_auth_token` VALUES (26, '2023-07-02 15:04:21', '2023-07-02 15:04:24', 'NSOtyKhibMUPynyd85cI5P2VKUVinReDEFpgEJHzDzKtfuuJI5DCwQnumuzymeNLjCZMTHR03ITJ5VDtX5bpnPdsFwG9OT0SJVrcS3XxdnGT95j4_AcXzu3vxLmu1uaH', 'admin', '20230702153424');
-INSERT INTO `t_auth_token` VALUES (27, '2023-07-02 15:58:32', '2023-07-02 16:13:10', 'YgFlxl8ujF19jJqqgVIFohJdZEClOmTm9RiF5s6WWsRHZ3xgbY8YCEXfGTIrIBGSY1D4qzqMiQ2HPj2mn_CxhbpKPkj2X7im5ka48u7q5V6UF1RQFrFWmwT5wh71Vcgl', 'admin', '20230702164310');
-INSERT INTO `t_auth_token` VALUES (28, '2023-07-02 17:13:40', '2023-07-02 17:21:17', '5ONgVdSquVNOIKteQwodLDPdNTWQMmaVNhTtfTLziXcJhnNIca80l_0vHHgMqI19lcYKhYKf65djBnVyYWUPOVb49_oJBnTL4rJKNsgyUhxFEnE9pIsztpKfF2upE7aN', 'admin', '20230702175117');
-INSERT INTO `t_auth_token` VALUES (29, '2023-07-02 21:17:32', '2023-07-02 22:16:47', 'cYdhWoqYDVhw5oIfV3SRWS3dOGhQ2j_a19Lx6rd80ASSWN48sGGtKbhgYnt7dqCfSiFQOZDWYfnME_XUT30tDKkGtiC15B2pSboL7aODhizxorXxbyWPdXioN6wtUcTi', 'admin', '20230702224647');
 
 -- ----------------------------
 -- Table structure for t_hosts_info
@@ -289,8 +280,8 @@ CREATE TABLE `t_hosts_info`  (
 -- Records of t_hosts_info
 -- ----------------------------
 INSERT INTO `t_hosts_info` VALUES (1, 1, '测试主机', 0, 'admin', '', '2023-06-16 10:55:25', '2023-06-16 10:56:29', '');
-INSERT INTO `t_hosts_info` VALUES (2, 2, 'fastmock', 0, 'admin', NULL, '2023-06-21 15:48:03', '2023-07-02 16:08:20', '');
-INSERT INTO `t_hosts_info` VALUES (3, 2, '嘿嘿嘿', 1, 'admin', 'admin', '2023-07-02 21:51:13', '2023-07-02 22:16:46', ' return false;');
+INSERT INTO `t_hosts_info` VALUES (2, 1, 'fastmock', 0, 'admin', NULL, '2023-06-21 15:48:03', '2023-07-02 16:08:20', '');
+INSERT INTO `t_hosts_info` VALUES (3, 2, '嘿嘿嘿', 0, 'admin', 'admin', '2023-07-02 21:51:13', '2023-07-02 22:16:46', ' return false;');
 
 -- ----------------------------
 -- Table structure for t_hosts_item

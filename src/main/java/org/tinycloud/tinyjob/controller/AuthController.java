@@ -86,7 +86,7 @@ public class AuthController {
 
         Map<String, String> menuItem3 = new HashMap<>();
         menuItem3.put("title", "任务管理");
-        menuItem3.put("href", "page/setting.html");
+        menuItem3.put("href", "page/jobinfo.html");
         menuItem3.put("icon", "fa fa-navicon");
         menuItem3.put("target", "_self");
 

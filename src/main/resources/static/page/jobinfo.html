@@ -1,0 +1,357 @@
+<div class="layuimini-container layuimini-page-anim">
+    <div class="layuimini-main">
+
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form" action="" lay-filter="search-form">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">项目</label>
+                            <div class="layui-input-inline">
+                                <select name="projectId" lay-filter="projectId">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">主机</label>
+                            <div class="layui-input-inline">
+                                <select name="hostId" lay-filter="hostId">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">任务名称</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="jobName" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">任务组名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="jobGroup" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn" lay-submit lay-filter="data-search-btn">
+                                <i class="layui-icon layui-icon-search"></i>搜 索
+                            </button>
+                            <button type="submit" class="layui-btn layui-btn-primary" lay-submit
+                                    lay-filter="data-reset-btn">
+                                <i class="layui-icon layui-icon-refresh"></i> 重 置
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+    </div>
+</div>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm data-add-btn" lay-event="add">新增</button>
+    </div>
+</script>
+
+<script type="text/html" id="currentTableBar">
+    <a class="layui-btn layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="executeonce">执行一次</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+</script>
+
+<script type="text/html" id="switchTpl">
+    <input type="checkbox" name="quartzStatus" value="{{d.id}}" lay-skin="switch" lay-text="启动|停止"
+           lay-filter="jobStatusDemo" {{ d.status== 0 ? "checked" : "" }}>
+</script>
+
+<script type="text/html" id="addDialog">
+    <div class="layuimini-form">
+        <form class="layui-form" action="" lay-filter="add-form" id="add-form">
+
+        </form>
+    </div>
+</script>
+
+
+<script type="text/html" id="editDialog">
+    <div class="layuimini-form">
+        <form class="layui-form" action="" lay-filter="edit-form" id="edit-form">
+
+        </form>
+    </div>
+</script>
+
+<script>
+    layui.use(['form', 'table', 'miniAjax'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            miniAjax = layui.miniAjax;
+
+        // 渲染项目下拉栏
+        var projectList = [];
+        miniAjax.get({
+            url: '/project/select',
+            success: function (res) {
+                if (res.code == '0') {
+                    projectList = res.data;
+                    // 动态渲染项目下拉栏
+                    $("[lay-filter='projectId']").append('<option value="">请选择</option>');
+                    for (let item of projectList) {
+                        $("[lay-filter='projectId']").append('<option value="' + item.id + '">' + item.projectName + '</option>');
+                    }
+                    form.render('select', 'search-form');
+                } else {
+                    layer.msg(res.msg, {time: 1000, icon: 2});
+                }
+            }
+        });
+
+        form.on('select(projectId)', function (data) {
+            if (data.value) {
+                miniAjax.get({
+                    url: '/hosts/select?projectId=' + data.value,
+                    success: function (res) {
+                        if (res.code == '0') {
+                            var hostList = res.data;
+                            // 动态渲染项目下拉栏
+                            $("[lay-filter='hostId']").empty();
+                            $("[lay-filter='hostId']").append('<option value="">请选择</option>');
+                            for (let item of hostList) {
+                                $("[lay-filter='hostId']").append('<option value="' + item.id + '">' + item.hostName + '</option>');
+                            }
+                            form.render('select', 'search-form');
+                        } else {
+                            layer.msg(res.msg, {time: 1000, icon: 2});
+                        }
+                    }
+                });
+            } else {
+                $("[lay-filter='hostId']").empty();
+                form.render('select', 'search-form');
+            }
+        });
+
+        var currTable = table.render({
+            elem: '#currentTableId',
+            url: '/jobinfo/query',
+            method: 'post',
+            contentType: 'application/json',
+            request: {
+                pageName: 'pageNo',
+                limitName: 'pageSize'
+            },
+            parseData: function (res) { //res 即为原始返回的数据
+                return {
+                    "code": res.code,
+                    "msg": res.msg,
+                    "count": res.data.totalCount,
+                    "data": res.data.records
+                };
+            },
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print'],
+            cols: [[
+                {field: 'id', width: 50, title: 'ID', align: 'center', fixed: 'left'},
+                {field: 'jobName', width: 120, title: '任务名称'},
+                {field: 'projectName', width: 120, title: '项目名称'},
+                {field: 'hostName', width: 120, title: '主机名称'},
+                {field: 'jobGroup', width: 120, title: '任务组'},
+                {field: 'jobType', width: 120, title: '请求方式'},
+                {field: 'cronExpression', width: 120, title: 'cron表达式'},
+                {field: 'strategy', width: 120, title: '执行策略'},
+                {field: 'status', width: 120, title: '任务状态', templet: '#switchTpl'},
+                {field: 'createdBy', width: 80, title: '创建人'},
+                {field: 'createdAt', width: 120, title: '创建时间'},
+                {title: '操作', width: 200, minWidth: 200, toolbar: '#currentTableBar', align: "center", fixed: 'right'}
+            ]],
+            autoSort: false,
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true,
+            skin: 'line'
+        });
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            // 执行搜索重载
+            table.reload('currentTableId', {
+                page: {
+                    curr: 1
+                },
+                where: data.field
+            });
+            return false;
+        });
+
+        // 监听重置操作
+        form.on('submit(data-reset-btn)', function (data) {
+            form.val("search-form", {
+                "projectId": '',
+                "hostName": ''
+            });
+            // 执行搜索重载
+            currTable.reload({
+                page: {
+                    curr: 1
+                },
+                where: form.val("search-form")
+            });
+            return false;
+        });
+
+
+        // 监听启用/停用操作
+        form.on('switch(jobStatusDemo)', function (obj) {
+            console.log(this.value + ' ：' + this.name + '：' + obj.elem.checked);
+            if (obj.elem.checked == true) {
+
+            } else {
+
+            }
+        });
+
+
+        /**
+         * toolbar事件监听
+         */
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'add') { // 监听添加操作
+                var index = layer.open({
+                    title: '新增任务',
+                    type: 1,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: '580px', // 宽度580, 高度自适应
+                    content: $('#addDialog').html(),
+                    success: function (layero, dIndex) {
+                        // 渲染表单里的下拉框等
+                        let selectHtml = '';
+                        for (let item of projectList) {
+                            selectHtml += '<option value="' + item.id + '">' + item.projectName + '</option>';
+                        }
+                        layero.find("[name='projectId']").html(selectHtml);
+                        // 无边框样式
+
+                        form.render('select', 'add-form');
+
+                        // 表单提交事件
+                        form.on('submit(addSaveBtn)', function (data) {
+                            console.log(JSON.stringify(data.field));
+
+                            miniAjax.postJSON({
+                                url: '/jobinfo/add',
+                                data: JSON.stringify(data.field),
+                                success: function (res) {
+                                    if (res.code == '0') {
+                                        layer.msg(res.msg, {
+                                            time: 1000,
+                                            icon: 1
+                                        }, function () {
+                                            layer.close(dIndex);
+                                        });
+                                    } else {
+                                        layer.msg(res.msg, {time: 1000, icon: 2});
+                                    }
+                                }
+                            });
+                            return false;
+                        });
+
+                        // 监听取消按钮
+                        $("button[lay-filter='closeAddDialog']").click(function () {
+                            layer.close(dIndex);
+                            return false;
+                        });
+                    },
+                    end: function (index) {
+                        // 重载表格，刷新数据
+                        currTable.reload();
+                    }
+                });
+            }
+        });
+
+        table.on('tool(currentTableFilter)', function (obj) {
+            var lineData = obj.data;
+            if (obj.event === 'edit') {
+                var index = layer.open({
+                    title: '编辑任务',
+                    type: 1,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: '580px', // 宽度580, 高度自适应
+                    content: $('#editDialog').html(),
+                    success: function (layero, dIndex) {
+                        // 渲染表单里的下拉框等
+                        let selectHtml = '';
+                        for (let item of projectList) {
+                            selectHtml += '<option value="' + item.id + '">' + item.projectName + '</option>';
+                        }
+                        layero.find("[name='projectId']").html(selectHtml);
+                        form.render('select', 'add-form');
+
+                        // 回显表单数据
+                        form.val('edit-form', lineData);
+
+                        // 表单提交事件
+                        form.on('submit(editSaveBtn)', function (data) {
+                            data.field.id = lineData.id;
+
+                            miniAjax.postJSON({
+                                url: '/jobinfo/edit',
+                                data: JSON.stringify(data.field),
+                                success: function (res) {
+                                    if (res.code == '0') {
+                                        layer.msg(res.msg, {
+                                            time: 1000,
+                                            icon: 1
+                                        }, function () {
+                                            layer.close(dIndex);
+                                        });
+                                    } else {
+                                        layer.msg(res.msg, {time: 1000, icon: 2});
+                                    }
+                                }
+                            });
+                            return false;
+                        });
+
+                        // 监听取消按钮
+                        $("button[lay-filter='closeEditDialog']").click(function () {
+                            layer.close(dIndex);
+                            return false;
+                        });
+                    },
+                    end: function (index) {
+                        // 重载表格，刷新数据
+                        currTable.reload();
+                    }
+                });
+                return false;
+            } else if (obj.event === 'delete') {
+                layer.confirm('确定删除此主机信息吗', function (index) {
+                    layer.close(index);
+                    miniAjax.get({
+                        url: '/jobinfo/delete?id=' + lineData.id,
+                        success: function (res) {
+                            if (res.code == '0') {
+                                layer.msg(res.msg, {time: 1000, icon: 1});
+                                // 重载表格，刷新数据
+                                currTable.reload();
+                            } else {
+                                layer.msg(res.msg, {time: 1000, icon: 2});
+                            }
+                        }
+                    });
+                });
+            }
+        });
+
+    });
+</script>

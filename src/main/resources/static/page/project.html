@@ -178,10 +178,7 @@
                                 data: JSON.stringify(data.field),
                                 success: function (res) {
                                     if (res.code == '0') {
-                                        layer.msg(res.msg, {
-                                            time: 1000,
-                                            icon: 1
-                                        }, function () {
+                                        layer.msg(res.msg, {time: 1000, icon: 1}, function () {
                                             layer.close(dIndex);
                                         });
                                     } else {
@@ -228,10 +225,7 @@
                                 data: JSON.stringify(data.field),
                                 success: function (res) {
                                     if (res.code == '0') {
-                                        layer.msg(res.msg, {
-                                            time: 1000,
-                                            icon: 1
-                                        }, function () {
+                                        layer.msg(res.msg, {time: 1000, icon: 1}, function () {
                                             layer.close(dIndex);
                                         });
                                     } else {
@@ -261,7 +255,10 @@
                         url: '/project/delete?id=' + lineData.id,
                         success: function (res) {
                             if (res.code == '0') {
-                                layer.msg(res.msg, {time: 1000, icon: 1});
+                                layer.msg(res.msg, {time: 1000, icon: 1}, function () {
+                                    // 重载表格，刷新数据
+                                    currTable.reload();
+                                });
                                 // 重载表格，刷新数据
                                 currTable.reload();
                             } else {

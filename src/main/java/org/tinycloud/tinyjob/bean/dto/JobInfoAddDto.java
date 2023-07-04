@@ -80,7 +80,7 @@ public class JobInfoAddDto implements Serializable {
     private String misfirePolicy;
 
     /**
-     * 是否并发执行（0允许 1禁止）
+     * 是否并发执行（0是 1否）
      */
     @NotEmpty(message = "是否并发执行不能为空")
     @Length(max = 1, min = 1, message = "是否并发执行只能为1个字符")

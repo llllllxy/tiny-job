@@ -72,7 +72,7 @@ public class JobInfoQueryVo implements Serializable {
     private String cronExpression;
 
     /**
-     * 计划执行错误策略（1立即执行 2执行一次 3放弃执行）
+     * 调度过期策略（1立即执行 2执行一次 3放弃执行）
      */
     private String misfirePolicy;
 
@@ -122,7 +122,7 @@ public class JobInfoQueryVo implements Serializable {
     private String remark;
 
     /**
-     * 执行策略（FIRST、LAST、ROUND、RANDOM）
+     * 路由策略（FIRST、LAST、ROUND、RANDOM）
      */
     private String strategy;
 }

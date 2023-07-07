@@ -75,8 +75,8 @@ public class JobInfoAddDto implements Serializable {
     /**
      * 计划执行错误策略（0默认 1立即执行 2执行一次 3放弃执行）
      */
-    @NotEmpty(message = "计划执行错误策略不能为空")
-    @Length(max = 1, min = 1, message = "计划执行错误策略只能为1个字符")
+    @NotEmpty(message = "调度过期策略不能为空")
+    @Length(max = 1, min = 1, message = "调度过期策略只能为1个字符")
     private String misfirePolicy;
 
     /**
@@ -93,7 +93,7 @@ public class JobInfoAddDto implements Serializable {
     private String remark;
 
     /**
-     * 执行策略（FIRST、LAST、ROUND、RANDOM）
+     * 路由策略（FIRST、LAST、ROUND、RANDOM）
      */
     @NotEmpty(message = "路由策略不能为空")
     @Length(max = 32, min = 1, message = "路由策略不能超过500个字符")

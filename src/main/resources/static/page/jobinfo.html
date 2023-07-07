@@ -1,3 +1,4 @@
+
 <div class="layuimini-container layuimini-page-anim">
     <div class="layuimini-main">
 
@@ -73,33 +74,33 @@
 
             <div class="layui-row">
                 <div class="layui-col-md6">
-                    <div class="layui-form-item">
+                    <div class="layui-form-item label-wide">
                         <label class="layui-form-label required">项目</label>
                         <div class="layui-input-block">
                             <select name="projectId" lay-filter="projectId" lay-verify="required">
                             </select>
                         </div>
                     </div>
-                    <div class="layui-form-item">
+                    <div class="layui-form-item label-wide">
                         <label class="layui-form-label required">任务名称</label>
                         <div class="layui-input-block">
                             <input type="text" name="jobName" lay-verify="required" lay-reqtext="任务名称不能为空" placeholder="请输入任务名称" value="" class="layui-input">
                         </div>
                     </div>
-                    <div class="layui-form-item">
+                    <div class="layui-form-item label-wide">
                         <label class="layui-form-label required">cron表达式</label>
                         <div class="layui-input-block">
                             <input type="text" name="cronExpression" lay-verify="required" lay-reqtext="cron表达式不能为空" placeholder="请输入cron表达式" value="" class="layui-input">
                         </div>
                     </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label required">是否并发</label>
+                    <div class="layui-form-item label-wide">
+                        <label class="layui-form-label required">是否并发执行</label>
                         <div class="layui-input-block">
                             <input type="radio" name="concurrent" value="0" title="是">
                             <input type="radio" name="concurrent" value="1" title="否" checked>
                         </div>
                     </div>
-                    <div class="layui-form-item">
+                    <div class="layui-form-item label-wide">
                         <label class="layui-form-label required">请求方式</label>
                         <div class="layui-input-block">
                             <select name="jobType" lay-filter="jobType" lay-verify="required">
@@ -109,29 +110,29 @@
                             </select>
                         </div>
                     </div>
-                    <div class="layui-form-item layui-form-text">
+                    <div class="layui-form-item layui-form-text label-wide">
                         <label class="layui-form-label">请求参数</label>
                         <div class="layui-input-block">
-                            <textarea name="jobParam" class="layui-textarea" placeholder="请输入请求参数信息(JSON格式)"></textarea>
+                            <textarea name="jobParam" class="layui-textarea layui-textarea-small" placeholder="请输入请求参数信息(JSON格式)"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-md6">
-                    <div class="layui-form-item">
+                    <div class="layui-form-item label-wide">
                         <label class="layui-form-label required">主机</label>
                         <div class="layui-input-block">
                             <select name="hostId" lay-filter="hostId" lay-verify="required">
                             </select>
                         </div>
                     </div>
-                    <div class="layui-form-item">
+                    <div class="layui-form-item label-wide">
                         <label class="layui-form-label required">任务组</label>
                         <div class="layui-input-block">
                             <input type="text" name="jobGroup" lay-verify="required" lay-reqtext="任务组不能为空" placeholder="请输入任务组" value="" class="layui-input">
                         </div>
                     </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label required">错误策略</label>
+                    <div class="layui-form-item label-wide">
+                        <label class="layui-form-label required">调度过期策略</label>
                         <div class="layui-input-block">
                             <select name="misfirePolicy" lay-filter="misfirePolicy" lay-verify="required">
                                 <option value="1">立即执行</option>
@@ -140,7 +141,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="layui-form-item">
+                    <div class="layui-form-item label-wide">
                         <label class="layui-form-label required">主机策略</label>
                         <div class="layui-input-block">
                             <select name="strategy" lay-filter="strategy" lay-verify="required">
@@ -152,25 +153,25 @@
                         </div>
                     </div>
 
-                    <div class="layui-form-item">
+                    <div class="layui-form-item label-wide">
                         <label class="layui-form-label required">请求地址</label>
                         <div class="layui-input-block">
                             <input type="text" name="jobUrl" lay-verify="required" lay-reqtext="请求地址不能为空" placeholder="请输入请求地址" value="" class="layui-input">
                         </div>
                     </div>
-                    <div class="layui-form-item layui-form-text">
+                    <div class="layui-form-item layui-form-text label-wide">
                         <label class="layui-form-label">请求头</label>
                         <div class="layui-input-block">
-                            <textarea name="jobHeader" class="layui-textarea" placeholder="请输入请求头信息(JSON格式)"></textarea>
+                            <textarea name="jobHeader" class="layui-textarea layui-textarea-small" placeholder="请输入请求头信息(JSON格式)"></textarea>
                         </div>
                     </div>
 
                 </div>
             </div>
-            <div class="layui-form-item layui-form-text">
+            <div class="layui-form-item layui-form-text label-wide">
                 <label class="layui-form-label">备注</label>
                 <div class="layui-input-block">
-                    <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息"></textarea>
+                    <textarea name="remark" class="layui-textarea layui-textarea-small" placeholder="请输入备注信息"></textarea>
                 </div>
             </div>
 
@@ -269,7 +270,7 @@
                 {field: 'jobGroup', width: 120, title: '任务组'},
                 {field: 'jobType', width: 120, title: '请求方式'},
                 {field: 'cronExpression', width: 120, title: 'cron表达式'},
-                {field: 'strategy', width: 120, title: '执行策略'},
+                {field: 'strategy', width: 120, title: '路由策略'},
                 {field: 'status', width: 120, title: '任务状态', templet: '#switchTpl'},
                 {field: 'createdBy', width: 80, title: '创建人'},
                 {field: 'createdAt', width: 120, title: '创建时间'},
@@ -352,7 +353,7 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: '880px', // 宽度580, 高度自适应
+                    area: '920px', // 宽度580, 高度自适应
                     content: $('#addDialog').html(),
                     success: function (layero, dIndex) {
                         // 渲染表单里的下拉框等

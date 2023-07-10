@@ -92,7 +92,7 @@ public class AuthController {
 
         Map<String, String> menuItem4 = new HashMap<>();
         menuItem4.put("title", "任务日志");
-        menuItem4.put("href", "page/table.html");
+        menuItem4.put("href", "page/joblog.html");
         menuItem4.put("icon", "fa fa-navicon");
         menuItem4.put("target", "_self");
 

@@ -128,7 +128,7 @@
                     <div class="layui-form-item label-wide">
                         <label class="layui-form-label required">任务组</label>
                         <div class="layui-input-block">
-                            <input type="text" name="jobGroup" lay-verify="required" lay-reqtext="任务组不能为空" placeholder="请输入任务组" value="" class="layui-input">
+                            <input type="text" name="jobGroup" lay-verify="required|groupCheck" lay-reqtext="任务组不能为空" placeholder="请输入任务组" value="" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item label-wide">
@@ -187,7 +187,112 @@
 <script type="text/html" id="editDialog">
     <div class="layuimini-form">
         <form class="layui-form" action="" lay-filter="edit-form" id="edit-form">
+            <div class="layui-row">
+                <div class="layui-col-md6">
+                    <div class="layui-form-item label-wide">
+                        <label class="layui-form-label required">项目</label>
+                        <div class="layui-input-block">
+                            <select name="projectId" lay-filter="projectId" lay-verify="required">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item label-wide">
+                        <label class="layui-form-label required">任务名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="jobName" lay-verify="required" lay-reqtext="任务名称不能为空" placeholder="请输入任务名称" value="" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item label-wide">
+                        <label class="layui-form-label required">cron表达式</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="cronExpression" lay-verify="required" lay-reqtext="cron表达式不能为空" placeholder="请输入cron表达式" value="" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item label-wide">
+                        <label class="layui-form-label required">是否并发执行</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="concurrent" value="0" title="是">
+                            <input type="radio" name="concurrent" value="1" title="否" checked>
+                        </div>
+                    </div>
+                    <div class="layui-form-item label-wide">
+                        <label class="layui-form-label required">请求方式</label>
+                        <div class="layui-input-block">
+                            <select name="jobType" lay-filter="jobType" lay-verify="required">
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                                <option value="POST_JSON">POST_JSON</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text label-wide">
+                        <label class="layui-form-label">请求参数</label>
+                        <div class="layui-input-block">
+                            <textarea name="jobParam" class="layui-textarea layui-textarea-small" placeholder="请输入请求参数信息(JSON格式)"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md6">
+                    <div class="layui-form-item label-wide">
+                        <label class="layui-form-label required">主机</label>
+                        <div class="layui-input-block">
+                            <select name="hostId" lay-filter="hostId" lay-verify="required">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item label-wide">
+                        <label class="layui-form-label required">任务组</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="jobGroup" lay-verify="required|groupCheck" lay-reqtext="任务组不能为空" placeholder="请输入任务组" value="" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item label-wide">
+                        <label class="layui-form-label required">调度过期策略</label>
+                        <div class="layui-input-block">
+                            <select name="misfirePolicy" lay-filter="misfirePolicy" lay-verify="required">
+                                <option value="1">立即执行</option>
+                                <option value="2">执行一次</option>
+                                <option value="3" selected>放弃执行</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item label-wide">
+                        <label class="layui-form-label required">主机策略</label>
+                        <div class="layui-input-block">
+                            <select name="strategy" lay-filter="strategy" lay-verify="required">
+                                <option value="ROUND" selected>轮询</option>
+                                <option value="RANDOM">随机</option>
+                                <option value="FIRST">第一个</option>
+                                <option value="LAST">最后一个</option>
+                            </select>
+                        </div>
+                    </div>
 
+                    <div class="layui-form-item label-wide">
+                        <label class="layui-form-label required">请求地址</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="jobUrl" lay-verify="required" lay-reqtext="请求地址不能为空" placeholder="请输入请求地址" value="" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text label-wide">
+                        <label class="layui-form-label">请求头</label>
+                        <div class="layui-input-block">
+                            <textarea name="jobHeader" class="layui-textarea layui-textarea-small" placeholder="请输入请求头信息(JSON格式)"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text label-wide">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <textarea name="remark" class="layui-textarea layui-textarea-small" placeholder="请输入备注信息"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item text-right">
+                <button class="layui-btn" lay-submit lay-filter="editSaveBtn">保存</button>
+                <button class="layui-btn layui-btn-primary" type="button" lay-filter="closeEditDialog">取消</button>
+            </div>
         </form>
     </div>
 </script>
@@ -310,6 +415,16 @@
                 where: form.val("search-form")
             });
             return false;
+        });
+
+
+        form.verify({
+           groupCheck: function (value, item) {
+               var pattern = /^[a-zA-Z0-9_]+$/;
+               if (!pattern.test(value)) {
+                 return '任务组只能由英文数字和下划线组成！';
+               }
+           }
         });
 
 
@@ -439,7 +554,7 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: '780px', // 宽度580, 高度自适应
+                    area: '920px',
                     content: $('#editDialog').html(),
                     success: function (layero, dIndex) {
                         // 渲染表单里的下拉框等
@@ -448,15 +563,60 @@
                             selectHtml += '<option value="' + item.id + '">' + item.projectName + '</option>';
                         }
                         layero.find("[name='projectId']").html(selectHtml);
-                        form.render('select', 'add-form');
 
-                        // 回显表单数据
-                        form.val('edit-form', lineData);
+                        form.render('select', 'edit-form');
+                        form.render('radio', 'edit-form');
+
+                        miniAjax.get({
+                            url: '/hosts/select?projectId=' + lineData.projectId,
+                            success: function (res) {
+                                if (res.code == '0') {
+                                    var hostList = res.data;
+                                    // 动态渲染项目下拉栏
+                                    layero.find("[name='hostId']").empty();
+                                    layero.find("[name='hostId']").append('<option value="">请选择</option>');
+                                    for (let item of hostList) {
+                                        layero.find("[name='hostId']").append('<option value="' + item.id + '">' + item.hostName + '</option>');
+                                    }
+                                    form.render('select', 'edit-form');
+                                    // 回显表单数据
+                                    form.val('edit-form', lineData);
+                                } else {
+                                    layer.msg(res.msg, {time: 1000, icon: 2});
+                                }
+                            }
+                        });
+
+
+                        // 监听layer里面的下拉框（项目下拉框的变化）
+                        form.on('select(projectId)', function (data) {
+                            if (data.value) {
+                                miniAjax.get({
+                                    url: '/hosts/select?projectId=' + data.value,
+                                    success: function (res) {
+                                        if (res.code == '0') {
+                                            var hostList = res.data;
+                                            // 动态渲染项目下拉栏
+                                            layero.find("[name='hostId']").empty();
+                                            layero.find("[name='hostId']").append('<option value="">请选择</option>');
+                                            for (let item of hostList) {
+                                                layero.find("[name='hostId']").append('<option value="' + item.id + '">' + item.hostName + '</option>');
+                                            }
+                                            form.render('select', 'edit-form');
+                                        } else {
+                                            layer.msg(res.msg, {time: 1000, icon: 2});
+                                        }
+                                    }
+                                });
+                            } else {
+                                layero.find("[name='hostId']").empty();
+                                form.render('select', 'edit-form');
+                            }
+                        });
 
                         // 表单提交事件
                         form.on('submit(editSaveBtn)', function (data) {
                             data.field.id = lineData.id;
-
                             miniAjax.postJSON({
                                 url: '/jobinfo/edit',
                                 data: JSON.stringify(data.field),

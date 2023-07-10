@@ -557,6 +557,6 @@ CREATE TABLE `t_user`  (
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES (1, 'admin', '8949a9e457ee4f229c3ed7e0d8890847a1b18668f95d1326d673e7be77e2b60d', '系统管理员', NULL, NULL, '0', NULL, '0', '2023-06-13 11:21:11', '2023-06-13 11:24:14');
+INSERT INTO `t_user` VALUES (1, 'admin', '$2a$10$HGAry2cQdwZ9ABl1xJznket.mhcAQTzvkgEWajHdYYHhrKf1zbLBS', '系统管理员', NULL, NULL, '0', NULL, '0', '2023-06-13 11:21:11', '2023-06-13 11:24:14');
 
 SET FOREIGN_KEY_CHECKS = 1;

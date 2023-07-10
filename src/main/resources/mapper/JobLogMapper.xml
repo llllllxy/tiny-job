@@ -2,4 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.tinycloud.tinyjob.mapper.JobLogMapper">
 
+    <select id="queryLogReport" resultType="map">
+        select
+        date_range.create_date,
+        ifnull(t_job_log.allCount, 0) as allCount,
+        ifnull(t_job_log.successCount, 0) as successCount,
+        ifnull(t_job_log.failCount, 0) as failCount
+        from  (
+            SELECT DATE(#{startDate} + INTERVAL (units.i + tens.i*10 + hundreds.i*100) DAY) AS create_date
+            FROM
+            (SELECT 0 AS i UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) units,
+            (SELECT 0 AS i UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) tens,
+            (SELECT 0 AS i UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) hundreds
+             WHERE DATE(#{startDate} + INTERVAL (units.i + tens.i*10 + hundreds.i*100) DAY) BETWEEN #{startDate} AND #{endDate}
+        ) as date_range
+        left join (
+            select
+                left(created_at,10) as create_date,
+                count(id) as allCount,
+                sum(case when status = '0' then 1 else 0 end) as successCount,
+                sum(case when status = '1' then 1 else 0 end) as failCount
+            from t_job_log
+            where left(created_at,10) between #{startDate} and #{endDate}
+            group by left(created_at,10)
+            order by left(created_at,10)
+        ) as t_job_log on date_range.create_date = t_job_log.create_date
+        order by date_range.create_date;
+    </select>
+
 </mapper>

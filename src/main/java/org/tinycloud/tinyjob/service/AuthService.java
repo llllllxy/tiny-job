@@ -7,9 +7,9 @@ import org.tinycloud.tinyjob.constant.ApiErrorCode;
 import org.tinycloud.tinyjob.constant.GlobalConstant;
 import org.tinycloud.tinyjob.exception.BusinessException;
 import org.tinycloud.tinyjob.mapper.UserMapper;
-import org.tinycloud.tinyjob.utils.secure.SM3Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.tinycloud.tinyjob.utils.secure.BCrypt;
 
 import java.util.Objects;
 
@@ -32,15 +32,23 @@ public class AuthService {
     public void authentication(AuthLoginDto authLoginDto) {
         String username = authLoginDto.getUsername();
         String password = authLoginDto.getPassword();
-        password = new SM3Hash(password, SALT, 2).toHex();
+
         TUser entity = this.userMapper.selectOne(
                 Wrappers.<TUser>lambdaQuery().eq(TUser::getUsername, username)
-                        .eq(TUser::getPassword, password)
                         .eq(TUser::getDelFlag, GlobalConstant.NOT_DELETED));
+        // 用户不存在
         if (Objects.isNull(entity)) {
             throw new BusinessException(ApiErrorCode.USERNAME_OR_PASSWORD_MISMATCH.getCode(),
                     ApiErrorCode.USERNAME_OR_PASSWORD_MISMATCH.getDesc());
         }
+        // 密码错误
+        String encodedPassword = entity.getPassword();
+        boolean checkResult = BCrypt.checkpw(password + SALT, encodedPassword);
+        if (!checkResult) {
+            throw new BusinessException(ApiErrorCode.USERNAME_OR_PASSWORD_MISMATCH.getCode(),
+                    ApiErrorCode.USERNAME_OR_PASSWORD_MISMATCH.getDesc());
+        }
+        // 用户已被停用
         if (entity.getStatus().equals(GlobalConstant.DISABLED)) {
             throw new BusinessException(ApiErrorCode.USER_IS_DISABLED.getCode(),
                     ApiErrorCode.USER_IS_DISABLED.getDesc());

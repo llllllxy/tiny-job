@@ -1,6 +1,9 @@
 package org.tinycloud.tinyjob.service;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import org.tinycloud.security.util.AuthUtil;
+import org.tinycloud.tinyjob.bean.dto.AuthEditPasswordDto;
 import org.tinycloud.tinyjob.bean.dto.AuthLoginDto;
 import org.tinycloud.tinyjob.bean.entity.TUser;
 import org.tinycloud.tinyjob.constant.ApiErrorCode;
@@ -53,6 +56,34 @@ public class AuthService {
             throw new BusinessException(ApiErrorCode.USER_IS_DISABLED.getCode(),
                     ApiErrorCode.USER_IS_DISABLED.getDesc());
         }
+    }
+
+
+    public boolean editPassword(AuthEditPasswordDto dto) {
+        if (!dto.getNewPassword().equals(dto.getAgainPassword())) {
+            throw new BusinessException(ApiErrorCode.THE_NEWPASSWORD_ENTERED_TWICE_DOES_NOT_MATCH.getCode(),
+                    ApiErrorCode.THE_NEWPASSWORD_ENTERED_TWICE_DOES_NOT_MATCH.getDesc());
+        }
+        String username = (String) AuthUtil.getLoginId();
+        TUser entity = this.userMapper.selectOne(
+                Wrappers.<TUser>lambdaQuery().eq(TUser::getUsername, username)
+                        .eq(TUser::getDelFlag, GlobalConstant.NOT_DELETED));
+        String encodedPassword = entity.getPassword();
+        boolean checkResult = BCrypt.checkpw(dto.getOldPassword() + SALT, encodedPassword);
+        // 原始密码错误
+        if (!checkResult) {
+            throw new BusinessException(ApiErrorCode.THE_ORIGINAL_PASSWORD_IS_WRONG.getCode(),
+                    ApiErrorCode.THE_ORIGINAL_PASSWORD_IS_WRONG.getDesc());
+        }
+        String encodedNewPassword = BCrypt.hashpw(dto.getNewPassword() + SALT, BCrypt.gensalt());
+        LambdaUpdateWrapper<TUser> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.eq(TUser::getUsername, username);
+        wrapper.set(TUser::getPassword, encodedNewPassword);
+        int rows = this.userMapper.update(null, wrapper);
+
+
+
+        return rows > 0;
     }
 
 }

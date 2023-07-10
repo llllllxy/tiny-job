@@ -2,6 +2,7 @@ package org.tinycloud.tinyjob.controller;
 
 import org.tinycloud.security.provider.AuthProvider;
 import org.tinycloud.security.util.AuthUtil;
+import org.tinycloud.tinyjob.bean.dto.AuthEditPasswordDto;
 import org.tinycloud.tinyjob.bean.dto.AuthLoginDto;
 import org.tinycloud.tinyjob.model.ApiResult;
 import org.tinycloud.tinyjob.service.AuthService;
@@ -116,5 +117,18 @@ public class AuthController {
         initInfo.put("menuInfo", menuList);
 
         return ApiResult.success(initInfo, "获取成功");
+    }
+
+
+    /**
+     * 修改密码
+     */
+    @PostMapping("/editPassword")
+    public ApiResult<?> editPassword(@Validated @RequestBody AuthEditPasswordDto dto, HttpServletRequest request) {
+        boolean result = authService.editPassword(dto);
+        if (result) {
+            authProvider.logout(request);
+        }
+        return ApiResult.success(result, "修改密码成功！");
     }
 }

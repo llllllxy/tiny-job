@@ -6,43 +6,43 @@
 
         <div class="layui-form layuimini-form">
             <div class="layui-form-item">
-                <label class="layui-form-label required">管理账号</label>
+                <label class="layui-form-label required">账号</label>
                 <div class="layui-input-block">
-                    <input type="text" name="username" lay-verify="required" lay-reqtext="管理账号不能为空" placeholder="请输入管理账号"  value="admin" class="layui-input">
-                    <tip>填写自己管理账号的名称。</tip>
+                    <input type="text" name="username" value="admin" class="layui-input" readonly>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label required">手机</label>
+                <label class="layui-form-label">昵称</label>
                 <div class="layui-input-block">
-                    <input type="number" name="phone" lay-verify="required" lay-reqtext="手机不能为空" placeholder="请输入手机"  value="" class="layui-input">
+                    <input type="text" name="nickname" placeholder="请输入昵称" class="layui-input">
+                    <tip>自定义昵称，不超过32个字符。</tip>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">邮箱</label>
+                <label class="layui-form-label">手机号</label>
                 <div class="layui-input-block">
-                    <input type="email" name="email"  placeholder="请输入邮箱"  value="" class="layui-input">
+                    <input type="number" name="phone" lay-reqtext="请输入正确的手机号" lay-verify="phone" placeholder="请输入手机号" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">备注信息</label>
+            <div class="layui-form-item">
+                <label class="layui-form-label">电子邮箱</label>
                 <div class="layui-input-block">
-                    <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息"></textarea>
+                    <input type="email" name="email" placeholder="请输入电子邮箱" lay-verify="email" lay-reqtext="请输入正确的电子邮箱" class="layui-input">
                 </div>
             </div>
-
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+                    <button class="layui-btn" lay-submit lay-filter="saveBtn">确认保存</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script>
-    layui.use(['form','miniPage'], function () {
+    layui.use(['form','miniPage', 'miniAjax'], function () {
         var form = layui.form,
             layer = layui.layer,
+            miniAjax= layui.miniAjax,
             miniPage = layui.miniPage;
 
         /**
@@ -52,12 +52,25 @@
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-            var index = layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            }, function () {
-                layer.close(index);
-                miniPage.hashHome();
+            layer.confirm('确定要修改个人信息吗', {
+                title: '提示'
+            }, function (index) {
+                miniAjax.postJSON({
+                    url: '/auth/setting',
+                    data: JSON.stringify(data.field),
+                    success: function (res) {
+                        if (res.code == '0') {
+                            layer.msg(res.msg, {time: 1000, icon: 1}, function () {
+                                layer.close(index);
+                                miniPage.hashHome();
+                            });
+                        } else {
+                            layer.msg(res.msg, {time: 1000, icon: 2});
+                        }
+                    }
+                });
             });
+
             return false;
         });
 

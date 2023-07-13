@@ -2,8 +2,10 @@ package org.tinycloud.tinyjob.controller;
 
 import org.tinycloud.security.provider.AuthProvider;
 import org.tinycloud.security.util.AuthUtil;
+import org.tinycloud.tinyjob.bean.dto.AuthEditInfoDto;
 import org.tinycloud.tinyjob.bean.dto.AuthEditPasswordDto;
 import org.tinycloud.tinyjob.bean.dto.AuthLoginDto;
+import org.tinycloud.tinyjob.bean.vo.UserInfoVo;
 import org.tinycloud.tinyjob.model.ApiResult;
 import org.tinycloud.tinyjob.service.AuthService;
 import org.slf4j.Logger;
@@ -65,6 +67,13 @@ public class AuthController {
         return ApiResult.success(AuthUtil.getLoginId(), "获取成功");
     }
 
+    /**
+     * 会话校验
+     */
+    @GetMapping("/getUserInfo")
+    public ApiResult<UserInfoVo> getUserInfo() {
+        return ApiResult.success(authService.getUserInfo(), "获取成功");
+    }
 
     /**
      * 会话校验
@@ -129,6 +138,15 @@ public class AuthController {
         if (result) {
             authProvider.logout(request);
         }
+        return ApiResult.success(result, "修改密码成功！");
+    }
+
+    /**
+     * 修改账户信息
+     */
+    @PostMapping("/setting")
+    public ApiResult<?> setting(@Validated @RequestBody AuthEditInfoDto dto) {
+        boolean result = authService.setting(dto);
         return ApiResult.success(result, "修改密码成功！");
     }
 }

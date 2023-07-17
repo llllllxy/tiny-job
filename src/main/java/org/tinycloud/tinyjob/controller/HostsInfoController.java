@@ -28,7 +28,7 @@ public class HostsInfoController {
      */
     @GetMapping("/select")
     public ApiResult<List<HostsSelectVo>> select(@RequestParam("projectId") Long projectId) {
-        return ApiResult.success(hostsInfoService.select(projectId), "删除成功!");
+        return ApiResult.success(hostsInfoService.select(projectId), "获取成功!");
     }
 
     /**

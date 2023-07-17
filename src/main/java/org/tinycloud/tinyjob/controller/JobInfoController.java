@@ -11,10 +11,13 @@ import org.tinycloud.tinyjob.bean.dto.JobInfoAddDto;
 import org.tinycloud.tinyjob.bean.dto.JobInfoEditDto;
 import org.tinycloud.tinyjob.bean.dto.JobInfoQueryDto;
 import org.tinycloud.tinyjob.bean.vo.JobInfoQueryVo;
+import org.tinycloud.tinyjob.bean.vo.JobInfoSelectVo;
 import org.tinycloud.tinyjob.exception.TaskException;
 import org.tinycloud.tinyjob.model.ApiResult;
 import org.tinycloud.tinyjob.model.PageModel;
 import org.tinycloud.tinyjob.service.JobInfoService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/jobinfo")
@@ -128,4 +131,14 @@ public class JobInfoController {
         }
     }
 
+
+    /**
+     * 根据主机id获取任务列表(服务于前端下拉框)
+     *
+     * @return
+     */
+    @GetMapping("/select")
+    public ApiResult<List<JobInfoSelectVo>> select(@RequestParam("hostId") Long hostId) {
+        return ApiResult.success(jobInfoService.select(hostId), "获取成功!");
+    }
 }

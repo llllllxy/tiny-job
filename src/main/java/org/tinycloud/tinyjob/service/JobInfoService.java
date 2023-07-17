@@ -1,5 +1,6 @@
 package org.tinycloud.tinyjob.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -16,6 +17,7 @@ import org.tinycloud.tinyjob.bean.dto.JobInfoEditDto;
 import org.tinycloud.tinyjob.bean.dto.JobInfoQueryDto;
 import org.tinycloud.tinyjob.bean.entity.TJobInfo;
 import org.tinycloud.tinyjob.bean.vo.JobInfoQueryVo;
+import org.tinycloud.tinyjob.bean.vo.JobInfoSelectVo;
 import org.tinycloud.tinyjob.constant.ApiErrorCode;
 import org.tinycloud.tinyjob.constant.GlobalConstant;
 import org.tinycloud.tinyjob.constant.JobStatusEnum;
@@ -27,7 +29,10 @@ import org.tinycloud.tinyjob.utils.BeanConvertUtils;
 import org.tinycloud.tinyjob.utils.quartz.CronUtils;
 import org.tinycloud.tinyjob.utils.quartz.ScheduleUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class JobInfoService {
@@ -53,6 +58,30 @@ public class JobInfoService {
             pageModel.setRecords(pages.getRecords());
         }
         return pageModel;
+    }
+
+    /**
+     * 根据主机id获取任务列表
+     * @param hostId 主机id
+     * @return
+     */
+    public List<JobInfoSelectVo> select(Long hostId) {
+        QueryWrapper<TJobInfo> wrapper = new QueryWrapper<>();
+        wrapper.lambda()
+                .select(TJobInfo::getId, TJobInfo::getJobName)
+                .eq(TJobInfo::getDelFlag, GlobalConstant.NOT_DELETED)
+                .eq(TJobInfo::getHostId, hostId);
+
+        List<TJobInfo> items = this.jobInfoMapper.selectList(wrapper);
+        if (items != null && !items.isEmpty()) {
+            return items.stream().map(item -> {
+                JobInfoSelectVo vo = new JobInfoSelectVo();
+                vo.setJobName(item.getJobName());
+                vo.setId(item.getId());
+                return vo;
+            }).collect(Collectors.toList());
+        }
+        return new ArrayList<>();
     }
 
 

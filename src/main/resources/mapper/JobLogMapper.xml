@@ -30,4 +30,34 @@
         order by date_range.create_date;
     </select>
 
+
+    <select id="pageList" resultType="org.tinycloud.tinyjob.bean.vo.JobLogQueryVo"
+            parameterType="org.tinycloud.tinyjob.bean.dto.JobLogQueryDto">
+        select tjl.*,
+        tpi.project_name,
+        thi.host_name
+        from t_job_log tjl
+        left join t_job_info tji on tji.id = tjl.job_id
+        left join t_project_info tpi on tji.project_id = tpi.id
+        left join t_hosts_info thi on tji.host_id = thi.id
+        <where>
+            <if test="dto.projectId != null">
+                and tji.project_id = #{dto.projectId}
+            </if>
+            <if test="dto.hostId != null">
+                and tji.host_id = #{dto.hostId}
+            </if>
+            <if test="dto.jobId != null">
+                and tjl.job_id = #{dto.jobId}
+            </if>
+        </where>
+        <choose>
+            <when test="dto.sortFiled != null and dto.sortFiled != '' and dto.sortType != null and dto.sortType != ''">
+                order by ${dto.sortFiled} ${dto.sortType}
+            </when>
+            <otherwise>
+                order by tjl.id desc
+            </otherwise>
+        </choose>
+    </select>
 </mapper>

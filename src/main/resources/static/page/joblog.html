@@ -1,5 +1,366 @@
 <div class="layuimini-container layuimini-page-anim">
     <div class="layuimini-main">
-        日志查询
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form" action="" lay-filter="search-form">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">项目</label>
+                            <div class="layui-input-inline">
+                                <select name="projectId" lay-filter="projectId">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">主机</label>
+                            <div class="layui-input-inline">
+                                <select name="hostId" lay-filter="hostId">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">任务</label>
+                            <div class="layui-input-inline">
+                                <select name="jobId" lay-filter="jobId">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn" lay-submit lay-filter="data-search-btn">
+                                <i class="layui-icon layui-icon-search"></i>搜 索
+                            </button>
+                            <button type="submit" class="layui-btn layui-btn-primary" lay-submit
+                                    lay-filter="data-reset-btn">
+                                <i class="layui-icon layui-icon-refresh"></i> 重 置
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
     </div>
 </div>
+
+
+<script type="text/html" id="currentTableBar">
+    <a class="layui-btn layui-bg-purple layui-btn-xs" lay-event="detail">详情</a>
+</script>
+
+<script type="text/html" id="statusTpl">
+    {{#  if(d.status == '0'){ }}
+    <span class="layui-badge layui-bg-blue">成功</span>
+    {{#  } else { }}
+    <span class="layui-badge layui-bg-orange">失败</span>
+    {{#  } }}
+</script>
+
+<script type="text/html" id="detailDialog">
+    <div class="layuimini-form">
+        <div class="layui-form">
+            <div class="layui-row">
+                <div class="layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><b>日志ID：</b></label>
+                        <div class="layui-input-block">
+                            <div class="layui-form-mid" id="id" style="word-break: break-all"></div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><b>任务名称：</b></label>
+                        <div class="layui-input-block">
+                            <div class="layui-form-mid" id="jobName" style="word-break: break-all"></div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><b>任务组：</b></label>
+                        <div class="layui-input-block">
+                            <div class="layui-form-mid" id="jobGroup" style="word-break: break-all"></div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><b>请求地址：</b></label>
+                        <div class="layui-input-block">
+                            <div class="layui-form-mid" id="jobUrl" style="word-break: break-all"></div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><b>请求头：</b></label>
+                        <div class="layui-input-block">
+                            <div class="layui-form-mid" id="jobHeader" style="word-break: break-all"></div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><b>执行结果：</b></label>
+                        <div class="layui-input-block">
+                            <div class="layui-form-mid" id="status" style="word-break: break-all"></div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><b>异常信息：</b></label>
+                        <div class="layui-input-block">
+                            <div class="layui-form-mid" id="exceptionInfo" style="word-break: break-all"></div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><b>结束时间：</b></label>
+                        <div class="layui-input-block">
+                            <div class="layui-form-mid" id="endAt" style="word-break: break-all"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><b>任务ID：</b></label>
+                        <div class="layui-input-block">
+                            <div class="layui-form-mid" id="jobId" style="word-break: break-all"></div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><b>项目名称：</b></label>
+                        <div class="layui-input-block">
+                            <div class="layui-form-mid" id="projectName" style="word-break: break-all"></div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><b>请求方式：</b></label>
+                        <div class="layui-input-block">
+                            <div class="layui-form-mid" id="jobType" style="word-break: break-all"></div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><b>请求参数：</b></label>
+                        <div class="layui-input-block">
+                            <div class="layui-form-mid" id="jobParam" style="word-break: break-all"></div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><b>请求结果：</b></label>
+                        <div class="layui-input-block">
+                            <div class="layui-form-mid" id="returnInfo" style="word-break: break-all"></div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><b>执行时间：</b></label>
+                        <div class="layui-input-block">
+                            <div class="layui-form-mid" id="executeAt" style="word-break: break-all"></div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><b>耗时(毫秒)：</b></label>
+                        <div class="layui-input-block">
+                            <div class="layui-form-mid" id="consuming" style="word-break: break-all"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['form', 'table', 'miniAjax'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            miniAjax = layui.miniAjax;
+
+        // 渲染项目下拉栏
+        var projectList = [];
+        miniAjax.get({
+            url: '/project/select',
+            success: function (res) {
+                if (res.code == '0') {
+                    projectList = res.data;
+                    // 动态渲染项目下拉栏
+                    $("[lay-filter='projectId']").append('<option value="">请选择</option>');
+                    for (let item of projectList) {
+                        $("[lay-filter='projectId']").append('<option value="' + item.id + '">' + item.projectName + '</option>');
+                    }
+                    form.render('select', 'search-form');
+                } else {
+                    layer.msg(res.msg, {time: 1000, icon: 2});
+                }
+            }
+        });
+
+        form.on('select(projectId)', function (data) {
+            if (data.value) {
+                miniAjax.get({
+                    url: '/hosts/select?projectId=' + data.value,
+                    success: function (res) {
+                        if (res.code == '0') {
+                            var hostList = res.data;
+                            // 动态渲染项目下拉栏
+                            $("[lay-filter='hostId']").empty();
+                            $("[lay-filter='hostId']").append('<option value="">请选择</option>');
+                            for (let item of hostList) {
+                                $("[lay-filter='hostId']").append('<option value="' + item.id + '">' + item.hostName + '</option>');
+                            }
+                            form.render('select', 'search-form');
+                        } else {
+                            layer.msg(res.msg, {time: 1000, icon: 2});
+                        }
+                    }
+                });
+            } else {
+                $("[lay-filter='hostId']").empty();
+                form.render('select', 'search-form');
+            }
+        });
+
+        form.on('select(hostId)', function (data) {
+            if (data.value) {
+                miniAjax.get({
+                    url: '/jobinfo/select?hostId=' + data.value,
+                    success: function (res) {
+                        if (res.code == '0') {
+                            var jobList = res.data;
+                            // 动态渲染项目下拉栏
+                            $("[lay-filter='jobId']").empty();
+                            $("[lay-filter='jobId']").append('<option value="">请选择</option>');
+                            for (let item of jobList) {
+                                $("[lay-filter='jobId']").append('<option value="' + item.id + '">' + item.jobName + '</option>');
+                            }
+                            form.render('select', 'search-form');
+                        } else {
+                            layer.msg(res.msg, {time: 1000, icon: 2});
+                        }
+                    }
+                });
+            } else {
+                $("[lay-filter='jobId']").empty();
+                form.render('select', 'search-form');
+            }
+        });
+
+
+        var currTable = table.render({
+            elem: '#currentTableId',
+            url: '/joblog/query',
+            method: 'post',
+            contentType: 'application/json',
+            request: {
+                pageName: 'pageNo',
+                limitName: 'pageSize'
+            },
+            parseData: function (res) { //res 即为原始返回的数据
+                return {
+                    "code": res.code,
+                    "msg": res.msg,
+                    "count": res.data.totalCount,
+                    "data": res.data.records
+                };
+            },
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print'],
+            cols: [[
+                {field: 'id', width: 50, title: 'ID', align: 'center', fixed: 'left'},
+                {field: 'jobId', width: 120, title: '任务ID'},
+                {field: 'jobName', width: 120, title: '任务名称'},
+                {field: 'projectName', width: 120, title: '项目名称'},
+                {field: 'hostName', width: 120, title: '主机名称'},
+                {field: 'jobGroup', width: 120, title: '任务组'},
+                {field: 'jobType', width: 120, title: '请求方式'},
+                {field: 'executeAt', width: 120, title: '执行时间'},
+                {field: 'status', width: 120, title: '执行结果', templet: '#statusTpl'},
+                {field: 'endAt', width: 120, title: '结束时间'},
+                {field: 'consuming', width: 100, title: '任务耗时', align: 'center'},
+                {title: '操作', width: 100, minWidth: 100, toolbar: '#currentTableBar', align: "center", fixed: 'right'}
+            ]],
+            autoSort: false,
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true,
+            skin: 'line'
+        });
+
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            // 执行搜索重载
+            table.reload('currentTableId', {
+                page: {
+                    curr: 1
+                },
+                where: data.field
+            });
+            return false;
+        });
+
+        // 监听重置操作
+        form.on('submit(data-reset-btn)', function (data) {
+            form.val("search-form", {
+                "projectId": '',
+                "hostId": '',
+                "jobId": ''
+            });
+            // 执行搜索重载
+            currTable.reload({
+                page: {
+                    curr: 1
+                },
+                where: form.val("search-form")
+            });
+            return false;
+        });
+
+
+        table.on('tool(currentTableFilter)', function (obj) {
+            var lineData = obj.data;
+            if (obj.event === 'detail') {
+                var index = layer.open({
+                    title: '日志详情',
+                    type: 1,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: '900px',
+                    content: $('#detailDialog').html(),
+                    success: function (layero, dIndex) {
+                        layero.find('#id').text(lineData.id);
+                        layero.find('#jobId').text(lineData.jobId);
+                        layero.find('#jobName').text(lineData.jobName);
+                        layero.find('#projectName').text(lineData.projectName);
+                        layero.find('#jobGroup').text(lineData.jobGroup);
+                        layero.find('#jobType').text(lineData.jobType);
+                        layero.find('#jobUrl').text(lineData.jobUrl);
+                        layero.find('#jobParam').text(lineData.jobParam);
+                        layero.find('#jobHeader').text(lineData.jobHeader);
+                        layero.find('#exceptionInfo').text(lineData.exceptionInfo);
+                        layero.find('#executeAt').text(lineData.executeAt);
+                        layero.find('#endAt').text(lineData.endAt);
+                        layero.find('#consuming').text(lineData.consuming);
+
+                        if (lineData.status == '0') {
+                            layero.find('#status').html('<span class="layui-badge layui-bg-blue">成功</span>');
+                        } else {
+                            layero.find('#status').html('<span class="layui-badge layui-bg-orange">失败</span>');
+                        }
+                    },
+                    end: function (index) {
+                    }
+                });
+
+            }
+        });
+
+    });
+</script>

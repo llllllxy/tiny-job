@@ -16,8 +16,7 @@
 }
 
 .layui-breadcrumb > * {
-    font-size: 13px;
-!important;
+    font-size: 13px !important;
 }
 
 .layuimini-form {

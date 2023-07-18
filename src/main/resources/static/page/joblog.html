@@ -332,7 +332,7 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: '900px',
+                    area: ['1000px', '500px'],
                     content: $('#detailDialog').html(),
                     success: function (layero, dIndex) {
                         layero.find('#id').text(lineData.id);
@@ -344,6 +344,7 @@
                         layero.find('#jobUrl').text(lineData.jobUrl);
                         layero.find('#jobParam').text(lineData.jobParam);
                         layero.find('#jobHeader').text(lineData.jobHeader);
+                        layero.find('#returnInfo').text(lineData.returnInfo);
                         layero.find('#exceptionInfo').text(lineData.exceptionInfo);
                         layero.find('#executeAt').text(lineData.executeAt);
                         layero.find('#endAt').text(lineData.endAt);

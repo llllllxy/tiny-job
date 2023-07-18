@@ -134,7 +134,6 @@ public class HostsInfoService {
         wrapper.set(THostsInfo::getHostName, dto.getHostName());
         wrapper.set(THostsInfo::getProjectId, dto.getProjectId());
         wrapper.set(THostsInfo::getRemark, dto.getRemark());
-        wrapper.set(THostsInfo::getDelFlag, GlobalConstant.DELETED);
         wrapper.set(THostsInfo::getUpdatedBy, (String) AuthUtil.getLoginId());
         int rows = this.hostsInfoMapper.update(null, wrapper);
 

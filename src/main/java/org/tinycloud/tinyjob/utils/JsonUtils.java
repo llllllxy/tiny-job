@@ -2,6 +2,7 @@ package org.tinycloud.tinyjob.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ public class JsonUtils {
 
     /**
      * 对象转JSON字符串
+     *
      * @param value 待转换对象
      * @return JSON字符串
      */
@@ -43,10 +45,11 @@ public class JsonUtils {
 
     /**
      * JSON字符串转对象
-     * @param content JSON字符串
+     *
+     * @param content   JSON字符串
      * @param valueType 类型
-     * @param <T> 对象
-     * @return  对象
+     * @param <T>       对象
+     * @return 对象
      */
     public static <T> T readValue(String content, Class<T> valueType) {
         if (content != null && !content.trim().isEmpty()) {
@@ -65,9 +68,10 @@ public class JsonUtils {
 
     /**
      * JSON字符串转对象
-     * @param content JSON字符串
+     *
+     * @param content      JSON字符串
      * @param valueTypeRef TypeReference
-     * @param <T> 对象
+     * @param <T>          对象
      * @return 对象
      */
     public static <T> T readValue(String content, TypeReference<T> valueTypeRef) {
@@ -87,9 +91,10 @@ public class JsonUtils {
 
     /**
      * InputStream文件流转对象
-     * @param src 输入流
-     * @param valueType  类型
-     * @param <T> 对象
+     *
+     * @param src       输入流
+     * @param valueType 类型
+     * @param <T>       对象
      * @return 对象
      */
     public static <T> T readValue(InputStream src, Class<T> valueType) {
@@ -108,9 +113,10 @@ public class JsonUtils {
 
     /**
      * JSON字符串转List
+     *
      * @param content JSON字符串
-     * @param clazz  类型
-     * @param <T> 对象
+     * @param clazz   类型
+     * @param <T>     对象
      * @return 对象
      */
     public static <T> List<T> readArrayValue(String content, Class<T> clazz) {
@@ -129,6 +135,7 @@ public class JsonUtils {
 
     /**
      * 类型转换
+     *
      * @param fromValue
      * @param toValueType
      * @param <T>
@@ -137,5 +144,21 @@ public class JsonUtils {
     public static <T> T convertValue(Object fromValue, Class<T> toValueType) {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.convertValue(fromValue, toValueType);
+    }
+
+    /**
+     * 判断传入的字符串是否是json格式的
+     *
+     * @param content JSON字符串
+     * @return true 是，false 不是
+     */
+    public static boolean isJsonValid(String content) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(content);
+            return jsonNode.isObject() || jsonNode.isArray();
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

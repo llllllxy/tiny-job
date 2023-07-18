@@ -15,6 +15,8 @@ public enum ApiErrorCode {
     THE_NEWPASSWORD_ENTERED_TWICE_DOES_NOT_MATCH("1004", "两次输入的新密码不一致！"),
 
     CRON_EXPRESSION_ERROR("4001", "Cron表达式不正确！"),
+    JOB_PARAM_FORMAT_ERROR("4002", "请求参数格式不正确！"),
+    JOB_HEADER_FORMAT_ERROR("4003", "请求头信息格式不正确！"),
     ;
 
     private String code;

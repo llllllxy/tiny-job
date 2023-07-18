@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.tinycloud.security.util.AuthUtil;
+import org.tinycloud.security.util.JsonUtil;
 import org.tinycloud.tinyjob.bean.dto.JobInfoAddDto;
 import org.tinycloud.tinyjob.bean.dto.JobInfoEditDto;
 import org.tinycloud.tinyjob.bean.dto.JobInfoQueryDto;
@@ -26,6 +28,7 @@ import org.tinycloud.tinyjob.exception.TaskException;
 import org.tinycloud.tinyjob.mapper.JobInfoMapper;
 import org.tinycloud.tinyjob.model.PageModel;
 import org.tinycloud.tinyjob.utils.BeanConvertUtils;
+import org.tinycloud.tinyjob.utils.JsonUtils;
 import org.tinycloud.tinyjob.utils.quartz.CronUtils;
 import org.tinycloud.tinyjob.utils.quartz.ScheduleUtils;
 
@@ -173,6 +176,13 @@ public class JobInfoService {
         if (!CronExpression.isValidExpression(dto.getCronExpression())) {
             throw new BusinessException(ApiErrorCode.CRON_EXPRESSION_ERROR.getCode(), ApiErrorCode.CRON_EXPRESSION_ERROR.getDesc());
         }
+        if (StringUtils.hasText(dto.getJobParam()) && !JsonUtils.isJsonValid(dto.getJobParam())) {
+            throw new BusinessException(ApiErrorCode.JOB_PARAM_FORMAT_ERROR.getCode(), ApiErrorCode.JOB_PARAM_FORMAT_ERROR.getDesc());
+        }
+        if (StringUtils.hasText(dto.getJobHeader()) && !JsonUtils.isJsonValid(dto.getJobHeader())) {
+            throw new BusinessException(ApiErrorCode.JOB_HEADER_FORMAT_ERROR.getCode(), ApiErrorCode.JOB_HEADER_FORMAT_ERROR.getDesc());
+        }
+
         TJobInfo jobInfo = BeanConvertUtils.convertTo(dto, TJobInfo::new);
         jobInfo.setStatus(JobStatusEnum.PAUSE.getValue());
         jobInfo.setCreatedBy((String) AuthUtil.getLoginId());
@@ -199,6 +209,13 @@ public class JobInfoService {
         if (!CronExpression.isValidExpression(dto.getCronExpression())) {
             throw new BusinessException(ApiErrorCode.CRON_EXPRESSION_ERROR.getCode(), ApiErrorCode.CRON_EXPRESSION_ERROR.getDesc());
         }
+        if (StringUtils.hasText(dto.getJobParam()) && !JsonUtils.isJsonValid(dto.getJobParam())) {
+            throw new BusinessException(ApiErrorCode.JOB_PARAM_FORMAT_ERROR.getCode(), ApiErrorCode.JOB_PARAM_FORMAT_ERROR.getDesc());
+        }
+        if (StringUtils.hasText(dto.getJobHeader()) && !JsonUtils.isJsonValid(dto.getJobHeader())) {
+            throw new BusinessException(ApiErrorCode.JOB_HEADER_FORMAT_ERROR.getCode(), ApiErrorCode.JOB_HEADER_FORMAT_ERROR.getDesc());
+        }
+
         TJobInfo jobInfo = BeanConvertUtils.convertTo(dto, TJobInfo::new);
         jobInfo.setUpdatedBy((String) AuthUtil.getLoginId());
         int rows = jobInfoMapper.updateById(jobInfo);

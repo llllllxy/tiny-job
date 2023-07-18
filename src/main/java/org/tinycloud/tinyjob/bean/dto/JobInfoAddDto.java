@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 @Getter
@@ -37,6 +38,7 @@ public class JobInfoAddDto implements Serializable {
      */
     @NotEmpty(message = "任务组不能为空")
     @Length(max = 64, min = 1, message = "任务组不能超过64个字符")
+    @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "任务组只允许由大小写字母、数字和下划线构成")
     private String jobGroup;
 
     /**

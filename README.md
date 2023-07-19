@@ -1,10 +1,14 @@
-# Tiny Job 任务调度系统
+# Tiny Job
+# 任务调度系统
+![SpringBoot](https://img.shields.io/badge/springboot-2.6.11-green.svg?style=flat-square)
+<a href='https://gitee.com/leisureLXY/tiny-job/stargazers'><img src='https://gitee.com/leisureLXY/tiny-job/badge/star.svg?theme=dark' alt='star'></img></a>
+<a href='https://gitee.com/leisureLXY/tiny-job/members'><img src='https://gitee.com/leisureLXY/tiny-job/badge/fork.svg?theme=dark' alt='fork'></img></a>
 
-> 一个基于SpringBoot+Quartz开发的的轻量级任务调度系统
+> 一个基于SpringBoot+Quartz的的轻量级定时任务调度系统
 
 [https://gitee.com/leisureLXY/tiny-job](https://gitee.com/leisureLXY/tiny-job)
 
-## 技术选型
+## 主要技术选型
 
 1、后端：
 - SpringBoot 2.6.11
@@ -13,24 +17,47 @@
 - Httpclient 4.5.13
 
 2、前端：
-- Layui 2.8.8
+- Layui 2.8.11
 - jQuery 3.4.1
 
+## 运行环境
+- Jdk8
+- MySQL5.6+
+
+## 运行启动教程
+1. 新建MySQL数据库并导入sql文件夹下的数据库脚本
+2. 修改配置文件中application.yml中数据库连接信息
+3. 运行启动类TinyJobApplication，即可正常启动项目
+4. 租户登录地址：http://localhost:9009  账户密码 admin / 123456a?
 
 ## 平台功能
 1、项目管理
 - 增加项目维度，方便后面的主机和任务的管理
 
 2、主机管理
-- 维护主机地址，一个主机可维护多个远程地址，如http://172.89.56.117:8899, http://172.89.56.118:8899
-- 针对多远程地址，支持多种负载均衡策略（FIRST，LAST，ROUND，RANDOM）
+- 维护主机地址，一个主机信息可维护多个主机地址用于负载均衡，如 `http://172.89.56.117:8899`, `http://172.89.56.118:8899`
+- 支持多种负载均衡策略（`FIRST`，`LAST`，`ROUND`，`RANDOM`），并提供标准化接口，可根据需要自行扩展
 
 3、任务管理
-- 在线配置定时任务所属项目、任务主机、请求类型(GET,POST,POST_JSON)、请求路径、请求参数、请求头、Cron表达式、路由策略、计划执行错误策略、是否允许并发执行等信息
-- 支持在线启动/停止任务，以及删除任务、修改任务、手动触发执行
+- 在线配置定时任务，包括新增任务、修改任务、删除任务、手动执行一次，以及实时启动/停止任务；任务包括以下属性：
+  - 所属项目：
+  - 任务主机：
+  - 任务名称：
+  - 任务组：
+  - 请求类型(`GET`,`POST`,`POST_JSON`)、：
+  - 请求路径：
+  - 请求参数：
+  - 请求头：
+  - Cron执行表达式：
+  - 主机路由策略：
+  - 调度过期策略：
+  - 是否并发执行：
 
 4、任务执行日志
-- 多维度多条件的查询展示任务的历史执行日志信息
+- 查询展示定时任务的历史执行记录信息
+
+## 功能界面展示
+
 
 ## 常用cron表达式示例
 - 0/2 * * * * ?   表示每2秒 执行任务

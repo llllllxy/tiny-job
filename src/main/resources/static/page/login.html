@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <link rel="icon" href="/images/favicon.ico">
-    <link rel="stylesheet" href="/lib/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/lib/layui/css/layui.css?v=2.8.11" media="all">
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -49,7 +49,7 @@
                     <input type="password" name="password" lay-verify="required|password" placeholder="密码" autocomplete="off" class="layui-input" lay-affix="eye">
                 </div>
                 <div class="layui-form-item" style="top: 10px">
-                    <button class="layui-btn layui-btn layui-btn-fluid" lay-submit lay-filter="login">登 录</button>
+                    <button class="layui-btn layui-btn layui-btn-fluid" lay-submit lay-filter="login" id="login">登 录</button>
                 </div>
             </form>
         </div>
@@ -57,10 +57,10 @@
 </div>
 <script src="/lib/jquery/jquery-3.4.1.min.js" charset="utf-8"></script>
 <script src="/lib/jq-module/jquery.particleground.min.js" charset="utf-8"></script>
-<script src="/lib/layui/layui.js" charset="utf-8"></script>
+<script src="/lib/crypto/md5.js?v=2.0.0" charset="utf-8"></script>
+<script src="/lib/layui/layui.js?v=2.8.11" charset="utf-8"></script>
 <script src="/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
 <script src="/js/common.js?v=2.0.0" charset="utf-8"></script>
-<script src="/lib/crypto/md5.js?v=2.0.0" charset="utf-8"></script>
 <script>
     layui.use(['form', 'miniAjax', 'layer'], function () {
         var $ = layui.jquery,
@@ -95,10 +95,13 @@
             // 加密
             data.password = md5.MD5(data.password);
 
+            startLoading();
             miniAjax.postJSON({
                 url: '/auth/login',
                 data: JSON.stringify(data),
                 success: function (res) {
+                    stopLoading();
+
                     if (res.code == 0) {
                         sessionStorage.setItem('token', res.data);
                         layer.msg('登录成功，欢迎回来!', {
@@ -109,11 +112,29 @@
                     } else {
                         layer.msg(res.msg, {time: 1000});
                     }
+                },
+                error: function (res) {
+                    stopLoading();
+                    layer.msg(res, {time: 1000, icon: 2});
                 }
             });
             return false;
         });
     });
+
+    function startLoading() {
+        var loginBtn = document.querySelector('#login');
+        loginBtn.classList.add('layui-disabled');
+        loginBtn.setAttribute('disabled', true);
+        loginBtn.innerHTML = '<span>登录中</span><i class="layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop"></i>';
+    }
+
+    function stopLoading() {
+        var loginBtn = document.querySelector('#login');
+        loginBtn.classList.remove('layui-disabled');
+        loginBtn.removeAttribute('disabled');
+        loginBtn.innerHTML = '<span>登 录</span>';
+    }
 </script>
 </body>
 </html>

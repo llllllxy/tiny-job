@@ -14,9 +14,10 @@ import java.util.List;
  * cron表达式工具类
  *
  * @author liuxingyu01
- * @date 2021-08-27-12:59
+ * @since 2023-06-27-12:59
  **/
 public class CronUtils {
+
     /**
      * 返回一个布尔值代表一个给定的Cron表达式的有效性
      *
@@ -28,22 +29,7 @@ public class CronUtils {
     }
 
     /**
-     * 返回一个字符串值,表示该消息无效Cron表达式给出有效性
-     *
-     * @param cronExpression Cron表达式
-     * @return String 无效时返回表达式错误描述,如果有效返回null
-     */
-    public static String getInvalidMessage(String cronExpression) {
-        try {
-            new CronExpression(cronExpression);
-            return null;
-        } catch (ParseException pe) {
-            return pe.getMessage();
-        }
-    }
-
-    /**
-     * 返回下一个执行时间根据给定的Cron表达式
+     * 根据给定的Cron表达式, 返回下一个执行时间
      *
      * @param cronExpression Cron表达式
      * @return Date 下次Cron表达式执行时间
@@ -59,9 +45,9 @@ public class CronUtils {
 
     /**
      * 根据给定的Cron表达式，返回最近10次运行时间
-     * @param cronExpression
-     * @param numTimes
-     * @return
+     * @param cronExpression Cron表达式
+     * @param numTimes 次数
+     * @return 往下n次Cron表达式执行时间，格式化之后的
      */
     public static List<String> getNextExecTime(String cronExpression, Integer numTimes) {
         List<String> list = new ArrayList<>();
@@ -82,14 +68,12 @@ public class CronUtils {
 
     /**
      * 测试 main
-     * @param args
-     * @throws Exception
+     * @param args String[]
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         System.out.println(getNextExecution("0/5 * * * * ?"));
 
-        System.out.println(CronUtils.getNextExecTime("0/5 * * * * ?", 5) + "\n");
+        System.out.println(CronUtils.getNextExecTime("0/5 * * * * ?", 5));
     }
-
 
 }

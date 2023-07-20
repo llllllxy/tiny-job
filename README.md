@@ -1,12 +1,10 @@
 # Tiny Job
-# 任务调度系统
+# 轻量级定时任务调度系统
 ![SpringBoot](https://img.shields.io/badge/springboot-2.6.11-green.svg?style=flat-square)
 <a href='https://gitee.com/leisureLXY/tiny-job/stargazers'><img src='https://gitee.com/leisureLXY/tiny-job/badge/star.svg?theme=dark' alt='star'></img></a>
 <a href='https://gitee.com/leisureLXY/tiny-job/members'><img src='https://gitee.com/leisureLXY/tiny-job/badge/fork.svg?theme=dark' alt='fork'></img></a>
 
 > 一个基于SpringBoot+Quartz的的轻量级定时任务调度系统
-
-[https://gitee.com/leisureLXY/tiny-job](https://gitee.com/leisureLXY/tiny-job)
 
 ## 主要技术选型
 
@@ -28,36 +26,62 @@
 1. 新建MySQL数据库并导入sql文件夹下的数据库脚本
 2. 修改配置文件中application.yml中数据库连接信息
 3. 运行启动类TinyJobApplication，即可正常启动项目
-4. 租户登录地址：http://localhost:9009  账户密码 admin / 123456a?
+4. 管理后台登录地址：http://localhost:9009  账户密码 admin / 123456a?
 
 ## 平台功能
 1、项目管理
-- 增加项目维度，方便后面的主机和任务的管理
+- 增加项目维度，方便对主机信息和定时任务进行归类管理
 
 2、主机管理
 - 维护主机地址，一个主机信息可维护多个主机地址用于负载均衡，如 `http://172.89.56.117:8899`, `http://172.89.56.118:8899`
 - 支持多种负载均衡策略（`FIRST`，`LAST`，`ROUND`，`RANDOM`），并提供标准化接口，可根据需要自行扩展
+  - FIRST：第一个
+  - LAST：最后一个
+  - ROUND：轮询
+  - RANDOM：随机
 
 3、任务管理
-- 在线配置定时任务，包括新增任务、修改任务、删除任务、手动执行一次，以及实时启动/停止任务；任务包括以下属性：
-  - 所属项目：
-  - 任务主机：
-  - 任务名称：
-  - 任务组：
-  - 请求类型(`GET`,`POST`,`POST_JSON`)、：
-  - 请求路径：
-  - 请求参数：
-  - 请求头：
+- 在线配置定时任务，包括新增任务、修改任务、删除任务、手动执行一次，以及实时启动/停止任务等功能，定时任务包括以下属性：
+  - 所属项目：对应所属项目
+  - 任务主机：对应主机信息
+  - 任务名称：任务的名称
+  - 任务组：任务的分组，只能由英文数字和下划线组成
+  - 请求类型：`GET`,`POST`,`POST_JSON`
+  - 请求路径：和主机地址拼接，作为最终的请求地址
+  - 请求参数：请求的参数信息，以标准JSON的格式配置
+  - 请求头：请求的头信息，以标准JSON的格式配置
   - Cron执行表达式：
-  - 主机路由策略：
-  - 调度过期策略：
+  - 主机路由策略：第一个、最后一个、轮询、随机
+  - 调度过期策略：立即执行、执行一次、放弃执行(默认)
   - 是否并发执行：
 
 4、任务执行日志
 - 查询展示定时任务的历史执行记录信息
 
 ## 功能界面展示
+首页
+![首页](src/main/resources/static/images/readme/首页.png)
 
+项目管理
+![项目管理](src/main/resources/static/images/readme/项目管理.png)
+
+项目管理-编辑
+![项目管理-编辑](src/main/resources/static/images/readme/项目管理-编辑.png)
+
+主机管理
+![主机管理](src/main/resources/static/images/readme/主机管理.png)
+
+主机管理-编辑
+![主机管理-编辑](src/main/resources/static/images/readme/主机管理-编辑.png)
+
+任务管理
+![任务管理](src/main/resources/static/images/readme/任务管理.png)
+
+任务管理-编辑
+![项目管理-编辑](src/main/resources/static/images/readme/任务管理-编辑.png)
+
+任务日志
+![任务日志](src/main/resources/static/images/readme/任务日志.png)
 
 ## 常用cron表达式示例
 - 0/2 * * * * ?   表示每2秒 执行任务

@@ -273,17 +273,17 @@
             defaultToolbar: ['filter', 'exports', 'print'],
             cols: [[
                 {field: 'id', width: 50, title: 'ID', align: 'center', fixed: 'left'},
-                {field: 'jobId', width: 120, title: '任务ID'},
+                {field: 'jobId', width: 90, title: '任务ID', align: 'center'},
                 {field: 'jobName', width: 120, title: '任务名称'},
                 {field: 'projectName', width: 120, title: '项目名称'},
                 {field: 'hostName', width: 120, title: '主机名称'},
                 {field: 'jobGroup', width: 120, title: '任务组'},
                 {field: 'jobType', width: 120, title: '请求方式'},
-                {field: 'executeAt', width: 120, title: '执行时间'},
-                {field: 'status', width: 120, title: '执行结果', templet: '#statusTpl'},
-                {field: 'endAt', width: 120, title: '结束时间'},
+                {field: 'executeAt', width: 150, title: '执行时间'},
+                {field: 'status', width: 100, title: '执行结果', templet: '#statusTpl', align: 'center'},
+                {field: 'endAt', width: 150, title: '结束时间'},
                 {field: 'consuming', width: 100, title: '任务耗时', align: 'center'},
-                {title: '操作', width: 100, minWidth: 100, toolbar: '#currentTableBar', align: "center", fixed: 'right'}
+                {title: '操作', minWidth: 100, toolbar: '#currentTableBar', align: "center", fixed: 'right'}
             ]],
             autoSort: false,
             limits: [10, 15, 20, 25, 50, 100],

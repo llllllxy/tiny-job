@@ -37,22 +37,24 @@ import java.util.Map.Entry;
 public class HttpClientUtils {
     final static Logger logger = LoggerFactory.getLogger(HttpClientUtils.class);
 
-
     /**
      * 连接主机超时（30s）
      */
-    public static final int HTTP_CONNECT_TIMEOUT_30S = 30 * 1000;
+    public static final int HTTP_CONNECT_TIMEOUT = 30 * 1000;
 
     /**
-     * 从主机读取数据超时（3min）
+     * 从主机读取数据超时（60s）
      */
-    public static final int HTTP_READ_TIMEOUT_3MIN = 180 * 1000;
+    public static final int HTTP_READ_TIMEOUT = 60 * 1000;
 
     /**
      * HTTP成功状态码（200）
      */
     public static final int HTTP_SUCCESS_STATUS_CODE = 200;
 
+    /**
+     * 禁止实例化
+     */
     private HttpClientUtils() {
     }
 
@@ -71,8 +73,8 @@ public class HttpClientUtils {
         String result = "";
         // 超时时间设置
         RequestConfig requestConfig = RequestConfig.custom()
-                .setSocketTimeout(HTTP_READ_TIMEOUT_3MIN)
-                .setConnectTimeout(HTTP_CONNECT_TIMEOUT_30S).build();
+                .setSocketTimeout(HTTP_READ_TIMEOUT)
+                .setConnectTimeout(HTTP_CONNECT_TIMEOUT).build();
 
         try {
             URIBuilder builder = new URIBuilder(url);
@@ -124,8 +126,8 @@ public class HttpClientUtils {
         String result = "";
         // 超时时间设置
         RequestConfig requestConfig = RequestConfig.custom()
-                .setSocketTimeout(HTTP_READ_TIMEOUT_3MIN)
-                .setConnectTimeout(HTTP_CONNECT_TIMEOUT_30S).build();
+                .setSocketTimeout(HTTP_READ_TIMEOUT)
+                .setConnectTimeout(HTTP_CONNECT_TIMEOUT).build();
 
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
@@ -176,8 +178,8 @@ public class HttpClientUtils {
         String result = "";
         // 超时时间设置
         RequestConfig requestConfig = RequestConfig.custom()
-                .setSocketTimeout(HTTP_READ_TIMEOUT_3MIN)
-                .setConnectTimeout(HTTP_CONNECT_TIMEOUT_30S).build();
+                .setSocketTimeout(HTTP_READ_TIMEOUT)
+                .setConnectTimeout(HTTP_CONNECT_TIMEOUT).build();
 
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);

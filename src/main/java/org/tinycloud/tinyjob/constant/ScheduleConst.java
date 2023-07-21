@@ -8,30 +8,38 @@ package org.tinycloud.tinyjob.constant;
  **/
 public class ScheduleConst {
 
-    public static final String TASK_CLASS_NAME = "TASK_CLASS_NAME";
+    /**
+     * trigger名称前缀
+     */
+    public static final String TRIGGER_PREFIX = "Trigger_";
+
+    /**
+     * job名称前缀
+     */
+    public static final String JOB_PREFIX = "Job_";
 
     /**
      * 执行目标key
      */
-    public static final String TASK_PROPERTIES = "TASK_PROPERTIES";
+    public static final String JOB_PROPERTIES = "JOB_PROPERTIES";
 
     /**
-     * 默认
+     * 任务过期策略-默认
      */
     public static final String MISFIRE_DEFAULT = "0";
 
     /**
-     * 立即触发执行
+     * 任务过期策略-立即触发执行（将遗漏的全部执行）
      */
     public static final String MISFIRE_IGNORE_MISFIRES = "1";
 
     /**
-     * 触发一次执行
+     * 任务过期策略-触发一次执行
      */
     public static final String MISFIRE_FIRE_AND_PROCEED = "2";
 
     /**
-     * 不触发立即执行
+     * 任务过期策略-不触发执行
      */
     public static final String MISFIRE_DO_NOTHING = "3";
 }

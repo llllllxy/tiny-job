@@ -18,6 +18,12 @@ public class JobLogService {
     private JobLogMapper jobLogMapper;
 
     public void addJobLog(TJobLog jobLog) {
+        String returnInfo = jobLog.getReturnInfo();
+        // 如果返回信息长度超过500了，则进行截取，因为数据库里字段长度是varchar(500)
+        if (returnInfo != null && returnInfo.length() > 500) {
+            returnInfo = returnInfo.substring(0, 500);
+            jobLog.setReturnInfo(returnInfo);
+        }
         jobLogMapper.insert(jobLog);
     }
 

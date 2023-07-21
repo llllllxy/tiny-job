@@ -44,7 +44,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job, Serializable 
         TJobInfo jobInfo = new TJobInfo();
         // 执行结果，即为请求返回的信息
         JobResult result = null;
-        BeanUtils.copyProperties(context.getMergedJobDataMap().get(ScheduleConst.TASK_PROPERTIES), jobInfo);
+        BeanUtils.copyProperties(context.getMergedJobDataMap().get(ScheduleConst.JOB_PROPERTIES), jobInfo);
         try {
             before(context, jobInfo);
             if (jobInfo != null) {

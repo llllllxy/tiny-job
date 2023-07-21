@@ -7,8 +7,9 @@ import org.tinycloud.tinyjob.constant.ScheduleConst;
 import org.tinycloud.tinyjob.exception.TaskException;
 
 /**
+ * quartz定时任务工具类
+ *
  * @author liuxingyu01
- * @description quartz定时任务工具类
  * @since 2022-06-21-13:25
  **/
 public class ScheduleUtils {
@@ -27,15 +28,15 @@ public class ScheduleUtils {
     /**
      * 构建任务触发对象
      */
-    public static TriggerKey getTriggerKey(Long jobId, String jobGroup) {
-        return TriggerKey.triggerKey(ScheduleConst.TASK_CLASS_NAME + jobId, jobGroup);
+    public static TriggerKey getTriggerKey(Long jobId, String triggerGroup) {
+        return TriggerKey.triggerKey(ScheduleConst.TRIGGER_PREFIX + jobId, triggerGroup);
     }
 
     /**
      * 构建任务键对象
      */
     public static JobKey getJobKey(Long jobId, String jobGroup) {
-        return JobKey.jobKey(ScheduleConst.TASK_CLASS_NAME + jobId, jobGroup);
+        return JobKey.jobKey(ScheduleConst.JOB_PREFIX + jobId, jobGroup);
     }
 
     /**
@@ -58,7 +59,7 @@ public class ScheduleUtils {
                 .withSchedule(cronScheduleBuilder).build();
 
         // 放入参数，运行时的方法可以获取（AbstractQuartzJob.execute方法）
-        jobDetail.getJobDataMap().put(ScheduleConst.TASK_PROPERTIES, job);
+        jobDetail.getJobDataMap().put(ScheduleConst.JOB_PROPERTIES, job);
 
         // 判断是否存在，防止创建时存在数据问题 先移除，然后在执行创建操作
         if (scheduler.checkExists(getJobKey(jobId, jobGroup))) {
@@ -101,15 +102,13 @@ public class ScheduleUtils {
     public static void executeonceScheduler(Scheduler scheduler, TJobInfo job) throws SchedulerException, TaskException {
         try {
             JobDataMap dataMap = new JobDataMap();
-            dataMap.put(ScheduleConst.TASK_PROPERTIES, job);
+            dataMap.put(ScheduleConst.JOB_PROPERTIES, job);
             JobKey jobKey = getJobKey(job.getId(), job.getJobGroup());
             // 如果不存在，则新建一个quartz实例
             if (!scheduler.checkExists(jobKey)) {
                 createScheduleJob(scheduler, job);
-                scheduler.triggerJob(jobKey, dataMap);
-            } else {
-                scheduler.triggerJob(jobKey, dataMap);
             }
+            scheduler.triggerJob(jobKey, dataMap);
         } catch (SchedulerException e) {
             throw new SchedulerException("执行一次定时任务失败", e);
         }

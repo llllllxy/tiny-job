@@ -136,10 +136,14 @@ public class JsonUtils {
     /**
      * 类型转换
      *
-     * @param fromValue
-     * @param toValueType
-     * @param <T>
-     * @return
+     * 示例：
+     * String redisKey = ip + ":" + method + ":" + requestURI;
+     * Integer count = JsonUtils.convertValue(redisResult, Integer.class);
+     *
+     * @param fromValue 原始对象
+     * @param toValueType 要转换成的对象类型
+     * @param <T> 对象
+     * @return 转换后的对象
      */
     public static <T> T convertValue(Object fromValue, Class<T> toValueType) {
         ObjectMapper objectMapper = new ObjectMapper();

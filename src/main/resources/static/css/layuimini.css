@@ -384,22 +384,22 @@
 
 /**自定义滚动条样式 */
 ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px
+    width: 9px;
+    height: 9px
 }
 
 ::-webkit-scrollbar-track {
     background-color: transparent;
-    -webkit-border-radius: 2em;
-    -moz-border-radius: 2em;
-    border-radius: 2em;
+    -webkit-border-radius: 1em;
+    -moz-border-radius: 1em;
+    border-radius: 1em;
 }
 
 ::-webkit-scrollbar-thumb {
     background-color: #9c9da0;
-    -webkit-border-radius: 2em;
-    -moz-border-radius: 2em;
-    border-radius: 2em
+    -webkit-border-radius: 1em;
+    -moz-border-radius: 1em;
+    border-radius: 1em
 }
 
 

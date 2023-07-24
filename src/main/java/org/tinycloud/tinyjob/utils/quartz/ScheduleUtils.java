@@ -3,6 +3,7 @@ package org.tinycloud.tinyjob.utils.quartz;
 import org.quartz.*;
 import org.tinycloud.tinyjob.bean.entity.TJobInfo;
 import org.tinycloud.tinyjob.constant.JobStatusEnum;
+import org.tinycloud.tinyjob.constant.JobTriggerEnum;
 import org.tinycloud.tinyjob.constant.ScheduleConst;
 import org.tinycloud.tinyjob.exception.TaskException;
 
@@ -50,13 +51,28 @@ public class ScheduleUtils {
         String jobGroup = job.getJobGroup();
         JobDetail jobDetail = JobBuilder.newJob(jobClass).withIdentity(getJobKey(jobId, jobGroup)).build();
 
-        // Cron表达式调度构建器
-        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(job.getCronExpression());
-        cronScheduleBuilder = handleCronScheduleMisfirePolicy(job, cronScheduleBuilder);
+        Trigger trigger;
+        if (job.getJobTrigger().equals(JobTriggerEnum.SIMPLE.getCode())) {
+            // 简单定时器构建器，可指定任务的间隔时间和重复次数
+            SimpleScheduleBuilder simpleScheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
+                    .withIntervalInSeconds(job.getIntervalSeconds())
+                    //.withRepeatCount(repeatCount)
+                    .repeatForever(); // 不再限制次数，无限次数
 
-        // 按新的cronExpression表达式构建一个新的trigger
-        CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(getTriggerKey(jobId, jobGroup))
-                .withSchedule(cronScheduleBuilder).build();
+            trigger = TriggerBuilder.newTrigger()
+                    .withIdentity(getTriggerKey(jobId, jobGroup))
+                    .withSchedule(simpleScheduleBuilder)
+                    .build();
+        } else {
+            // Cron表达式调度构建器
+            CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(job.getCronExpression());
+            cronScheduleBuilder = handleCronScheduleMisfirePolicy(job, cronScheduleBuilder);
+            // 按新的cronExpression表达式构建一个新的trigger
+            trigger = TriggerBuilder.newTrigger()
+                    .withIdentity(getTriggerKey(jobId, jobGroup))
+                    .withSchedule(cronScheduleBuilder)
+                    .build();
+        }
 
         // 放入参数，运行时的方法可以获取（AbstractQuartzJob.execute方法）
         jobDetail.getJobDataMap().put(ScheduleConst.JOB_PROPERTIES, job);

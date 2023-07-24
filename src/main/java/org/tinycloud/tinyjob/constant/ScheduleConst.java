@@ -42,4 +42,9 @@ public class ScheduleConst {
      * 任务过期策略-不触发执行
      */
     public static final String MISFIRE_DO_NOTHING = "3";
+
+    /**
+     * 任务日志-完整性校验-国密3加密盐值
+     */
+    public static final String JOB_LOG_HASH_SALT = "DrQzltdTc!!wgzX@ktlukU^CLTEBBLEb";
 }

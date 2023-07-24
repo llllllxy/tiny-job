@@ -121,7 +121,7 @@ public abstract class AbstractQuartzJob implements org.quartz.Job, Serializable 
             // 第一步，记录任务执行日志
             SpringContextUtils.getBean(JobLogService.class).addJobLog(jobLog);
             // 第二步、更新t_job_info表的下次执行时间
-            SpringContextUtils.getBean(JobInfoService.class).updateNextExecuteTime(job.getId(), job.getCronExpression());
+            SpringContextUtils.getBean(JobInfoService.class).updateNextExecuteTime(job);
         });
     }
 

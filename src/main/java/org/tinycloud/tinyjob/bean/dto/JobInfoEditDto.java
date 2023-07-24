@@ -74,10 +74,20 @@ public class JobInfoEditDto  implements Serializable {
     private String jobHeader;
 
     /**
+     * 触发器类型（CRON、SIMPLE）
+     */
+    @NotEmpty(message = "触发器类型不能为空")
+    private String jobTrigger;
+
+    /**
+     * 简单任务的重复间隔时间（以秒为单位）
+     */
+    private Integer intervalSeconds;
+
+    /**
      * cron执行表达式
      */
-    @NotEmpty(message = "cron执行表达式不能为空")
-    @Length(max = 64, min = 1, message = "cron执行表达式不能超过64个字符")
+    @Length(max = 64, min = 0, message = "cron执行表达式不能超过64个字符")
     private String cronExpression;
 
     /**

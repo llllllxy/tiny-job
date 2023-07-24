@@ -1,9 +1,6 @@
 package org.tinycloud.tinyjob.bean.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -81,9 +78,21 @@ public class TJobInfo implements Serializable {
     private String jobHeader;
 
     /**
+     * 触发器类型（CRON、SIMPLE）
+     */
+    @TableField("job_trigger")
+    private String jobTrigger;
+
+    /**
+     * 简单任务的重复间隔时间（以秒为单位）
+     */
+    @TableField(value = "interval_seconds", updateStrategy= FieldStrategy.IGNORED)
+    private Integer intervalSeconds;
+
+    /**
      * cron执行表达式
      */
-    @TableField("cron_expression")
+    @TableField(value = "cron_expression", updateStrategy= FieldStrategy.IGNORED)
     private String cronExpression;
 
     /**

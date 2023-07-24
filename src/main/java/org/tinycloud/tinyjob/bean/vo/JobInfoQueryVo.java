@@ -67,6 +67,16 @@ public class JobInfoQueryVo implements Serializable {
     private String jobHeader;
 
     /**
+     * 触发器类型（CRON、SIMPLE）
+     */
+    private String jobTrigger;
+
+    /**
+     * 简单任务的重复间隔时间（以秒为单位）
+     */
+    private Integer intervalSeconds;
+
+    /**
      * cron执行表达式
      */
     private String cronExpression;

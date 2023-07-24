@@ -22,6 +22,7 @@ import org.tinycloud.tinyjob.bean.vo.JobInfoSelectVo;
 import org.tinycloud.tinyjob.constant.ApiErrorCode;
 import org.tinycloud.tinyjob.constant.GlobalConstant;
 import org.tinycloud.tinyjob.constant.JobStatusEnum;
+import org.tinycloud.tinyjob.constant.JobTriggerEnum;
 import org.tinycloud.tinyjob.exception.BusinessException;
 import org.tinycloud.tinyjob.exception.TaskException;
 import org.tinycloud.tinyjob.mapper.JobInfoMapper;
@@ -32,6 +33,7 @@ import org.tinycloud.tinyjob.utils.quartz.CronUtils;
 import org.tinycloud.tinyjob.utils.quartz.ScheduleUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -64,6 +66,7 @@ public class JobInfoService {
 
     /**
      * 根据主机id获取任务列表
+     *
      * @param hostId 主机id
      * @return
      */
@@ -172,8 +175,14 @@ public class JobInfoService {
      */
     @Transactional
     public int add(JobInfoAddDto dto) throws SchedulerException, TaskException {
-        if (!CronExpression.isValidExpression(dto.getCronExpression())) {
-            throw new BusinessException(ApiErrorCode.CRON_EXPRESSION_ERROR.getCode(), ApiErrorCode.CRON_EXPRESSION_ERROR.getDesc());
+        if (dto.getJobTrigger().equals(JobTriggerEnum.CRON.getCode())) {
+            if (!StringUtils.hasText(dto.getCronExpression()) || !CronExpression.isValidExpression(dto.getCronExpression())) {
+                throw new BusinessException(ApiErrorCode.CRON_EXPRESSION_ERROR.getCode(), ApiErrorCode.CRON_EXPRESSION_ERROR.getDesc());
+            }
+        } else {
+            if (dto.getIntervalSeconds() == null || dto.getIntervalSeconds() == 0) {
+                throw new BusinessException(ApiErrorCode.JOB_INTERVAL_SECONDS_ERROR.getCode(), ApiErrorCode.JOB_INTERVAL_SECONDS_ERROR.getDesc());
+            }
         }
         if (StringUtils.hasText(dto.getJobParam()) && !JsonUtils.isJsonValid(dto.getJobParam())) {
             throw new BusinessException(ApiErrorCode.JOB_PARAM_FORMAT_ERROR.getCode(), ApiErrorCode.JOB_PARAM_FORMAT_ERROR.getDesc());
@@ -186,7 +195,6 @@ public class JobInfoService {
         jobInfo.setStatus(JobStatusEnum.PAUSE.getValue());
         jobInfo.setCreatedBy((String) AuthUtil.getLoginId());
         jobInfo.setDelFlag(GlobalConstant.NOT_DELETED);
-        jobInfo.setNextExecuteTime(CronUtils.getNextExecution(jobInfo.getCronExpression()));
 
         int rows = jobInfoMapper.insert(jobInfo);
         if (rows > 0) {
@@ -205,8 +213,16 @@ public class JobInfoService {
      */
     @Transactional
     public int edit(JobInfoEditDto dto) throws SchedulerException, TaskException {
-        if (!CronExpression.isValidExpression(dto.getCronExpression())) {
-            throw new BusinessException(ApiErrorCode.CRON_EXPRESSION_ERROR.getCode(), ApiErrorCode.CRON_EXPRESSION_ERROR.getDesc());
+        if (dto.getJobTrigger().equals(JobTriggerEnum.CRON.getCode())) {
+            if (!StringUtils.hasText(dto.getCronExpression()) || !CronExpression.isValidExpression(dto.getCronExpression())) {
+                throw new BusinessException(ApiErrorCode.CRON_EXPRESSION_ERROR.getCode(), ApiErrorCode.CRON_EXPRESSION_ERROR.getDesc());
+            }
+            dto.setIntervalSeconds(null);
+        } else {
+            if (dto.getIntervalSeconds() == null || dto.getIntervalSeconds() == 0) {
+                throw new BusinessException(ApiErrorCode.JOB_INTERVAL_SECONDS_ERROR.getCode(), ApiErrorCode.JOB_INTERVAL_SECONDS_ERROR.getDesc());
+            }
+            dto.setCronExpression(null);
         }
         if (StringUtils.hasText(dto.getJobParam()) && !JsonUtils.isJsonValid(dto.getJobParam())) {
             throw new BusinessException(ApiErrorCode.JOB_PARAM_FORMAT_ERROR.getCode(), ApiErrorCode.JOB_PARAM_FORMAT_ERROR.getDesc());
@@ -229,15 +245,29 @@ public class JobInfoService {
     /**
      * 更新下次执行时间
      *
-     * @param id             任务id
-     * @param cronExpression cron表达式
+     * @param jobInfo 任务信息
      * @return int
      */
-    public int updateNextExecuteTime(Long id, String cronExpression) {
-        Date nextExecuteTime = CronUtils.getNextExecution(cronExpression);
+    public int updateNextExecuteTime(TJobInfo jobInfo) {
+        Long id = jobInfo.getId();
+        String cronExpression = jobInfo.getCronExpression();
+        String jobTrigger = jobInfo.getJobTrigger();
+        Integer intervalSeconds = jobInfo.getIntervalSeconds();
+
         LambdaUpdateWrapper<TJobInfo> wrapper = new LambdaUpdateWrapper<>();
         wrapper.eq(TJobInfo::getId, id);
-        wrapper.set(TJobInfo::getNextExecuteTime, nextExecuteTime);
+        if (jobTrigger.equals(JobTriggerEnum.CRON.getCode())) {
+            Date nextExecuteTime = CronUtils.getNextExecution(cronExpression);
+            wrapper.set(TJobInfo::getNextExecuteTime, nextExecuteTime);
+        } else {
+            // 获取当前时间
+            Date currentDate = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentDate);
+            calendar.add(Calendar.SECOND, intervalSeconds);
+            Date nextExecuteTime = calendar.getTime();
+            wrapper.set(TJobInfo::getNextExecuteTime, nextExecuteTime);
+        }
         return jobInfoMapper.update(null, wrapper);
     }
 }

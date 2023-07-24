@@ -17,6 +17,7 @@ public enum ApiErrorCode {
     CRON_EXPRESSION_ERROR("4001", "Cron表达式不正确！"),
     JOB_PARAM_FORMAT_ERROR("4002", "请求参数格式不正确！"),
     JOB_HEADER_FORMAT_ERROR("4003", "请求头信息格式不正确！"),
+    JOB_INTERVAL_SECONDS_ERROR("4004", "简单任务的重复间隔时间（以秒为单位）不能为空！"),
     ;
 
     private String code;

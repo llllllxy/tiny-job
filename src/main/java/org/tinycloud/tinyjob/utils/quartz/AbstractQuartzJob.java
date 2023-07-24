@@ -7,6 +7,7 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.tinycloud.tinyjob.bean.entity.TJobInfo;
 import org.tinycloud.tinyjob.bean.entity.TJobLog;
 import org.tinycloud.tinyjob.bean.pojo.JobResult;
@@ -37,6 +38,20 @@ public abstract class AbstractQuartzJob implements org.quartz.Job, Serializable 
      * 线程本地变量
      */
     private static final ThreadLocal<Date> threadLocal = new ThreadLocal<>();
+
+
+    /**
+     * Spring线程池
+     */
+    private static ThreadPoolTaskExecutor asyncExecutor;
+
+    private static ThreadPoolTaskExecutor getAsyncExecutor() {
+        if (asyncExecutor == null) {
+            Object bean = SpringContextUtils.getBean("asyncServiceExecutor");
+            asyncExecutor = (ThreadPoolTaskExecutor) bean;
+        }
+        return asyncExecutor;
+    }
 
 
     @Override
@@ -78,16 +93,15 @@ public abstract class AbstractQuartzJob implements org.quartz.Job, Serializable 
         Date startTime = threadLocal.get();
         threadLocal.remove();
 
-        // 第一步，记录任务执行日志
         final TJobLog jobLog = new TJobLog();
-        jobLog.setJobId(job.getId());
-        jobLog.setJobName(job.getJobName());
-        jobLog.setJobGroup(job.getJobGroup());
-        jobLog.setJobType(job.getJobType());
+        jobLog.setJobId(job.getId()); // 任务ID
+        jobLog.setJobName(job.getJobName()); // 任务名
+        jobLog.setJobGroup(job.getJobGroup()); // 任务组
+        jobLog.setJobType(job.getJobType()); // 请求类型 GET/POST/POST_JSON
         // 这里存最终路由出来的地址
-        jobLog.setJobUrl(result == null ? job.getJobUrl() : result.getRouteJobUrl());
-        jobLog.setJobHeader(job.getJobHeader());
-        jobLog.setJobParam(job.getJobParam());
+        jobLog.setJobUrl(result == null ? job.getJobUrl() : result.getRouteJobUrl()); // 最终的执行url
+        jobLog.setJobHeader(job.getJobHeader()); // 请求头
+        jobLog.setJobParam(job.getJobParam()); // 请求参数
         jobLog.setExecuteAt(startTime); // 执行时间
         jobLog.setEndAt(new Date()); // 结束时间
         jobLog.setReturnInfo(result == null ? null : result.getReturnInfo()); // http请求返回的结果
@@ -95,16 +109,20 @@ public abstract class AbstractQuartzJob implements org.quartz.Job, Serializable 
         long consuming = jobLog.getEndAt().getTime() - startTime.getTime(); // 总耗时
         jobLog.setConsuming((int) consuming);
         if (e != null) {
-            jobLog.setStatus(JobLogStatusEnum.FAILED.getValue()); // 失败
-            String errorMsg = StringUtils.substring(ExceptionUtils.getStackTrace(e), 0, 2000);
+            jobLog.setStatus(JobLogStatusEnum.FAILED.getValue()); // 任务执行结果：失败
+            String errorMsg = StringUtils.substring(ExceptionUtils.getStackTrace(e), 0, 2000); // 错误日志
             jobLog.setExceptionInfo(errorMsg);
         } else {
-            jobLog.setStatus(JobLogStatusEnum.SUCCESS.getValue()); // 成功
+            jobLog.setStatus(JobLogStatusEnum.SUCCESS.getValue()); // 任务执行结果：成功
         }
-        SpringContextUtils.getBean(JobLogService.class).addJobLog(jobLog);
 
-        // 第二步、更新t_job_info表的下次执行时间
-        SpringContextUtils.getBean(JobInfoService.class).updateNextExecuteTime(job.getId(), job.getCronExpression());
+        // 这里做异步操作，提高性能
+        getAsyncExecutor().execute(() -> {
+            // 第一步，记录任务执行日志
+            SpringContextUtils.getBean(JobLogService.class).addJobLog(jobLog);
+            // 第二步、更新t_job_info表的下次执行时间
+            SpringContextUtils.getBean(JobInfoService.class).updateNextExecuteTime(job.getId(), job.getCronExpression());
+        });
     }
 
 

@@ -33,7 +33,7 @@ public class HostsAddDto implements Serializable {
     private String remark;
 
     /**
-     * 备注信息
+     * 主机地址
      */
     private String hostAddrs;
 }

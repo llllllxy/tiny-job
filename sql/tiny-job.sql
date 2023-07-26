@@ -1,7 +1,7 @@
 /*
- Navicat MySQL Data Transfer
+ Navicat Premium Data Transfer
 
- Source Server         : 个人-本机-127.0.0.1
+ Source Server         : 127.0.0.1
  Source Server Type    : MySQL
  Source Server Version : 50733
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 50733
  File Encoding         : 65001
 
- Date: 24/07/2023 17:51:09
+ Date: 26/07/2023 22:05:15
 */
 
 SET NAMES utf8mb4;
@@ -399,6 +399,26 @@ INSERT INTO `t_job_log` VALUES (824, 4, '测试任务', 'DEFALUT', 'GET', 'https
 INSERT INTO `t_job_log` VALUES (825, 5, '测试POST_JSON任务', 'DEFALUT', 'POST_JSON', 'https://www.fastmock.site/mock/7b75b4d8f2befc6f6c698280fb791dd0/test/postjson', '', '', '{\"sites\":{\"site\":[{\"id\":\"1\",\"name\":\"菜鸟教程\",\"url\":\"www.runoob.com\"},{\"id\":\"2\",\"name\":\"菜鸟工具\",\"url\":\"c.runoob.com\"},{\"id\":\"3\",\"name\":\"Google\",\"url\":\"www.google.com\"}]}}', '0', NULL, '2023-07-24 17:49:12', '2023-07-24 17:49:12.035', '2023-07-24 17:49:12.230', 195);
 INSERT INTO `t_job_log` VALUES (826, 6, '手机号归属地查询', 'COMMON', 'GET', 'https://api.oioweb.cn/api/common/teladress', '{\"mobile\":\"17862719592\"}', '', '{\"code\":200,\"result\":{\"name\":\"移动178卡\",\"postCode\":\"264200\",\"prov\":\"山东\",\"num\":1786271,\"cityCode\":\"371000\",\"city\":\"威海市\",\"provCode\":\"370000\",\"areaCode\":\"0631\",\"type\":1},\"msg\":\"success\"}', '0', NULL, '2023-07-24 17:49:14', '2023-07-24 17:49:13.984', '2023-07-24 17:49:14.137', 153);
 INSERT INTO `t_job_log` VALUES (827, 4, '测试任务', 'DEFALUT', 'GET', 'https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api.php', '{\"resource_id\":\"6006\",\"format\":\"json\",\"query\":\"101.43.9.251\",\"oe\":\"utf8\"}', '', '{\"status\":\"0\",\"t\":\"\",\"set_cache_time\":\"\",\"data\":[{\"ExtendedLocation\":\"\",\"OriginQuery\":\"101.43.9.251\",\"appinfo\":\"\",\"disp_type\":0,\"fetchkey\":\"101.43.9.251\",\"location\":\"北京市海淀区\",\"origip\":\"101.43.9.251\",\"origipquery\":\"101.43.9.251\",\"resourceid\":\"6006\",\"role_id\":0,\"shareImage\":1,\"showLikeShare\":1,\"showlamp\":\"1\",\"titlecont\":\"IP地址查询\",\"tplt\":\"ip\"}]}', '0', NULL, '2023-07-24 17:49:18', '2023-07-24 17:49:18.026', '2023-07-24 17:49:18.162', 136);
+
+-- ----------------------------
+-- Table structure for t_mail_config
+-- ----------------------------
+DROP TABLE IF EXISTS `t_mail_config`;
+CREATE TABLE `t_mail_config`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `smtp_address` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'smtp服务器地址',
+  `smtp_port` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'smtp端口',
+  `email_account` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '邮箱账号',
+  `email_password` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '邮箱密码',
+  `receive_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '收件邮箱地址(多个用逗号隔开)',
+  `del_flag` tinyint(4) NOT NULL DEFAULT 0 COMMENT '删除标志（0--未删除1--已删除）',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注描述信息',
+  `created_at` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `created_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人-对应t_user.id',
+  `updated_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人-对应t_user.id',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统备份配置表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for t_project_info

@@ -91,6 +91,12 @@
             <artifactId>httpclient</artifactId>
             <version>4.5.13</version>
         </dependency>
+        <!--邮件发送工具包-->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>1.6.7</version>
+        </dependency>
         <!-- tiny-security本地引入 -->
         <dependency>
             <groupId>org.tinycloud</groupId>

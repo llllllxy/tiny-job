@@ -3,6 +3,7 @@ package org.tinycloud.tinyjob.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class JobLogService {
                 String emailMsg = "<h2>您好，感谢您在蓝风短链注册账户！</h2>"
                         + "任务-" + jobLog.getJobName() + "-执行失败！" + "<br/>"
                         + "任务实例ID：" + jobLog.getId() + "<br/>"
-                        + "任务实例执行时间：" + jobLog.getExecuteAt() + "<br/>"
+                        + "任务实例执行时间：" + DateFormatUtils.format(jobLog.getExecuteAt(), "yyyy-MM-dd HH:mm:ss:SSS") + "<br/>"
                         + "任务ID：" + jobLog.getJobId() + "<br/>"
                         + "请求地址：" + jobLog.getJobUrl() + "<br/>"
                         + "请求方式：" + jobLog.getJobType() + "<br/>"

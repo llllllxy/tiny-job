@@ -3,11 +3,12 @@ package org.tinycloud.tinyjob.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.tinycloud.tinyjob.bean.dto.JobLogQueryDto;
-import org.tinycloud.tinyjob.bean.entity.THostsItem;
 import org.tinycloud.tinyjob.bean.entity.TJobLog;
 import org.tinycloud.tinyjob.bean.entity.TMailConfig;
 import org.tinycloud.tinyjob.bean.vo.JobLogQueryVo;
@@ -20,6 +21,7 @@ import org.tinycloud.tinyjob.utils.EmailUtils;
 
 @Service
 public class JobLogService {
+    private static final Logger log = LoggerFactory.getLogger(JobLogService.class);
 
     @Autowired
     private JobLogMapper jobLogMapper;
@@ -57,8 +59,8 @@ public class JobLogService {
                         + "异常信息：" + jobLog.getExceptionInfo() + "<br/>";
                 EmailUtils.sendMsg(mailConfig.getEmailAccount(), mailConfig.getEmailPassword(), mailConfig.getSmtpAddress(), mailConfig.getSmtpPort(),
                         mailConfig.getReceiveEmail().split(","), emailTitle, emailMsg);
-            } catch (Exception ignored) {
-
+            } catch (Exception e) {
+                log.error("addJobLog - sendEmail error: ", e);
             }
         }
     }

@@ -1,7 +1,7 @@
 /*
- Navicat Premium Data Transfer
+ Navicat MySQL Data Transfer
 
- Source Server         : 127.0.0.1
+ Source Server         : 个人-本机-127.0.0.1
  Source Server Type    : MySQL
  Source Server Version : 50733
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 50733
  File Encoding         : 65001
 
- Date: 26/07/2023 22:05:15
+ Date: 27/07/2023 18:20:19
 */
 
 SET NAMES utf8mb4;
@@ -157,7 +157,7 @@ CREATE TABLE `qrtz_scheduler_state`  (
 -- ----------------------------
 -- Records of qrtz_scheduler_state
 -- ----------------------------
-INSERT INTO `qrtz_scheduler_state` VALUES ('clusteredScheduler', 'liuxingyu011690191596784', 1690192249062, 10000);
+INSERT INTO `qrtz_scheduler_state` VALUES ('clusteredScheduler', 'liuxingyu011690448952529', 1690449044212, 10000);
 
 -- ----------------------------
 -- Table structure for qrtz_simple_triggers
@@ -259,7 +259,14 @@ CREATE TABLE `t_auth_token`  (
   `token_expire_time` char(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'token过期时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `s_auth_token_unique_token_str`(`token_str`) USING BTREE COMMENT 'token_str不可重复'
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of t_auth_token
+-- ----------------------------
+INSERT INTO `t_auth_token` VALUES (34, '2023-07-27 11:24:37', '2023-07-27 11:36:41', 'rKTN2qCorha_l2qGvdzH3baPoxTdaUNi1JQ20QvXDG0a7GGnbea4XE13UmzzpQUwS4458G0__wsrpW5JviisHZJ6EVTZEHJkaEfJORWamkgJFdHToRvhPrldhr0i7Fd6', 'admin', '20230727120641');
+INSERT INTO `t_auth_token` VALUES (35, '2023-07-27 16:07:34', '2023-07-27 16:19:48', 'eBVi5CVPa8cHvK3e743qLnvNvYIAwhYjfsxJ9Qj7h6ujFHPaVrfcrFtFYgtLRqHmRwWNXUK1p26JTxPaRHtYYzu8KuMEmPkNyTBTtzWNS13chOnl2hqwXGFN01y3yx8u', 'admin', '20230727164948');
+INSERT INTO `t_auth_token` VALUES (36, '2023-07-27 17:08:14', '2023-07-27 17:10:24', 'lPCJgHmVo_EruCg9rgPh_ng5hjt5wmmys6YpwvHXG_9HXpM1__mg6z8Y4NhYFmnUKGBgNSQ90P3fHZfl99bcab7h4JszM1KhaPFHhkQJXVOcrt5Eg2pTNWHpxKuym3y5', 'admin', '20230727174024');
 
 -- ----------------------------
 -- Table structure for t_hosts_info
@@ -300,7 +307,7 @@ CREATE TABLE `t_hosts_item`  (
   `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '主机子表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '主机子表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_hosts_item
@@ -308,7 +315,7 @@ CREATE TABLE `t_hosts_item`  (
 INSERT INTO `t_hosts_item` VALUES (3, 2, 'https://www.fastmock.site/mock/7b75b4d8f2befc6f6c698280fb791dd0', 0, 'admin', NULL, '2023-06-21 15:48:15', '2023-06-21 15:48:15', '');
 INSERT INTO `t_hosts_item` VALUES (10, 1, 'https://opendata.baidu.com', 0, 'admin', NULL, '2023-07-21 15:02:45', '2023-07-21 15:02:45', NULL);
 INSERT INTO `t_hosts_item` VALUES (11, 1, 'https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv', 0, 'admin', NULL, '2023-07-21 15:02:45', '2023-07-21 15:02:45', NULL);
-INSERT INTO `t_hosts_item` VALUES (12, 3, 'https://api.oioweb.cn', 0, 'admin', NULL, '2023-07-21 15:31:46', '2023-07-21 15:31:46', NULL);
+INSERT INTO `t_hosts_item` VALUES (14, 3, 'https://api.oioweb.cn', 0, 'admin', NULL, '2023-07-27 11:36:39', '2023-07-27 11:36:39', NULL);
 
 -- ----------------------------
 -- Table structure for t_job_info
@@ -346,7 +353,7 @@ CREATE TABLE `t_job_info`  (
 -- ----------------------------
 INSERT INTO `t_job_info` VALUES (4, 1, 1, '测试任务', 'DEFALUT', 'GET', '/api.php', '{\"resource_id\":\"6006\",\"format\":\"json\",\"query\":\"101.43.9.251\",\"oe\":\"utf8\"}', '', 'ROUND', 'CRON', '0/9 * * * * ?', NULL, '3', '1', '2023-07-24 17:49:27', '1', 0, 'admin', 'admin', '2023-06-19 14:12:31', '2023-07-24 17:49:22', '严格：每9秒一次');
 INSERT INTO `t_job_info` VALUES (5, 1, 2, '测试POST_JSON任务', 'DEFALUT', 'POST_JSON', '/test/postjson', '', '', 'RANDOM', 'CRON', '0/12 * * * * ?', NULL, '3', '0', '2023-07-21 14:58:00', '1', 0, 'admin', 'admin', '2023-06-21 15:51:38', '2023-07-24 17:49:22', 'XXXX');
-INSERT INTO `t_job_info` VALUES (6, 2, 3, '手机号归属地查询', 'COMMON', 'GET', '/api/common/teladress', '{\"mobile\":\"17862719592\"}', '', 'FIRST', 'SIMPLE', NULL, 11, '3', '1', '2023-07-24 17:49:25', '1', 0, 'admin', 'admin', '2023-07-21 15:33:52', '2023-07-24 17:49:21', '');
+INSERT INTO `t_job_info` VALUES (6, 2, 3, '手机号归属地查询', 'COMMON', 'GET', '/api/common/teladress', '{\"mobile\":\"17862719592\"}', '', 'FIRST', 'SIMPLE', NULL, 11, '3', '1', '2023-07-27 11:35:40', '1', 0, 'admin', 'admin', '2023-07-21 15:33:52', '2023-07-27 11:35:29', '');
 
 -- ----------------------------
 -- Table structure for t_job_log
@@ -369,7 +376,7 @@ CREATE TABLE `t_job_log`  (
   `end_at` datetime(3) NULL DEFAULT NULL COMMENT '结束时间',
   `consuming` int(11) NULL DEFAULT NULL COMMENT '任务耗时(单位毫秒)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 828 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 831 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_job_log
@@ -399,6 +406,9 @@ INSERT INTO `t_job_log` VALUES (824, 4, '测试任务', 'DEFALUT', 'GET', 'https
 INSERT INTO `t_job_log` VALUES (825, 5, '测试POST_JSON任务', 'DEFALUT', 'POST_JSON', 'https://www.fastmock.site/mock/7b75b4d8f2befc6f6c698280fb791dd0/test/postjson', '', '', '{\"sites\":{\"site\":[{\"id\":\"1\",\"name\":\"菜鸟教程\",\"url\":\"www.runoob.com\"},{\"id\":\"2\",\"name\":\"菜鸟工具\",\"url\":\"c.runoob.com\"},{\"id\":\"3\",\"name\":\"Google\",\"url\":\"www.google.com\"}]}}', '0', NULL, '2023-07-24 17:49:12', '2023-07-24 17:49:12.035', '2023-07-24 17:49:12.230', 195);
 INSERT INTO `t_job_log` VALUES (826, 6, '手机号归属地查询', 'COMMON', 'GET', 'https://api.oioweb.cn/api/common/teladress', '{\"mobile\":\"17862719592\"}', '', '{\"code\":200,\"result\":{\"name\":\"移动178卡\",\"postCode\":\"264200\",\"prov\":\"山东\",\"num\":1786271,\"cityCode\":\"371000\",\"city\":\"威海市\",\"provCode\":\"370000\",\"areaCode\":\"0631\",\"type\":1},\"msg\":\"success\"}', '0', NULL, '2023-07-24 17:49:14', '2023-07-24 17:49:13.984', '2023-07-24 17:49:14.137', 153);
 INSERT INTO `t_job_log` VALUES (827, 4, '测试任务', 'DEFALUT', 'GET', 'https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api.php', '{\"resource_id\":\"6006\",\"format\":\"json\",\"query\":\"101.43.9.251\",\"oe\":\"utf8\"}', '', '{\"status\":\"0\",\"t\":\"\",\"set_cache_time\":\"\",\"data\":[{\"ExtendedLocation\":\"\",\"OriginQuery\":\"101.43.9.251\",\"appinfo\":\"\",\"disp_type\":0,\"fetchkey\":\"101.43.9.251\",\"location\":\"北京市海淀区\",\"origip\":\"101.43.9.251\",\"origipquery\":\"101.43.9.251\",\"resourceid\":\"6006\",\"role_id\":0,\"shareImage\":1,\"showLikeShare\":1,\"showlamp\":\"1\",\"titlecont\":\"IP地址查询\",\"tplt\":\"ip\"}]}', '0', NULL, '2023-07-24 17:49:18', '2023-07-24 17:49:18.026', '2023-07-24 17:49:18.162', 136);
+INSERT INTO `t_job_log` VALUES (828, 6, '手机号归属地查询', 'COMMON', 'GET', 'https://api.oioweb.cn/api/common/teladress', '{\"mobile\":\"17862719592\"}', '', '{\"code\":200,\"result\":{\"name\":\"移动178卡\",\"postCode\":\"264200\",\"prov\":\"山东\",\"num\":1786271,\"cityCode\":\"371000\",\"city\":\"威海市\",\"provCode\":\"370000\",\"areaCode\":\"0631\",\"type\":1},\"msg\":\"success\"}', '0', NULL, '2023-07-27 11:25:10', '2023-07-27 11:25:10.247', '2023-07-27 11:25:10.820', 573);
+INSERT INTO `t_job_log` VALUES (829, 6, '手机号归属地查询', 'COMMON', 'GET', '/api/common/teladress', '{\"mobile\":\"17862719592\"}', '', NULL, '1', 'java.net.UnknownHostException: api.oio333web.cn\r\n	at java.net.Inet6AddressImpl.lookupAllHostAddr(Native Method)\r\n	at java.net.InetAddress$2.lookupAllHostAddr(InetAddress.java:867)\r\n	at java.net.InetAddress.getAddressesFromNameService(InetAddress.java:1302)\r\n	at java.net.InetAddress$NameServiceAddresses.get(InetAddress.java:815)\r\n	at java.net.InetAddress.getAllByName0(InetAddress.java:1291)\r\n	at java.net.InetAddress.getAllByName(InetAddress.java:1144)\r\n	at java.net.InetAddress.getAllByName(InetAddress.java:1065)\r\n	at org.apache.http.impl.conn.SystemDefaultDnsResolver.resolve(SystemDefaultDnsResolver.java:45)\r\n	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:112)\r\n	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)\r\n	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)\r\n	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)\r\n	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)\r\n	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)\r\n	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)\r\n	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)\r\n	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)\r\n	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:108)\r\n	at org.tinycloud.tinyjob.utils.http.HttpClientUtils.get(HttpClientUtils.java:100)\r\n	at org.tinycloud.tinyjob.utils.http.HttpStrategy.lambda$static$0(HttpStrategy.java:27)\r\n	at org.tinycloud.tinyjob.utils.http.HttpStrategy.getResult(HttpStrategy.java:42)\r\n	at org.tinycloud.tinyjob.utils.quartz.JobInvokeUtil.invoke(JobInvokeUtil.java:70)\r\n	at org.tinycloud.tinyjob.utils.quartz.QuartzDisallowConcurrentExecution.doExecute(QuartzDisallowConcurrentExecution.java:22', '2023-07-27 11:32:15', '2023-07-27 11:32:15.722', '2023-07-27 11:32:15.791', 69);
+INSERT INTO `t_job_log` VALUES (830, 6, '手机号归属地查询', 'COMMON', 'GET', '/api/common/teladress', '{\"mobile\":\"17862719592\"}', '', NULL, '1', 'java.net.UnknownHostException: api.oio333web.cn\r\n	at java.net.Inet6AddressImpl.lookupAllHostAddr(Native Method)\r\n	at java.net.InetAddress$2.lookupAllHostAddr(InetAddress.java:867)\r\n	at java.net.InetAddress.getAddressesFromNameService(InetAddress.java:1302)\r\n	at java.net.InetAddress$NameServiceAddresses.get(InetAddress.java:815)\r\n	at java.net.InetAddress.getAllByName0(InetAddress.java:1291)\r\n	at java.net.InetAddress.getAllByName(InetAddress.java:1144)\r\n	at java.net.InetAddress.getAllByName(InetAddress.java:1065)\r\n	at org.apache.http.impl.conn.SystemDefaultDnsResolver.resolve(SystemDefaultDnsResolver.java:45)\r\n	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:112)\r\n	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)\r\n	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)\r\n	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)\r\n	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)\r\n	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)\r\n	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)\r\n	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)\r\n	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)\r\n	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:108)\r\n	at org.tinycloud.tinyjob.utils.http.HttpClientUtils.get(HttpClientUtils.java:100)\r\n	at org.tinycloud.tinyjob.utils.http.HttpStrategy.lambda$static$0(HttpStrategy.java:27)\r\n	at org.tinycloud.tinyjob.utils.http.HttpStrategy.getResult(HttpStrategy.java:42)\r\n	at org.tinycloud.tinyjob.utils.quartz.JobInvokeUtil.invoke(JobInvokeUtil.java:70)\r\n	at org.tinycloud.tinyjob.utils.quartz.QuartzDisallowConcurrentExecution.doExecute(QuartzDisallowConcurrentExecution.java:22', '2023-07-27 11:35:27', '2023-07-27 11:35:27.037', '2023-07-27 11:35:27.196', 159);
 
 -- ----------------------------
 -- Table structure for t_mail_config
@@ -418,7 +428,12 @@ CREATE TABLE `t_mail_config`  (
   `created_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人-对应t_user.id',
   `updated_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人-对应t_user.id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统备份配置表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统备份配置表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of t_mail_config
+-- ----------------------------
+INSERT INTO `t_mail_config` VALUES (2, 'smtp.111.com', '25', 'leisure@111.com', 'MuysavcjZwHXAShR', '184974699@qq.com', 0, NULL, '2023-07-27 17:10:24', '2023-07-27 17:10:24', 'admin', NULL);
 
 -- ----------------------------
 -- Table structure for t_project_info

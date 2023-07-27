@@ -106,11 +106,19 @@ public class AuthController {
         menuItem4.put("icon", "fa fa-navicon");
         menuItem4.put("target", "_self");
 
+        Map<String, String> menuItem5 = new HashMap<>();
+        menuItem5.put("title", "邮箱配置");
+        menuItem5.put("href", "page/mailconfig.html");
+        menuItem5.put("icon", "fa fa-navicon");
+        menuItem5.put("target", "_self");
+
         List<Map<String, String>> menuList = new ArrayList<>();
         menuList.add(menuItem1);
         menuList.add(menuItem2);
         menuList.add(menuItem3);
         menuList.add(menuItem4);
+        menuList.add(menuItem5);
+
 
         Map<String, String> homeInfo = new HashMap<>();
         homeInfo.put("title", "首页");

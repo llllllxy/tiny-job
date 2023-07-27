@@ -69,6 +69,8 @@ public class JobInvokeUtil {
         // 策略模式调用，更加高级
         String returnInfo = HttpStrategy.getResult(jobType, finalUrl, paramMap, headerMap);
 
+        // 这里可以根据returnInfo里包含的返回值来进行判断任务是否成功或者失败（抛出Exception异常即可），可以根据业务进行个性化定制
+
         // 第三步、组织接口信息，返回执行结果
         JobResult jobResult = new JobResult();
         jobResult.setReturnInfo(returnInfo);

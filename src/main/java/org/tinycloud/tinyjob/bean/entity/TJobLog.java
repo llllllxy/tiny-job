@@ -114,4 +114,10 @@ public class TJobLog implements Serializable {
      */
     @TableField("consuming")
     private Integer consuming;
+
+    /**
+     * 签名-完整性保护
+     */
+    @TableField("audit_sign")
+    private String auditSign;
 }

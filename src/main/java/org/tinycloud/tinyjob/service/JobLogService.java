@@ -9,12 +9,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.tinycloud.security.util.secure.SM3Hash;
 import org.tinycloud.tinyjob.bean.dto.JobLogQueryDto;
 import org.tinycloud.tinyjob.bean.entity.TJobLog;
 import org.tinycloud.tinyjob.bean.entity.TMailConfig;
 import org.tinycloud.tinyjob.bean.vo.JobLogQueryVo;
 import org.tinycloud.tinyjob.constant.GlobalConstant;
 import org.tinycloud.tinyjob.constant.JobLogStatusEnum;
+import org.tinycloud.tinyjob.constant.ScheduleConst;
 import org.tinycloud.tinyjob.mapper.JobLogMapper;
 import org.tinycloud.tinyjob.mapper.MailConfigMapper;
 import org.tinycloud.tinyjob.model.PageModel;
@@ -37,6 +39,10 @@ public class JobLogService {
             returnInfo = returnInfo.substring(0, 500);
             jobLog.setReturnInfo(returnInfo);
         }
+        // 计算唯一hash值
+        String auditSign = calculateAuditSign(jobLog);
+        jobLog.setAuditSign(auditSign);
+
         jobLogMapper.insert(jobLog);
 
         // 如果异常，则发送邮件预警
@@ -76,5 +82,25 @@ public class JobLogService {
             pageModel.setRecords(pages.getRecords());
         }
         return pageModel;
+    }
+
+    /**
+     * 计算日志的签名值
+     *
+     * @param jobLog 日志信息
+     * @return 签名值
+     */
+    public static String calculateAuditSign(TJobLog jobLog) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(jobLog.getId());
+        sb.append(jobLog.getJobId());
+        sb.append(jobLog.getJobUrl());
+        sb.append(jobLog.getReturnInfo());
+        sb.append(jobLog.getExceptionInfo());
+        sb.append(jobLog.getJobParam());
+        sb.append(DateFormatUtils.format(jobLog.getExecuteAt(), "yyyy-MM-dd HH:mm:ss:SSS"));
+        String content = sb.toString();
+        String sign = new SM3Hash(content, ScheduleConst.JOB_LOG_HASH_SALT).toHex();
+        return sign;
     }
 }

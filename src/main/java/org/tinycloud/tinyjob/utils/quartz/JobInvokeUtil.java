@@ -41,7 +41,7 @@ public class JobInvokeUtil {
     }
 
     public static JobResult invoke(TJobInfo jobInfo) throws Exception {
-        log.info("invoke jobInfo: {}", jobInfo);
+        // log.info("invoke jobInfo: {}", jobInfo);
 
         // 第一步，根据host_id 获取最终负载均衡的地址
         Long hostId = jobInfo.getHostId();

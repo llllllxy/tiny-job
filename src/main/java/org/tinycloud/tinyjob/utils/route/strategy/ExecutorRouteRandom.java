@@ -3,14 +3,12 @@ package org.tinycloud.tinyjob.utils.route.strategy;
 import org.tinycloud.tinyjob.utils.route.ExecutorRouter;
 
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ExecutorRouteRandom extends ExecutorRouter {
-    private static final Random localRandom = new Random();
 
     @Override
-    public String route(List<String> addressList) {
-        String address = addressList.get(localRandom.nextInt(addressList.size()));
-        return address;
+    public String route(List<String> addressList, long jobId) {
+        return addressList.get(ThreadLocalRandom.current().nextInt(addressList.size()));
     }
 }

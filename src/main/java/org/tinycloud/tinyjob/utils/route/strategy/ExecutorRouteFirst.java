@@ -7,8 +7,7 @@ import java.util.List;
 public class ExecutorRouteFirst extends ExecutorRouter {
 
     @Override
-    public String route(List<String> addressList) {
+    public String route(List<String> addressList, long jobId) {
         return addressList.get(0);
     }
-
 }

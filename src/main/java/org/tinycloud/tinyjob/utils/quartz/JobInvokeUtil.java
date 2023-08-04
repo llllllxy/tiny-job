@@ -50,7 +50,7 @@ public class JobInvokeUtil {
             throw new Exception("主机地址未配置，无法执行任务！");
         }
         ExecutorRouteStrategyEnum strategyEnum = ExecutorRouteStrategyEnum.match(jobInfo.getStrategy(), ExecutorRouteStrategyEnum.ROUND);
-        String finalHost = strategyEnum.getRouter().route(hosts);
+        String finalHost = strategyEnum.getRouter().route(hosts, jobInfo.getId());
         String finalUrl = finalHost + jobInfo.getJobUrl();
 
         // 第二步、根据job_type确定发起请求

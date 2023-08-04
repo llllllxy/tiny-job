@@ -1,9 +1,6 @@
 package org.tinycloud.tinyjob.utils.route;
 
-import org.tinycloud.tinyjob.utils.route.strategy.ExecutorRouteFirst;
-import org.tinycloud.tinyjob.utils.route.strategy.ExecutorRouteLast;
-import org.tinycloud.tinyjob.utils.route.strategy.ExecutorRouteRandom;
-import org.tinycloud.tinyjob.utils.route.strategy.ExecutorRouteRound;
+import org.tinycloud.tinyjob.utils.route.strategy.*;
 
 
 /**
@@ -13,7 +10,11 @@ public enum ExecutorRouteStrategyEnum {
     FIRST("route_first", new ExecutorRouteFirst()),
     LAST("route_last", new ExecutorRouteLast()),
     ROUND("route_round", new ExecutorRouteRound()),
-    RANDOM("route_random", new ExecutorRouteRandom()),;
+    RANDOM("route_random", new ExecutorRouteRandom()),
+    LFU("route_lfu", new ExecutorRouteLFU()),
+    LRU("route_lru", new ExecutorRouteLRU()),
+
+    ;
 
     ExecutorRouteStrategyEnum(String title, ExecutorRouter router) {
         this.title = title;

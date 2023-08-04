@@ -11,10 +11,9 @@ public abstract class ExecutorRouter {
     /**
      * route address
      *
-     * @param addressList
-     * @return ReturnT.content=address
+     * @param addressList 主机地址列表
+     * @param jobId 任务ID
+     * @return String 选举出来的最终地址
      */
-    public abstract String route(List<String> addressList);
-
-
+    public abstract String route(List<String> addressList, long jobId);
 }

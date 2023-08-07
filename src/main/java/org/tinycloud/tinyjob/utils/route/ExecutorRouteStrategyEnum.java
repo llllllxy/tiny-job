@@ -41,7 +41,7 @@ public enum ExecutorRouteStrategyEnum {
      * String address = executorRouteStrategyEnum.getRouter().route(addressList);
      * @param name 名字，即为FIRST、LAST、ROUND、RANDOM
      * @param defaultItem 默认的
-     * @return
+     * @return 匹配到的枚举值
      */
     public static ExecutorRouteStrategyEnum match(String name, ExecutorRouteStrategyEnum defaultItem){
         if (name != null) {

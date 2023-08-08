@@ -54,8 +54,7 @@ public class JobLogService {
                     return;
                 }
                 String emailTitle = "TinyJob任务调度中心预-任务预警";
-                String emailMsg = "<h2>您好，感谢您在蓝风短链注册账户！</h2>"
-                        + "任务-" + jobLog.getJobName() + "-执行失败！" + "<br/>"
+                String emailMsg = "<h2>任务-" + jobLog.getJobName() + "-执行失败！" + "</h2>"
                         + "任务实例ID：" + jobLog.getId() + "<br/>"
                         + "任务实例执行时间：" + DateFormatUtils.format(jobLog.getExecuteAt(), "yyyy-MM-dd HH:mm:ss:SSS") + "<br/>"
                         + "任务ID：" + jobLog.getJobId() + "<br/>"

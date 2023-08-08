@@ -1,10 +1,10 @@
 # Tiny Job
-# 轻量级定时任务调度系统
+# 轻量级分布式定时任务调度系统
 ![SpringBoot](https://img.shields.io/badge/springboot-2.6.11-green.svg?style=flat-square)
 <a href='https://gitee.com/leisureLXY/tiny-job/stargazers'><img src='https://gitee.com/leisureLXY/tiny-job/badge/star.svg?theme=dark' alt='star'></img></a>
 <a href='https://gitee.com/leisureLXY/tiny-job/members'><img src='https://gitee.com/leisureLXY/tiny-job/badge/fork.svg?theme=dark' alt='fork'></img></a>
 
-> 一个基于SpringBoot+Quartz的的轻量级定时任务调度系统
+> 一个基于SpringBoot+Quartz的的轻量级分布式定时任务调度系统
 
 ## 主要技术选型
 
@@ -23,10 +23,10 @@
 - MySQL5.6+
 
 ## 运行启动教程
-1. 新建MySQL数据库并导入sql文件夹下的数据库脚本
-2. 修改配置文件中application.yml中数据库连接信息
-3. 运行启动类TinyJobApplication，即可正常启动项目
-4. 管理后台登录地址：http://localhost:9009  账户密码 admin / 123456a?
+1. 新建`MySQL`数据库并导入`sql`文件夹下的数据库脚本
+2. 修改配置文件中`application.yml`中数据库连接信息
+3. 运行启动类`TinyJobApplication`，即可正常启动项目
+4. 管理后台登录地址：`http://localhost:9009`  账户密码 `admin / 123456a?`
 
 ## 平台功能
 1、项目管理
@@ -34,11 +34,13 @@
 
 2、主机管理
 - 维护主机地址，一个主机信息可维护多个主机地址用于负载均衡，如 `http://172.89.56.117:8899`, `http://172.89.56.118:8899`
-- 支持多种负载均衡策略（`FIRST`，`LAST`，`ROUND`，`RANDOM`），并提供标准化接口，可根据需要自行扩展
+- 支持多种负载均衡策略（`FIRST`，`LAST`，`ROUND`，`RANDOM`，`LFU`，`LRU`），并提供标准化接口，可根据需要自行扩展
   - FIRST：第一个
   - LAST：最后一个
   - ROUND：轮询
   - RANDOM：随机
+  - LFU：最不经常使用
+  - LRU：最近最久未使用
 
 3、任务管理
 - 在线配置定时任务，包括新增任务、修改任务、删除任务、手动执行一次，以及实时启动/停止任务等功能，定时任务包括以下属性：

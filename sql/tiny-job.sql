@@ -445,10 +445,6 @@ CREATE TABLE `t_mail_config`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统备份配置表' ROW_FORMAT = Dynamic;
 
--- ----------------------------
--- Records of t_mail_config
--- ----------------------------
-INSERT INTO `t_mail_config` VALUES (2, 'smtp.111.com', '25', 'leisure@111.com', 'MuysavcjZwHXAShR', '184974699@qq.com', 0, NULL, '2023-07-27 17:10:24', '2023-07-27 17:10:24', 'admin', NULL);
 
 -- ----------------------------
 -- Table structure for t_project_info

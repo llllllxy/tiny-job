@@ -128,7 +128,7 @@ layui.define(["jquery", "nprogress"], function (exports) {
             options.cache = options.cache || false;
             options.dataType = options.dataType || 'json';
             options.contentType = options.contentType || 'application/x-www-form-urlencoded';
-            options.data = options.data || '';
+            options.data = options.data || {};
             $.ajax({
                 url: options.url,
                 type: options.type,

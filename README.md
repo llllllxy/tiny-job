@@ -26,7 +26,7 @@
 1. 新建`MySQL`数据库并导入`sql`文件夹下的数据库脚本
 2. 修改配置文件中`application.yml`中数据库连接信息
 3. 运行启动类`TinyJobApplication`，即可正常启动项目
-4. 管理后台登录地址：`http://localhost:9009`  账户密码 `admin / 123456a?`
+4. 管理后台登录地址：`http://localhost:9009`  账户密码 `admin / 123456`
 
 ## 平台功能
 1、项目管理

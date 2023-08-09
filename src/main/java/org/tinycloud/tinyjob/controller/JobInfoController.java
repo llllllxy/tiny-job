@@ -16,6 +16,7 @@ import org.tinycloud.tinyjob.exception.TaskException;
 import org.tinycloud.tinyjob.model.ApiResult;
 import org.tinycloud.tinyjob.model.PageModel;
 import org.tinycloud.tinyjob.service.JobInfoService;
+import org.tinycloud.tinyjob.utils.quartz.CronUtils;
 
 import java.util.List;
 
@@ -140,5 +141,17 @@ public class JobInfoController {
     @GetMapping("/select")
     public ApiResult<List<JobInfoSelectVo>> select(@RequestParam("hostId") Long hostId) {
         return ApiResult.success(jobInfoService.select(hostId), "获取成功!");
+    }
+
+
+    /**
+     * 根据cron表达式来获取未来五次的执行时间
+     *
+     * @return
+     */
+    @GetMapping("/getNextExecTime")
+    public ApiResult<List<String>> getNextExecTime(@RequestParam("cron") String cron) {
+        List<String> list = CronUtils.getNextExecTime(cron, 5);
+        return ApiResult.success(list, "获取成功!");
     }
 }

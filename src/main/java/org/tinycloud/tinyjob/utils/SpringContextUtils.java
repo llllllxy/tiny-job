@@ -6,6 +6,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Spring上下文获取工具类
  *
@@ -36,8 +40,6 @@ public class SpringContextUtils implements ApplicationContextAware, DisposableBe
         return applicationContext;
     }
 
-
-
     /**
      * 从静态变量ApplicationContext中取得Bean, 自动转型为所赋值对象的类型.
      */
@@ -66,6 +68,32 @@ public class SpringContextUtils implements ApplicationContextAware, DisposableBe
 
     public static Class<? extends Object> getType(String name) {
         return getApplicationContext().getType(name);
+    }
+
+    /**
+     * 获取指定类型对应的所有Bean的列表
+     * @param clazz 类、接口
+     * @param <T> Bean类型
+     * @return List<Bean>
+     */
+    public static <T> List<T> getBeanList(Class<T> clazz) {
+        String[] beanNames = getApplicationContext().getBeanNamesForType(clazz);
+        List<T> beanList = new ArrayList<>();
+        for (String beanName : beanNames) {
+            beanList.add(getApplicationContext().getBean(beanName, clazz));
+        }
+        return beanList;
+    }
+
+    /**
+     * 获取指定类型对应的所有Bean，包括子类
+     *
+     * @param <T>  Bean类型
+     * @param clazz 类、接口，null表示获取所有bean
+     * @return 类型对应的bean，key是bean注册的name，value是Bean
+     */
+    public static <T> Map<String, T> getBeanMap(Class<T> clazz) {
+        return getApplicationContext().getBeansOfType(clazz);
     }
 
 

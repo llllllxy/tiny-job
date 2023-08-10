@@ -468,6 +468,132 @@
             </fieldset>
         </div>
     </div>
+
+    <div class="easyui-layout"
+         style="width: 830px; height: 695px; border: 1px rgb(202, 196, 196) solid; border-radius: 5px; margin-top: 5px;">
+
+        <div data-options="region:'south',border:false" style="height: 695px">
+            <fieldset style="border-radius: 3px; height: 675px;">
+                <legend>常用Cron表达式</legend>
+                <p>
+                    <span>（1）</span>
+                    <span style="color:#0000FF">0/2 * * * * ?</span>
+                    <span>&nbsp;&nbsp;&nbsp;表示每2秒执行任务</span>
+                </p>
+                <p>
+                    <span>（2）</span>
+                    <span style="color:#0000FF">0 0/2 * * * ?</span>
+                    <span>&nbsp;&nbsp;&nbsp;表示每2分钟执行任务</span>
+                </p>
+                <p>
+                    <span>（3）</span>
+                    <span style="color:#0000FF">0 0 2 1 * ?</span>
+                    <span>&nbsp;&nbsp;&nbsp;表示在每月的1日的凌晨2点调整任务</span>
+                </p>
+                <p>
+                    <span>（4）</span>
+                    <span style="color:#0000FF">0 15 10 ? * MON-FRI</span>
+                    <span>&nbsp;&nbsp;&nbsp;表示周一到周五每天上午10:15执行作业</span>
+                </p>
+                <p>
+                    <span>（5）</span>
+                    <span style="color:#0000FF">0 15 10 ? 6L 2002-2006</span>
+                    <span>&nbsp;&nbsp;&nbsp;表示2002-2006年的每个月的最后一个星期五上午10:15执行作</span>
+                </p>
+                <p>
+                    <span>（6）</span>
+                    <span style="color:#0000FF">0 0 10,14,16 * * ?</span>
+                    <span>&nbsp;&nbsp;&nbsp;每天上午10点，下午2点，4点</span>
+                </p>
+                <p>
+                    <span>（7）</span>
+                    <span style="color:#0000FF">0 0/30 9-17 * * ?</span>
+                    <span>&nbsp;&nbsp;&nbsp;朝九晚五工作时间内每半小时</span>
+                </p>
+                <p>
+                    <span>（8）</span>
+                    <span style="color:#0000FF">0 0 12 ? * WED</span>
+                    <span>&nbsp;&nbsp;&nbsp;表示每个星期三中午12点 </span>
+                </p>
+                <p>
+                    <span>（9）</span>
+                    <span style="color:#0000FF">0 0 12 * * ?</span>
+                    <span>&nbsp;&nbsp;&nbsp;每天中午12点触发</span>
+                </p>
+                <p>
+                    <span>（10）</span>
+                    <span style="color:#0000FF">0 15 10 ? * *</span>
+                    <span>&nbsp;&nbsp;&nbsp;每天上午10:15触发 </span>
+                </p>
+                <p>
+                    <span>（11）</span>
+                    <span style="color:#0000FF">0 15 10 * * ?</span>
+                    <span>&nbsp;&nbsp;&nbsp;每天上午10:15触发</span>
+                </p>
+                <p>
+                    <span>（12）</span>
+                    <span style="color:#0000FF">0 15 10 * * ? 2005</span>
+                    <span>&nbsp;&nbsp;&nbsp;2005年的每天上午10:15触发</span>
+                </p>
+                <p>
+                    <span>（13）</span>
+                    <span style="color:#0000FF">0 * 14 * * ?</span>
+                    <span>&nbsp;&nbsp;&nbsp;在每天下午2点到下午2:59期间的每1分钟触发</span>
+                </p>
+                <p>
+                    <span>（14）</span>
+                    <span style="color:#0000FF">0 0/5 14 * * ?</span>
+                    <span>&nbsp;&nbsp;&nbsp;在每天下午2点到下午2:55期间的每5分钟触发</span>
+                </p>
+                <p>
+                    <span>（15）</span>
+                    <span style="color:#0000FF">0 0/5 14,18 * * ?</span>
+                    <span>&nbsp;&nbsp;&nbsp;在每天下午2点到2:55期间和下午6点到6:55期间的每5分钟触发</span>
+                </p>
+                <p>
+                    <span>（16）</span>
+                    <span style="color:#0000FF">0 0-5 14 * * ?</span>
+                    <span>&nbsp;&nbsp;&nbsp;在每天下午2点到下午2:05期间的每1分钟触发</span>
+                </p>
+                <p>
+                    <span>（17）</span>
+                    <span style="color:#0000FF">0 10,44 14 ? 3 WED</span>
+                    <span>&nbsp;&nbsp;&nbsp;每年三月的星期三的下午2:10和2:44触发</span>
+                </p>
+                <p>
+                    <span>（18）</span>
+                    <span style="color:#0000FF">0 15 10 ? * MON-FRI</span>
+                    <span>&nbsp;&nbsp;&nbsp;周一至周五的上午10:15触发</span>
+                </p>
+                <p>
+                    <span>（19）</span>
+                    <span style="color:#0000FF">0 15 10 15 * ?</span>
+                    <span>&nbsp;&nbsp;&nbsp;每月15日上午10:15触发</span>
+                </p>
+                <p>
+                    <span>（20）</span>
+                    <span style="color:#0000FF">0 15 10 L * ?</span>
+                    <span>&nbsp;&nbsp;&nbsp;每月最后一日的上午10:15触发</span>
+                </p>
+                <p>
+                    <span>（21）</span>
+                    <span style="color:#0000FF">0 15 10 ? * 6L</span>
+                    <span>&nbsp;&nbsp;&nbsp;每月的最后一个星期五上午10:15触发</span>
+                </p>
+                <p>
+                    <span>（22）</span>
+                    <span style="color:#0000FF">0 15 10 ? * 6L 2002-2005</span>
+                    <span>&nbsp;&nbsp;&nbsp;2002年至2005年的每月的最后一个星期五上午10:15触发</span>
+                </p>
+                <p>
+                    <span>（23）</span>
+                    <span style="color:#0000FF">0 15 10 ? * 6#3</span>
+                    <span>&nbsp;&nbsp;&nbsp;每月的第三个星期五上午10:15触发</span>
+                </p>
+
+            </fieldset>
+        </div>
+    </div>
 </center>
 <script type="text/javascript" src="/lib/jquery/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="/lib/cron/jquery.easyui.min.js"></script>

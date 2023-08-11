@@ -157,19 +157,12 @@
             });
         });
 
-        miniAjax.get({
-            url: '/auth/getUsername',
-            success: function (res) {
-                console.log(JSON.stringify(res));
-                var username = res.data;
-                if (username) {
-                    $('#username').text(username);
-                    sessionStorage.setItem('username', username);
-                } else {
-                    $('#username').text('admin');
-                }
-            }
-        });
+        var username = sessionStorage.getItem('username');
+        if (username) {
+            $('#username').text(username);
+        } else {
+            $('#username').text('null');
+        }
     });
 </script>
 </body>

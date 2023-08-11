@@ -4,13 +4,14 @@
  * version:2.0
  * description:layuimini 主体框架扩展
  */
-layui.define(["jquery", "miniMenu", "element","miniPage", "miniTheme"], function (exports) {
+layui.define(["jquery", "miniMenu", "element", "miniPage", "miniTheme", "miniAjax"], function (exports) {
     var $ = layui.$,
         element = layui.element,
         layer = layui.layer,
         miniMenu = layui.miniMenu,
         miniTheme = layui.miniTheme,
-        miniPage = layui.miniPage;
+        miniPage = layui.miniPage,
+        miniAjax = layui.miniAjax;
 
     if (!/http(s*):\/\//.test(location.href)) {
         var tips = "请先将项目部署至web容器（Apache/Tomcat/Nginx/IIS/等），否则部分数据将无法显示";
@@ -18,7 +19,6 @@ layui.define(["jquery", "miniMenu", "element","miniPage", "miniTheme"], function
     }
 
     var miniAdmin = {
-
         /**
          * 后台框架初始化
          * @param options.initUrl   后台初始化接口地址
@@ -39,41 +39,50 @@ layui.define(["jquery", "miniMenu", "element","miniPage", "miniTheme"], function
             options.menuChildOpen = options.menuChildOpen || false;
             options.loadingTime = options.loadingTime || 0;
             options.pageAnim = options.pageAnim || false;
-            $.getJSON(options.initUrl, function (res) {
-                var data = res.data;
-                if (data == null) {
-                    miniAdmin.error('暂无菜单信息')
-                } else {
-                    miniAdmin.renderLogo(data.logoInfo);
-                    miniAdmin.renderClear(options.clearUrl);
-                    miniAdmin.renderAnim(options.pageAnim);
-                    miniAdmin.listen({
-                        homeInfo: data.homeInfo,
-                        multiModule: options.multiModule,
-                    });
-                    miniMenu.render({
-                        menuList: data.menuInfo,
-                        multiModule: options.multiModule,
-                        menuChildOpen: options.menuChildOpen
-                    });
-                    miniPage.render({
-                        homeInfo:data.homeInfo,
-                        menuList: data.menuInfo,
-                        multiModule: options.multiModule,
-                        renderPageVersion: options.renderPageVersion,
-                        menuChildOpen: options.menuChildOpen,
-                        listenSwichCallback: function () {
-                            miniAdmin.renderDevice();
+
+            miniAjax.get({
+                url: options.initUrl,
+                success: function (res) {
+                    if (res.code == '0') {
+                        var data = res.data;
+                        if (data == null) {
+                            miniAdmin.error('暂无菜单信息')
+                        } else {
+                            miniAdmin.renderLogo(data.logoInfo);
+                            miniAdmin.renderClear(options.clearUrl);
+                            miniAdmin.renderAnim(options.pageAnim);
+                            miniAdmin.listen({
+                                homeInfo: data.homeInfo,
+                                multiModule: options.multiModule,
+                            });
+                            miniMenu.render({
+                                menuList: data.menuInfo,
+                                multiModule: options.multiModule,
+                                menuChildOpen: options.menuChildOpen
+                            });
+                            miniPage.render({
+                                homeInfo: data.homeInfo,
+                                menuList: data.menuInfo,
+                                multiModule: options.multiModule,
+                                renderPageVersion: options.renderPageVersion,
+                                menuChildOpen: options.menuChildOpen,
+                                listenSwichCallback: function () {
+                                    miniAdmin.renderDevice();
+                                }
+                            });
+                            miniTheme.render({
+                                bgColorDefault: options.bgColorDefault,
+                                listen: true,
+                            });
+                            miniAdmin.deleteLoader(options.loadingTime);
                         }
-                    });
-                    miniTheme.render({
-                        bgColorDefault: options.bgColorDefault,
-                        listen: true,
-                    });
-                    miniAdmin.deleteLoader(options.loadingTime);
+                    } else {
+                        miniAdmin.error('获取菜单信息出错: ' + res.msg)
+                    }
+                },
+                error: function (errorText) {
+                    miniAdmin.error('菜单接口有误: ' + errorText);
                 }
-            }).fail(function () {
-                miniAdmin.error('菜单接口有误');
             });
         },
 
@@ -91,7 +100,7 @@ layui.define(["jquery", "miniMenu", "element","miniPage", "miniTheme"], function
          * @param clearUrl
          */
         renderClear: function (clearUrl) {
-            $('.layuimini-clear').attr('data-href',clearUrl);
+            $('.layuimini-clear').attr('data-href', clearUrl);
         },
 
         /**
@@ -152,7 +161,7 @@ layui.define(["jquery", "miniMenu", "element","miniPage", "miniTheme"], function
                 el.msExitFullscreen();
             } else if (el.oRequestFullscreen) {
                 el.oCancelFullScreen();
-            }else if (el.mozCancelFullScreen) {
+            } else if (el.mozCancelFullScreen) {
                 el.mozCancelFullScreen();
             } else if (el.webkitCancelFullScreen) {
                 el.webkitCancelFullScreen();
@@ -237,21 +246,24 @@ layui.define(["jquery", "miniMenu", "element","miniPage", "miniTheme"], function
              */
             $('body').on('click', '[data-clear]', function () {
                 var loading = layer.load(0, {shade: false, time: 2 * 1000});
-                sessionStorage.clear();
-
+                // sessionStorage.clear();
                 // 判断是否清理服务端
                 var clearUrl = $(this).attr('data-href');
                 if (clearUrl != undefined && clearUrl != '' && clearUrl != null) {
-                    $.getJSON(clearUrl, function (data, status) {
-                        layer.close(loading);
-                        if (data.code != 0) {
-                            return miniAdmin.error(data.msg);
-                        } else {
-                            return miniAdmin.success(data.msg);
+                    miniAjax.get({
+                        url: clearUrl,
+                        success: function (res) {
+                            layer.close(loading);
+                            if (res.code != '0') {
+                                return miniAdmin.error(res.msg);
+                            } else {
+                                return miniAdmin.success(res.msg);
+                            }
+                        },
+                        error: function (errorText) {
+                            layer.close(loading);
+                            return miniAdmin.error('清理缓存接口有误!');
                         }
-                    }).fail(function () {
-                        layer.close(loading);
-                        return miniAdmin.error('清理缓存接口有误');
                     });
                 } else {
                     layer.close(loading);
@@ -278,14 +290,14 @@ layui.define(["jquery", "miniMenu", "element","miniPage", "miniTheme"], function
                     tips = $(this).prop("innerHTML"),
                     isShow = $('.layuimini-tool i').attr('data-side-fold');
                 if (isShow == 0 && tips) {
-                    tips = "<ul class='layuimini-menu-left-zoom layui-nav layui-nav-tree layui-this'><li class='layui-nav-item layui-nav-itemed'>"+tips+"</li></ul>" ;
+                    tips = "<ul class='layuimini-menu-left-zoom layui-nav layui-nav-tree layui-this'><li class='layui-nav-item layui-nav-itemed'>" + tips + "</li></ul>";
                     window.openTips = layer.tips(tips, $(this), {
                         tips: [2, '#2f4056'],
                         time: 300000,
-                        skin:"popup-tips",
-                        success:function (el) {
-                            var left = $(el).position().left - 10 ;
-                            $(el).css({ left:left });
+                        skin: "popup-tips",
+                        success: function (el) {
+                            var left = $(el).position().left - 10;
+                            $(el).css({left: left});
                             element.render();
                         }
                     });
@@ -331,7 +343,6 @@ layui.define(["jquery", "miniMenu", "element","miniPage", "miniTheme"], function
 
         }
     };
-
 
     exports("miniAdmin", miniAdmin);
 });

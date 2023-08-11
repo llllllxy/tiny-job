@@ -104,6 +104,7 @@
 
                     if (res.code == 0) {
                         sessionStorage.setItem('token', res.data);
+                        sessionStorage.setItem('username', data.username);
                         layer.msg('登录成功，欢迎回来!', {
                             time: 1000
                         }, function () {

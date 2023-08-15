@@ -179,6 +179,10 @@
     background-color: transparent !important;
 }
 
+/**修复左侧菜单字体不对齐的问题*/
+.layuimini-menu-left .layui-nav-item a .fa,.layuimini-menu-left .layui-nav-item a .layui-icon{
+  width: 20px;
+}
 
 /**左侧菜单栏 (正常) */
 .layui-layout-body .layui-nav-itemed .layui-nav-child a, .layui-layout-body .layuimini-menu-left .layui-nav .layui-nav-child a {

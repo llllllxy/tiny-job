@@ -64,8 +64,8 @@
 </script>
 
 <script type="text/html" id="switchTpl">
-    <input type="checkbox" name="quartzStatus" value="{{d.id}}" lay-skin="switch" lay-text="启动|停止"
-           lay-filter="jobStatusDemo" {{ d.status== 0 ? "checked" : "" }}>
+    <input type="checkbox" name="quartzStatus" value="{{= d.id }}" lay-skin="switch" lay-text="启动|停止"
+           lay-filter="jobStatusDemo" {{= d.status== 0 ? "checked" : "" }}>
 </script>
 
 <script type="text/html" id="jobTriggerTpl">

@@ -96,6 +96,15 @@ public class SpringContextUtils implements ApplicationContextAware, DisposableBe
         return getApplicationContext().getBeansOfType(clazz);
     }
 
+    /**
+     * 获取配置文件配置项的值
+     *
+     * @param key 配置项key
+     * @return 属性值
+     */
+    public static String getProperty(String key) {
+        return getApplicationContext().getEnvironment().getProperty(key);
+    }
 
     /**
      * 清除applicationContext静态变量

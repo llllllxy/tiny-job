@@ -1,6 +1,5 @@
 package org.tinycloud.tinyjob.config;
 
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.tinycloud.security.exception.NoPermissionException;
 import org.tinycloud.security.exception.UnAuthorizedException;
 import org.tinycloud.tinyjob.constant.CommonCode;
@@ -12,7 +11,6 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;

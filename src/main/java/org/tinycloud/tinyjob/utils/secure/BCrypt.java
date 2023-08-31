@@ -1,51 +1,34 @@
 package org.tinycloud.tinyjob.utils.secure;
 
-
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 
 /**
- * BCrypt implements OpenBSD-style Blowfish password hashing using
- * the scheme described in "A Future-Adaptable Password Scheme" by
- * Niels Provos and David Mazieres.
+ * BCrypt加密算法实现。由它加密的文件可在所有支持的操作系统和处理器上进行转移。它的口令必须是8至56个字符，并将在内部被转化为448位的密钥。
  * <p>
- * This password hashing system tries to thwart off-line password
- * cracking using a computationally-intensive hashing algorithm,
- * based on Bruce Schneier's Blowfish cipher. The work factor of
- * the algorithm is parameterised, so it can be increased as
- * computers get faster.
+ * 此类来自于 (https://github.com/jeremyh/jBCrypt)
  * <p>
- * Usage is really simple. To hash a password for the first time,
- * call the hashpw method with a random salt, like this:
+ * 使用方法如下：
  * <p>
- * <code>
- * String pw_hash = BCrypt.hashpw(plain_password, BCrypt.gensalt()); <br />
- * </code>
+ * {@code
+ * String pw_hash = BCrypt.hashpw(plain_password, BCrypt.gensalt());
+ * }
  * <p>
- * To check whether a plaintext password matches one that has been
- * hashed previously, use the checkpw method:
+ * 使用checkpw方法检查被加密的字符串是否与原始字符串匹配：
  * <p>
- * <code>
- * if (BCrypt.checkpw(candidate_password, stored_hash))<br />
- * &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("It matches");<br />
- * else<br />
- * &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("It does not match");<br />
- * </code>
+ * {@code
+ * BCrypt.checkpw(candidate_password, stored_hash);
+ * }
  * <p>
- * The gensalt() method takes an optional parameter (log_rounds)
- * that determines the computational complexity of the hashing:
+ * gensalt方法提供了可选参数 (log_rounds) 来定义加盐多少，也决定了加密的复杂度:
  * <p>
- * <code>
- * String strong_salt = BCrypt.gensalt(10)<br />
- * String stronger_salt = BCrypt.gensalt(12)<br />
- * </code>
- * <p>
- * The amount of work increases exponentially (2**log_rounds), so
- * each increment is twice as much work. The default log_rounds is
- * 10, and the valid range is 4 to 30.
+ * {@code
+ * String strong_salt = BCrypt.gensalt(10);
+ * String stronger_salt = BCrypt.gensalt(12);
+ * }
  *
  * @author Damien Miller
- * @version 0.2
+ * @version  0.4
  */
 public class BCrypt {
     // BCrypt parameters
@@ -666,12 +649,7 @@ public class BCrypt {
         rounds = Integer.parseInt(salt.substring(off, off + 2));
 
         real_salt = salt.substring(off + 3, off + 25);
-        try {
-            passwordb = (password + (minor >= 'a' ? "\000" : "")).getBytes("UTF-8");
-        } catch (UnsupportedEncodingException uee) {
-            throw new AssertionError("UTF-8 is not supported");
-        }
-
+        passwordb = (password + (minor >= 'a' ? "\000" : "")).getBytes(StandardCharsets.UTF_8);
         saltb = decode_base64(real_salt, BCRYPT_SALT_LEN);
 
         B = new BCrypt();
@@ -758,13 +736,9 @@ public class BCrypt {
     public static boolean checkpw(String plaintext, String hashed) {
         byte[] hashed_bytes;
         byte[] try_bytes;
-        try {
-            String try_pw = hashpw(plaintext, hashed);
-            hashed_bytes = hashed.getBytes("UTF-8");
-            try_bytes = try_pw.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException uee) {
-            return false;
-        }
+        String try_pw = hashpw(plaintext, hashed);
+        hashed_bytes = hashed.getBytes(StandardCharsets.UTF_8);
+        try_bytes = try_pw.getBytes(StandardCharsets.UTF_8);
         if (hashed_bytes.length != try_bytes.length)
             return false;
         byte ret = 0;

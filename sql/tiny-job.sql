@@ -265,10 +265,6 @@ CREATE TABLE `t_auth_token`  (
 -- Records of t_auth_token
 -- ----------------------------
 INSERT INTO `t_auth_token` VALUES (34, '2023-07-27 11:24:37', '2023-07-27 11:36:41', 'rKTN2qCorha_l2qGvdzH3baPoxTdaUNi1JQ20QvXDG0a7GGnbea4XE13UmzzpQUwS4458G0__wsrpW5JviisHZJ6EVTZEHJkaEfJORWamkgJFdHToRvhPrldhr0i7Fd6', 'admin', '20230727120641');
-INSERT INTO `t_auth_token` VALUES (35, '2023-07-27 16:07:34', '2023-07-27 16:19:48', 'eBVi5CVPa8cHvK3e743qLnvNvYIAwhYjfsxJ9Qj7h6ujFHPaVrfcrFtFYgtLRqHmRwWNXUK1p26JTxPaRHtYYzu8KuMEmPkNyTBTtzWNS13chOnl2hqwXGFN01y3yx8u', 'admin', '20230727164948');
-INSERT INTO `t_auth_token` VALUES (36, '2023-07-27 17:08:14', '2023-07-27 17:10:24', 'lPCJgHmVo_EruCg9rgPh_ng5hjt5wmmys6YpwvHXG_9HXpM1__mg6z8Y4NhYFmnUKGBgNSQ90P3fHZfl99bcab7h4JszM1KhaPFHhkQJXVOcrt5Eg2pTNWHpxKuym3y5', 'admin', '20230727174024');
-INSERT INTO `t_auth_token` VALUES (37, '2023-07-28 10:18:35', '2023-07-28 10:26:30', 'N3xEZLSjCCVhWltX2HR90rRCUDyGyxeUUSgx0AehRgP5Iz7qPXYq6KtIVqc_Q7_d4orgXLE5Ihrs_L_n2hLAtw8ZUUNHUvyB4Ds1ZKQR5pbP6USdf2wjYGpg3FKTTTDC', 'admin', '20230728105630');
-
 -- ----------------------------
 -- Table structure for t_hosts_info
 -- ----------------------------
@@ -490,6 +486,6 @@ CREATE TABLE `t_user`  (
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES (1, 'admin', '$2a$10$HGAry2cQdwZ9ABl1xJznket.mhcAQTzvkgEWajHdYYHhrKf1zbLBS', '系统管理员', NULL, NULL, '0', NULL, '0', '2023-06-13 11:21:11', '2023-06-13 11:24:14');
+INSERT INTO `t_user` VALUES (1, 'admin', '$2a$10$3g9ZFiwG.bM2XhQ1eDcqH.k0p0R10t9MU7HTQpJcT0.KoEIsb0z5G', '系统管理员', NULL, NULL, '0', NULL, '0', '2023-06-13 11:21:11', '2023-06-13 11:24:14');
 
 SET FOREIGN_KEY_CHECKS = 1;

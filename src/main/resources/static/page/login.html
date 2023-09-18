@@ -57,11 +57,13 @@
 </div>
 <script src="/lib/jquery/jquery-2.1.4.min.js" charset="utf-8"></script>
 <script src="/lib/jq-module/jquery.particleground.min.js" charset="utf-8"></script>
-<script src="/lib/crypto/md5.js?v=2.0.0" charset="utf-8"></script>
+<script src="/lib/crypto/sha256.js?v=2.0.0" charset="utf-8"></script>
 <script src="/lib/layui/layui.js?v=2.8.11" charset="utf-8"></script>
 <script src="/js/lay-config.js?v=2.0.0" charset="utf-8"></script>
 <script src="/js/common.js?v=2.0.0" charset="utf-8"></script>
 <script>
+    var salt = "W%o$gxG6Nbbg+S4@W5&9VQeud&2O1^V8&We^YwhX-1N+_m7&KQ#JJ@a+UX9Rr5Bk";
+
     layui.use(['form', 'miniAjax', 'layer'], function () {
         var $ = layui.jquery,
             form = layui.form,
@@ -93,7 +95,7 @@
                 return false;
             }
             // 加密
-            data.password = md5.MD5(data.password);
+            data.password = hex_sha256(data.password + salt);
 
             startLoading();
             miniAjax.postJSON({
@@ -101,7 +103,6 @@
                 data: JSON.stringify(data),
                 success: function (res) {
                     stopLoading();
-
                     if (res.code == 0) {
                         sessionStorage.setItem('token', res.data);
                         sessionStorage.setItem('username', data.username);

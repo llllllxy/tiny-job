@@ -113,12 +113,12 @@ public class MonitorUtils {
             }
             connected = true;
         } catch (Exception e) {
-            logger.error("执行命令出现错误：testNTP ：", e);
+            logger.error("testNTP: 执行命令出现错误 = ", e);
         } finally {
             timeClient.close();
         }
         if (logger.isInfoEnabled()) {
-            logger.info("执行命令结果: testNTP = {}", connected);
+            logger.info("testNTP: 执行命令结果 = {}", connected);
         }
         return connected;
     }

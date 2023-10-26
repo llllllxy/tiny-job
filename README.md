@@ -1,6 +1,11 @@
 # Tiny Job
 # 轻量级分布式定时任务调度系统
 ![SpringBoot](https://img.shields.io/badge/springboot-2.6.11-green.svg?style=flat-square)
+<a href="https://github.com/llllllxy/tiny-job/stargazers"><img src="https://img.shields.io/github/stars/llllllxy/tiny-job?style=flat-square&logo=GitHub"></a>
+<a href="https://github.com/llllllxy/tiny-job/network/members"><img src="https://img.shields.io/github/forks/llllllxy/tiny-job?style=flat-square&logo=GitHub"></a>
+<a href="https://github.com/llllllxy/tiny-job/watchers"><img src="https://img.shields.io/github/watchers/llllllxy/tiny-job?style=flat-square&logo=GitHub"></a>
+<a href="https://github.com/llllllxy/tiny-job/issues"><img src="https://img.shields.io/github/issues/llllllxy/tiny-job.svg?style=flat-square&logo=GitHub"></a>
+<a href="https://github.com/llllllxy/tiny-job/blob/master/LICENSE"><img src="https://img.shields.io/github/license/llllllxy/tiny-job.svg?style=flat-square"></a>
 <a href='https://gitee.com/leisureLXY/tiny-job/stargazers'><img src='https://gitee.com/leisureLXY/tiny-job/badge/star.svg?theme=dark' alt='star'></img></a>
 <a href='https://gitee.com/leisureLXY/tiny-job/members'><img src='https://gitee.com/leisureLXY/tiny-job/badge/fork.svg?theme=dark' alt='fork'></img></a>
 

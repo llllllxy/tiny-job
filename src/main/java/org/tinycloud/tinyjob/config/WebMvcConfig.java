@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * <p>
- *     WebMvcConfig配置类
+ * WebMvcConfig配置类
  * </p>
  *
  * @author liuxingyu01
@@ -58,27 +58,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // 配置静态资源映射
-        registry.addResourceHandler("/css/**")
-                .addResourceLocations("classpath:/static/css/");
-        registry.addResourceHandler("/images/**")
-                .addResourceLocations("classpath:/static/images/");
-        registry.addResourceHandler("/js/**")
-                .addResourceLocations("classpath:/static/js/");
-        registry.addResourceHandler("/lib/**")
-                .addResourceLocations("classpath:/static/lib/");
-        registry.addResourceHandler("/page/**")
-                .addResourceLocations("classpath:/static/page/");
-        registry.addResourceHandler("/index.html")
-                .addResourceLocations("classpath:/static/");
-
+        registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css/");
+        registry.addResourceHandler("/images/**").addResourceLocations("classpath:/static/images/");
+        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/static/js/");
+        registry.addResourceHandler("/lib/**").addResourceLocations("classpath:/static/lib/");
+        registry.addResourceHandler("/page/**").addResourceLocations("classpath:/static/page/");
+        registry.addResourceHandler("/index.html").addResourceLocations("classpath:/static/");
 
         // 配置swagger-ui资源映射(knife4j)
-        registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("doc.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
 }

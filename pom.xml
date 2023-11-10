@@ -107,9 +107,9 @@
         <dependency>
             <groupId>org.tinycloud</groupId>
             <artifactId>tiny-security-boot-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0.4</version>
             <scope>system</scope>
-            <systemPath>${pom.basedir}/src/main/resources/lib/tiny-security-boot-starter-1.0-SNAPSHOT.jar</systemPath>
+            <systemPath>${pom.basedir}/src/main/resources/lib/tiny-security-boot-starter-1.0.4.jar</systemPath>
         </dependency>
     </dependencies>
 

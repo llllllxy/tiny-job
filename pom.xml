@@ -103,13 +103,10 @@
             <artifactId>jakarta.mail</artifactId>
             <version>1.6.7</version>
         </dependency>
-        <!-- tiny-security本地引入 -->
         <dependency>
-            <groupId>org.tinycloud</groupId>
+            <groupId>io.github.llllllxy</groupId>
             <artifactId>tiny-security-boot-starter</artifactId>
             <version>1.0.4</version>
-            <scope>system</scope>
-            <systemPath>${pom.basedir}/src/main/resources/lib/tiny-security-boot-starter-1.0.4.jar</systemPath>
         </dependency>
     </dependencies>
 

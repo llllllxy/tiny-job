@@ -132,7 +132,7 @@ public class AuthController {
 
         Map<String, String> logoInfo = new HashMap<>();
         logoInfo.put("title", "任务调度中心");
-        logoInfo.put("image", "images/logo.png");
+        logoInfo.put("image", "/images/logo.png");
         logoInfo.put("href", "");
 
         initInfo.put("homeInfo", homeInfo);

@@ -90,6 +90,9 @@ layui.define(["jquery", "nprogress"], function (exports) {
                 alert('请求错误，url不可为空!');
                 return false;
             }
+            if (!options.url.startsWith('/')) {
+                options.url = "/" + options.url;
+            }
             options.type = 'GET';
             options.timeout = options.timeout || 5000; // 设置本地的请求超时时间（以毫秒计）
             options.async = options.async || true; // 布尔值，表示请求是否异步处理。默认是 true
@@ -121,6 +124,9 @@ layui.define(["jquery", "nprogress"], function (exports) {
             if (!options.url) {
                 alert('请求错误，url不可为空!');
                 return false;
+            }
+            if (!options.url.startsWith('/')) {
+                options.url = "/" + options.url;
             }
             options.type = 'POST';
             options.timeout = options.timeout || 5000;
@@ -158,6 +164,9 @@ layui.define(["jquery", "nprogress"], function (exports) {
                 alert('请求错误，url不可为空!');
                 return false;
             }
+            if (!options.url.startsWith('/')) {
+                options.url = "/" + options.url;
+            }
             options.type = 'POST';
             options.timeout = options.timeout || 5000;
             options.async = options.async || true;
@@ -192,6 +201,9 @@ layui.define(["jquery", "nprogress"], function (exports) {
             if (!options.url) {
                 alert('请求错误，url不可为空!');
                 return false;
+            }
+            if (!options.url.startsWith('/')) {
+                options.url = "/" + options.url;
             }
             options.type = 'POST';
             options.timeout = options.timeout || 5000;

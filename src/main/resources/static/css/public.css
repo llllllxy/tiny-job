@@ -24,6 +24,10 @@
     background-color: #ffffff
 }
 
+.layuimini-table {
+    margin-top: 10px;
+}
+
 /**表单必填红点 */
 .layui-form-item > .required:after {
     content: '*';

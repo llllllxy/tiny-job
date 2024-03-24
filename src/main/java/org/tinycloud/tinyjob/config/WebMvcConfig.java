@@ -28,21 +28,21 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
-        List<String> excludePath = new ArrayList<String>() {{
-            // 开放登录接口
-            add("/auth/login");
-            add("/auth/getCode");
 
-            // 开放前端静态资源和静态页面
-            add("/static/**");
-            add("/api/**");
-            add("/css/**");
-            add("/images/**");
-            add("/js/**");
-            add("/lib/**");
-            add("/page/**");
-            add("/index.html");
-        }};
+        List<String> excludePath = new ArrayList<String>();
+        // 开放登录接口
+        excludePath.add("/auth/login");
+        excludePath.add("/auth/getCode");
+        // 开放前端静态资源和静态页面
+        excludePath.add("/static/**");
+        excludePath.add("/api/**");
+        excludePath.add("/css/**");
+        excludePath.add("/images/**");
+        excludePath.add("/js/**");
+        excludePath.add("/lib/**");
+        excludePath.add("/page/**");
+        excludePath.add("/index.html");
+
 
         // 注册会话拦截器
         registry.addInterceptor(authenticeInterceptor)

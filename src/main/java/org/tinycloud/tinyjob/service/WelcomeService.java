@@ -55,16 +55,17 @@ public class WelcomeService {
         Long failedQuantity = jobLogMapper.selectCount(Wrappers.<TJobLog>lambdaQuery()
                 .eq(TJobLog::getStatus, GlobalConstant.DISABLED));
 
-        return new HashMap<String, Long>() {{
-            put("jobQuantity", jobQuantity);
-            put("jobEnableQuantity", jobEnableQuantity);
-            put("projectQuantity", projectQuantity);
-            put("hostQuantity", hostQuantity);
+        HashMap<String, Long> result = new HashMap<String, Long>();
+        result.put("jobQuantity", jobQuantity);
+        result.put("jobEnableQuantity", jobEnableQuantity);
+        result.put("projectQuantity", projectQuantity);
+        result.put("hostQuantity", hostQuantity);
 
-            put("logQuantity", logQuantity);
-            put("successfulQuantity", successfulQuantity);
-            put("failedQuantity", failedQuantity);
-        }};
+        result.put("logQuantity", logQuantity);
+        result.put("successfulQuantity", successfulQuantity);
+        result.put("failedQuantity", failedQuantity);
+
+        return result;
     }
 
 
@@ -98,12 +99,11 @@ public class WelcomeService {
             successCountList.add(successCount);
             failedCountList.add(failCount);
         }
-
-        return new HashMap<String, Object>() {{
-            put("dateList", dateList);
-            put("countList", countList);
-            put("successCountList", successCountList);
-            put("failedCountList", failedCountList);
-        }};
+        HashMap<String, Object> result = new HashMap<String, Object>();
+        result.put("dateList", dateList);
+        result.put("countList", countList);
+        result.put("successCountList", successCountList);
+        result.put("failedCountList", failedCountList);
+        return result;
     }
 }

@@ -86,13 +86,13 @@ public class TJobInfo implements Serializable {
     /**
      * 简单任务的重复间隔时间（以秒为单位）
      */
-    @TableField(value = "interval_seconds", updateStrategy= FieldStrategy.IGNORED)
+    @TableField(value = "interval_seconds", updateStrategy= FieldStrategy.ALWAYS)
     private Integer intervalSeconds;
 
     /**
      * cron执行表达式
      */
-    @TableField(value = "cron_expression", updateStrategy= FieldStrategy.IGNORED)
+    @TableField(value = "cron_expression", updateStrategy= FieldStrategy.ALWAYS)
     private String cronExpression;
 
     /**

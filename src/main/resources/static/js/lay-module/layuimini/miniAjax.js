@@ -61,7 +61,7 @@ layui.define(["jquery", "nprogress"], function (exports) {
 
                 // 设置token
                 if (sessionStorage.getItem('token')) {
-                    XHR.setRequestHeader("token", sessionStorage.getItem('token'));
+                    XHR.setRequestHeader("X-Auth-Token", sessionStorage.getItem('token'));
                 }
                 XHR.setRequestHeader("Powered-By", 'TINYCLOUD');
                 // 提交前回调方法

@@ -1,5 +1,5 @@
 /*
- Navicat MySQL Data Transfer
+ Navicat Premium Data Transfer
 
  Source Server         : 个人-本机-127.0.0.1
  Source Server Type    : MySQL
@@ -11,7 +11,7 @@
  Target Server Version : 50733
  File Encoding         : 65001
 
- Date: 28/07/2023 10:27:20
+ Date: 09/04/2024 14:55:16
 */
 
 SET NAMES utf8mb4;
@@ -29,7 +29,11 @@ CREATE TABLE `qrtz_blob_triggers`  (
   PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   INDEX `SCHED_NAME`(`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   CONSTRAINT `qrtz_blob_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of qrtz_blob_triggers
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for qrtz_calendars
@@ -40,7 +44,11 @@ CREATE TABLE `qrtz_calendars`  (
   `CALENDAR_NAME` varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `CALENDAR` blob NOT NULL,
   PRIMARY KEY (`SCHED_NAME`, `CALENDAR_NAME`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of qrtz_calendars
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for qrtz_cron_triggers
@@ -54,7 +62,7 @@ CREATE TABLE `qrtz_cron_triggers`  (
   `TIME_ZONE_ID` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   CONSTRAINT `qrtz_cron_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_cron_triggers
@@ -87,7 +95,11 @@ CREATE TABLE `qrtz_fired_triggers`  (
   INDEX `IDX_QRTZ_FT_JG`(`SCHED_NAME`, `JOB_GROUP`) USING BTREE,
   INDEX `IDX_QRTZ_FT_T_G`(`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   INDEX `IDX_QRTZ_FT_TG`(`SCHED_NAME`, `TRIGGER_GROUP`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of qrtz_fired_triggers
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for qrtz_job_details
@@ -107,7 +119,7 @@ CREATE TABLE `qrtz_job_details`  (
   PRIMARY KEY (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) USING BTREE,
   INDEX `IDX_QRTZ_J_REQ_RECOVERY`(`SCHED_NAME`, `REQUESTS_RECOVERY`) USING BTREE,
   INDEX `IDX_QRTZ_J_GRP`(`SCHED_NAME`, `JOB_GROUP`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_job_details
@@ -124,7 +136,7 @@ CREATE TABLE `qrtz_locks`  (
   `SCHED_NAME` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `LOCK_NAME` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`SCHED_NAME`, `LOCK_NAME`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_locks
@@ -140,7 +152,11 @@ CREATE TABLE `qrtz_paused_trigger_grps`  (
   `SCHED_NAME` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `TRIGGER_GROUP` varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`SCHED_NAME`, `TRIGGER_GROUP`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of qrtz_paused_trigger_grps
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for qrtz_scheduler_state
@@ -152,12 +168,12 @@ CREATE TABLE `qrtz_scheduler_state`  (
   `LAST_CHECKIN_TIME` bigint(13) NOT NULL,
   `CHECKIN_INTERVAL` bigint(13) NOT NULL,
   PRIMARY KEY (`SCHED_NAME`, `INSTANCE_NAME`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_scheduler_state
 -- ----------------------------
-INSERT INTO `qrtz_scheduler_state` VALUES ('clusteredScheduler', 'liuxingyu011690510639884', 1690511231893, 10000);
+INSERT INTO `qrtz_scheduler_state` VALUES ('clusteredScheduler', 'liuxingyu011712643597280', 1712645710270, 10000);
 
 -- ----------------------------
 -- Table structure for qrtz_simple_triggers
@@ -172,12 +188,12 @@ CREATE TABLE `qrtz_simple_triggers`  (
   `TIMES_TRIGGERED` bigint(10) NOT NULL,
   PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   CONSTRAINT `qrtz_simple_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_simple_triggers
 -- ----------------------------
-INSERT INTO `qrtz_simple_triggers` VALUES ('clusteredScheduler', 'Trigger_6', 'COMMON', -1, 11000, 29308);
+INSERT INTO `qrtz_simple_triggers` VALUES ('clusteredScheduler', 'Trigger_6', 'COMMON', -1, 11000, 170549);
 
 -- ----------------------------
 -- Table structure for qrtz_simprop_triggers
@@ -200,7 +216,11 @@ CREATE TABLE `qrtz_simprop_triggers`  (
   `BOOL_PROP_2` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) USING BTREE,
   CONSTRAINT `qrtz_simprop_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) REFERENCES `qrtz_triggers` (`SCHED_NAME`, `TRIGGER_NAME`, `TRIGGER_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of qrtz_simprop_triggers
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for qrtz_triggers
@@ -237,34 +257,55 @@ CREATE TABLE `qrtz_triggers`  (
   INDEX `IDX_QRTZ_T_NFT_ST_MISFIRE`(`SCHED_NAME`, `MISFIRE_INSTR`, `NEXT_FIRE_TIME`, `TRIGGER_STATE`) USING BTREE,
   INDEX `IDX_QRTZ_T_NFT_ST_MISFIRE_GRP`(`SCHED_NAME`, `MISFIRE_INSTR`, `NEXT_FIRE_TIME`, `TRIGGER_GROUP`, `TRIGGER_STATE`) USING BTREE,
   CONSTRAINT `qrtz_triggers_ibfk_1` FOREIGN KEY (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) REFERENCES `qrtz_job_details` (`SCHED_NAME`, `JOB_NAME`, `JOB_GROUP`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of qrtz_triggers
 -- ----------------------------
 INSERT INTO `qrtz_triggers` VALUES ('clusteredScheduler', 'Trigger_4', 'DEFALUT', 'Job_4', 'DEFALUT', NULL, 1690192167000, 1690192158000, 5, 'PAUSED', 'CRON', 1690189368000, 0, NULL, 2, '');
 INSERT INTO `qrtz_triggers` VALUES ('clusteredScheduler', 'Trigger_5', 'DEFALUT', 'Job_5', 'DEFALUT', NULL, 1690192164000, 1690192152000, 5, 'PAUSED', 'CRON', 1689922268000, 0, NULL, 2, '');
-INSERT INTO `qrtz_triggers` VALUES ('clusteredScheduler', 'Trigger_6', 'COMMON', 'Job_6', 'COMMON', NULL, 1690511197947, 1690511186947, 5, 'PAUSED', 'SIMPLE', 1690188809947, 0, NULL, 0, '');
+INSERT INTO `qrtz_triggers` VALUES ('clusteredScheduler', 'Trigger_6', 'COMMON', 'Job_6', 'COMMON', NULL, 1692064848947, 1692064837947, 5, 'PAUSED', 'SIMPLE', 1690188809947, 0, NULL, 0, '');
 
 -- ----------------------------
--- Table structure for t_auth_token
+-- Table structure for spring_session
 -- ----------------------------
-DROP TABLE IF EXISTS `t_auth_token`;
-CREATE TABLE `t_auth_token`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `created_at` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
-  `token_str` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'token',
-  `login_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户id',
-  `token_expire_time` char(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'token过期时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `s_auth_token_unique_token_str`(`token_str`) USING BTREE COMMENT 'token_str不可重复'
-) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+DROP TABLE IF EXISTS `spring_session`;
+CREATE TABLE `spring_session`  (
+  `PRIMARY_ID` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `SESSION_ID` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `CREATION_TIME` bigint(20) NOT NULL,
+  `LAST_ACCESS_TIME` bigint(20) NOT NULL,
+  `MAX_INACTIVE_INTERVAL` int(11) NOT NULL,
+  `EXPIRY_TIME` bigint(20) NOT NULL,
+  `PRINCIPAL_NAME` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`PRIMARY_ID`) USING BTREE,
+  UNIQUE INDEX `SPRING_SESSION_IX1`(`SESSION_ID`) USING BTREE,
+  INDEX `SPRING_SESSION_IX2`(`EXPIRY_TIME`) USING BTREE,
+  INDEX `SPRING_SESSION_IX3`(`PRINCIPAL_NAME`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of t_auth_token
+-- Records of spring_session
 -- ----------------------------
-INSERT INTO `t_auth_token` VALUES (34, '2023-07-27 11:24:37', '2023-07-27 11:36:41', 'rKTN2qCorha_l2qGvdzH3baPoxTdaUNi1JQ20QvXDG0a7GGnbea4XE13UmzzpQUwS4458G0__wsrpW5JviisHZJ6EVTZEHJkaEfJORWamkgJFdHToRvhPrldhr0i7Fd6', 'admin', '20230727120641');
+INSERT INTO `spring_session` VALUES ('827ff675-107c-4496-9a76-ed35156ed845', '85ac7555-dec7-47f2-ac71-f5693b2673b4', 1712645608117, 1712645622434, 80, 1712645702434, NULL);
+
+-- ----------------------------
+-- Table structure for spring_session_attributes
+-- ----------------------------
+DROP TABLE IF EXISTS `spring_session_attributes`;
+CREATE TABLE `spring_session_attributes`  (
+  `SESSION_PRIMARY_ID` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `ATTRIBUTE_NAME` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `ATTRIBUTE_BYTES` blob NOT NULL,
+  PRIMARY KEY (`SESSION_PRIMARY_ID`, `ATTRIBUTE_NAME`) USING BTREE,
+  CONSTRAINT `SPRING_SESSION_ATTRIBUTES_FK` FOREIGN KEY (`SESSION_PRIMARY_ID`) REFERENCES `spring_session` (`PRIMARY_ID`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of spring_session_attributes
+-- ----------------------------
+INSERT INTO `spring_session_attributes` VALUES ('827ff675-107c-4496-9a76-ed35156ed845', 'loginId', 0xACED000574000561646D696E);
+
 -- ----------------------------
 -- Table structure for t_hosts_info
 -- ----------------------------
@@ -276,11 +317,11 @@ CREATE TABLE `t_hosts_info`  (
   `del_flag` tinyint(4) NOT NULL DEFAULT 0 COMMENT '删除标志（0--未删除1--已删除）',
   `created_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'admin' COMMENT '创建者，对应t_user.username',
   `updated_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新者，对应t_user.username',
-  `created_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `created_at` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '主机表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '主机表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_hosts_info
@@ -300,11 +341,11 @@ CREATE TABLE `t_hosts_item`  (
   `del_flag` tinyint(4) NOT NULL DEFAULT 0 COMMENT '删除标志（0--未删除1--已删除）',
   `created_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'admin' COMMENT '创建者，对应t_user.username',
   `updated_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新者，对应t_user.username',
-  `created_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `created_at` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '主机子表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '主机子表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_hosts_item
@@ -334,23 +375,23 @@ CREATE TABLE `t_job_info`  (
   `interval_seconds` int(11) NULL DEFAULT NULL COMMENT '简单任务的重复间隔时间（以秒为单位）',
   `misfire_policy` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '3' COMMENT '调度过期策略（1立即执行 2执行一次 3放弃执行）',
   `concurrent` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '1' COMMENT '是否并发执行（0允许 1禁止）',
-  `next_execute_time` datetime(0) NULL DEFAULT NULL COMMENT '下次执行时间',
+  `next_execute_time` datetime NULL DEFAULT NULL COMMENT '下次执行时间',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '状态（0启动 1暂停）',
   `del_flag` tinyint(4) NOT NULL DEFAULT 0 COMMENT '删除标志（0--未删除1--已删除）',
   `created_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'admin' COMMENT '创建者，对应t_user.username',
   `updated_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新者，对应t_user.username',
-  `created_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `created_at` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_job_info
 -- ----------------------------
 INSERT INTO `t_job_info` VALUES (4, 1, 1, '测试任务', 'DEFALUT', 'GET', '/api.php', '{\"resource_id\":\"6006\",\"format\":\"json\",\"query\":\"101.43.9.251\",\"oe\":\"utf8\"}', '', 'ROUND', 'CRON', '0/9 * * * * ?', NULL, '3', '1', '2023-07-24 17:49:27', '1', 0, 'admin', 'admin', '2023-06-19 14:12:31', '2023-07-24 17:49:22', '严格：每9秒一次');
 INSERT INTO `t_job_info` VALUES (5, 1, 2, '测试POST_JSON任务', 'DEFALUT', 'POST_JSON', '/test/postjson', '', '', 'RANDOM', 'CRON', '0/12 * * * * ?', NULL, '3', '0', '2023-07-21 14:58:00', '1', 0, 'admin', 'admin', '2023-06-21 15:51:38', '2023-07-24 17:49:22', 'XXXX');
-INSERT INTO `t_job_info` VALUES (6, 2, 3, '手机号归属地查询', 'COMMON', 'GET', '/api/common/teladress', '{\"mobile\":\"17862719592\"}', '', 'FIRST', 'SIMPLE', NULL, 11, '3', '1', '2023-07-28 10:26:38', '1', 0, 'admin', 'admin', '2023-07-21 15:33:52', '2023-07-28 10:26:30', '');
+INSERT INTO `t_job_info` VALUES (6, 2, 3, '手机号归属地查询', 'COMMON', 'GET', '/api/common/teladress', '{\"mobile\":\"17862719592\"}', '', 'FIRST', 'SIMPLE', NULL, 11, '3', '1', '2023-08-15 10:00:49', '1', 0, 'admin', 'admin', '2023-07-21 15:33:52', '2023-08-15 10:00:48', '');
 
 -- ----------------------------
 -- Table structure for t_job_log
@@ -368,13 +409,13 @@ CREATE TABLE `t_job_log`  (
   `return_info` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '返回信息',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0' COMMENT '执行状态（0成功， 1失败）',
   `exception_info` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '异常信息',
-  `created_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `created_at` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `execute_at` datetime(3) NULL DEFAULT NULL COMMENT '执行时间',
   `end_at` datetime(3) NULL DEFAULT NULL COMMENT '结束时间',
   `consuming` int(11) NULL DEFAULT NULL COMMENT '任务耗时(单位毫秒)',
   `audit_sign` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '签名-完整性保护',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 872 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 875 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务调度日志表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_job_log
@@ -420,6 +461,9 @@ INSERT INTO `t_job_log` VALUES (868, 6, '手机号归属地查询', 'COMMON', 'G
 INSERT INTO `t_job_log` VALUES (869, 6, '手机号归属地查询', 'COMMON', 'GET', 'https://api.oioweb.cn/api/common/teladress', '{\"mobile\":\"17862719592\"}', '', '{\"code\":200,\"result\":{\"name\":\"移动178卡\",\"postCode\":\"264200\",\"prov\":\"山东\",\"num\":1786271,\"cityCode\":\"371000\",\"city\":\"威海市\",\"provCode\":\"370000\",\"areaCode\":\"0631\",\"type\":1},\"msg\":\"success\"}', '0', NULL, '2023-07-28 10:26:05', '2023-07-28 10:26:04.957', '2023-07-28 10:26:05.290', 333, 'd994bb7d1d32b002d0317f9bc8f13dbde7120a3af3cc49f0725c03647387e7d5');
 INSERT INTO `t_job_log` VALUES (870, 6, '手机号归属地查询', 'COMMON', 'GET', 'https://api.oioweb.cn/api/common/teladress', '{\"mobile\":\"17862719592\"}', '', '{\"code\":200,\"result\":{\"name\":\"移动178卡\",\"postCode\":\"264200\",\"prov\":\"山东\",\"num\":1786271,\"cityCode\":\"371000\",\"city\":\"威海市\",\"provCode\":\"370000\",\"areaCode\":\"0631\",\"type\":1},\"msg\":\"success\"}', '0', NULL, '2023-07-28 10:26:16', '2023-07-28 10:26:15.975', '2023-07-28 10:26:16.197', 222, 'dcd9917d3d335b673914a271f9fa04f5bf0d236593f4a26c4a307a2b9869c2e4');
 INSERT INTO `t_job_log` VALUES (871, 6, '手机号归属地查询', 'COMMON', 'GET', 'https://api.oioweb.cn/api/common/teladress', '{\"mobile\":\"17862719592\"}', '', '{\"code\":200,\"result\":{\"name\":\"移动178卡\",\"postCode\":\"264200\",\"prov\":\"山东\",\"num\":1786271,\"cityCode\":\"371000\",\"city\":\"威海市\",\"provCode\":\"370000\",\"areaCode\":\"0631\",\"type\":1},\"msg\":\"success\"}', '0', NULL, '2023-07-28 10:26:27', '2023-07-28 10:26:26.964', '2023-07-28 10:26:27.294', 330, 'ba5df3855a07abfd563ad9e7878fdd3b89ffa7b25c2badedcc97e14514029418');
+INSERT INTO `t_job_log` VALUES (872, 6, '手机号归属地查询', 'COMMON', 'GET', 'https://api.oioweb.cn/api/common/teladress', '{\"mobile\":\"17862719592\"}', '', '{\"code\":200,\"result\":{\"name\":\"移动178卡\",\"postCode\":\"264200\",\"prov\":\"山东\",\"num\":1786271,\"cityCode\":\"371000\",\"city\":\"威海市\",\"provCode\":\"370000\",\"areaCode\":\"0631\",\"type\":1},\"msg\":\"success\"}', '0', NULL, '2023-08-15 10:00:16', '2023-08-15 10:00:15.996', '2023-08-15 10:00:16.549', 553, '35d23bf2bff2df19b5cae81d7788e1bc9415c234e07c9dcf0657a113fbef25a9');
+INSERT INTO `t_job_log` VALUES (873, 6, '手机号归属地查询', 'COMMON', 'GET', 'https://api.oioweb.cn/api/common/teladress', '{\"mobile\":\"17862719592\"}', '', '{\"code\":200,\"result\":{\"name\":\"移动178卡\",\"postCode\":\"264200\",\"prov\":\"山东\",\"num\":1786271,\"cityCode\":\"371000\",\"city\":\"威海市\",\"provCode\":\"370000\",\"areaCode\":\"0631\",\"type\":1},\"msg\":\"success\"}', '0', NULL, '2023-08-15 10:00:27', '2023-08-15 10:00:26.968', '2023-08-15 10:00:27.085', 117, 'ab71a4df2acd61ae8b82a702fe66252bb36f1de4fa08d4091764aedbe0f8c3f9');
+INSERT INTO `t_job_log` VALUES (874, 6, '手机号归属地查询', 'COMMON', 'GET', 'https://api.oioweb.cn/api/common/teladress', '{\"mobile\":\"17862719592\"}', '', '{\"code\":200,\"result\":{\"name\":\"移动178卡\",\"postCode\":\"264200\",\"prov\":\"山东\",\"num\":1786271,\"cityCode\":\"371000\",\"city\":\"威海市\",\"provCode\":\"370000\",\"areaCode\":\"0631\",\"type\":1},\"msg\":\"success\"}', '0', NULL, '2023-08-15 10:00:38', '2023-08-15 10:00:37.979', '2023-08-15 10:00:38.124', 145, '83ca421212a1204b0bcf534a33236fd6d973042bce941e4236721adac4c5d225');
 
 -- ----------------------------
 -- Table structure for t_mail_config
@@ -434,13 +478,17 @@ CREATE TABLE `t_mail_config`  (
   `receive_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '收件邮箱地址(多个用逗号隔开)',
   `del_flag` tinyint(4) NOT NULL DEFAULT 0 COMMENT '删除标志（0--未删除1--已删除）',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注描述信息',
-  `created_at` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  `created_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人-对应t_user.username',
-  `updated_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人-对应t_user.username',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `created_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人-对应t_user.id',
+  `updated_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新人-对应t_user.id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统备份配置表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统备份配置表' ROW_FORMAT = DYNAMIC;
 
+-- ----------------------------
+-- Records of t_mail_config
+-- ----------------------------
+INSERT INTO `t_mail_config` VALUES (2, 'smtp.111.com', '25', 'leisure@111.com', 'MuysavcjZwHXAShR', '184974699@qq.com', 0, NULL, '2023-07-27 17:10:24', '2023-07-27 17:10:24', 'admin', NULL);
 
 -- ----------------------------
 -- Table structure for t_project_info
@@ -452,17 +500,18 @@ CREATE TABLE `t_project_info`  (
   `del_flag` tinyint(4) NOT NULL DEFAULT 0 COMMENT '删除标志（0--未删除1--已删除）',
   `created_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'admin' COMMENT '创建者，对应t_user.username',
   `updated_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '更新者，对应t_user.username',
-  `created_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `created_at` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '项目表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '项目表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_project_info
 -- ----------------------------
 INSERT INTO `t_project_info` VALUES (1, '测试项目', 0, 'admin', 'admin', '2023-06-16 17:38:21', '2023-07-01 22:29:04', '');
 INSERT INTO `t_project_info` VALUES (2, '正式项目', 0, 'admin', 'admin', '2023-07-01 22:29:32', '2023-07-01 22:33:16', '正式项目，非常正式');
+INSERT INTO `t_project_info` VALUES (3, '新的2', 0, 'admin', 'admin', '2023-08-02 16:05:36', '2023-08-02 16:16:48', NULL);
 
 -- ----------------------------
 -- Table structure for t_user
@@ -478,14 +527,14 @@ CREATE TABLE `t_user`  (
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '状态（0--正常 1--冻结）',
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户头像',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '删除标志（0--未删除1--已删除）',
-  `created_at` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updated_at` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统用户信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统用户信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES (1, 'admin', '$2a$10$3g9ZFiwG.bM2XhQ1eDcqH.k0p0R10t9MU7HTQpJcT0.KoEIsb0z5G', '系统管理员', NULL, NULL, '0', NULL, '0', '2023-06-13 11:21:11', '2023-06-13 11:24:14');
+INSERT INTO `t_user` VALUES (1, 'admin', '$2a$10$3g9ZFiwG.bM2XhQ1eDcqH.k0p0R10t9MU7HTQpJcT0.KoEIsb0z5G', '系统管理员', NULL, NULL, '0', NULL, '0', '2023-06-13 11:21:11', '2023-09-18 10:57:55');
 
 SET FOREIGN_KEY_CHECKS = 1;

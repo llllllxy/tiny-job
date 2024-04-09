@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.tinycloud.security.util.AuthUtil;
 import org.tinycloud.tinyjob.bean.dto.HostsAddDto;
 import org.tinycloud.tinyjob.bean.dto.HostsEditDto;
 import org.tinycloud.tinyjob.bean.dto.HostsQueryDto;
@@ -21,6 +20,7 @@ import org.tinycloud.tinyjob.constant.GlobalConstant;
 import org.tinycloud.tinyjob.mapper.HostsInfoMapper;
 import org.tinycloud.tinyjob.mapper.HostsItemMapper;
 import org.tinycloud.tinyjob.model.PageModel;
+import org.tinycloud.tinyjob.utils.AuthUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +97,7 @@ public class HostsInfoService {
         LambdaUpdateWrapper<THostsInfo> wrapper = new LambdaUpdateWrapper<>();
         wrapper.eq(THostsInfo::getId, id);
         wrapper.set(THostsInfo::getDelFlag, GlobalConstant.DELETED);
-        wrapper.set(THostsInfo::getUpdatedBy, (String) AuthUtil.getLoginId());
+        wrapper.set(THostsInfo::getUpdatedBy, (String) AuthUtils.getLoginId());
         int rows = this.hostsInfoMapper.update(null, wrapper);
         return rows > 0;
     }
@@ -109,7 +109,7 @@ public class HostsInfoService {
         hostInfo.setProjectId(dto.getProjectId());
         hostInfo.setRemark(dto.getRemark());
         hostInfo.setDelFlag(GlobalConstant.NOT_DELETED);
-        hostInfo.setCreatedBy((String) AuthUtil.getLoginId());
+        hostInfo.setCreatedBy((String) AuthUtils.getLoginId());
         int rows = this.hostsInfoMapper.insert(hostInfo);
 
         String hostAddrs = dto.getHostAddrs();
@@ -120,7 +120,7 @@ public class HostsInfoService {
                 hostsItem.setHostId(hostInfo.getId());
                 hostsItem.setHostAddr(host);
                 hostsItem.setDelFlag(GlobalConstant.NOT_DELETED);
-                hostsItem.setCreatedBy((String) AuthUtil.getLoginId());
+                hostsItem.setCreatedBy((String) AuthUtils.getLoginId());
                 this.hostsItemMapper.insert(hostsItem);
             }
         }
@@ -134,7 +134,7 @@ public class HostsInfoService {
         wrapper.set(THostsInfo::getHostName, dto.getHostName());
         wrapper.set(THostsInfo::getProjectId, dto.getProjectId());
         wrapper.set(THostsInfo::getRemark, dto.getRemark());
-        wrapper.set(THostsInfo::getUpdatedBy, (String) AuthUtil.getLoginId());
+        wrapper.set(THostsInfo::getUpdatedBy, (String) AuthUtils.getLoginId());
         int rows = this.hostsInfoMapper.update(null, wrapper);
 
         this.hostsItemMapper.delete(Wrappers.<THostsItem>lambdaUpdate().eq(THostsItem::getHostId, dto.getId()));
@@ -146,7 +146,7 @@ public class HostsInfoService {
                 hostsItem.setHostId(dto.getId());
                 hostsItem.setHostAddr(host);
                 hostsItem.setDelFlag(GlobalConstant.NOT_DELETED);
-                hostsItem.setCreatedBy((String) AuthUtil.getLoginId());
+                hostsItem.setCreatedBy((String) AuthUtils.getLoginId());
                 this.hostsItemMapper.insert(hostsItem);
             }
         }

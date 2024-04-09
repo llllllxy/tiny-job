@@ -3,13 +3,13 @@ package org.tinycloud.tinyjob.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.tinycloud.security.util.secure.SM3Hash;
 import org.tinycloud.tinyjob.bean.dto.JobLogQueryDto;
 import org.tinycloud.tinyjob.bean.entity.TJobLog;
 import org.tinycloud.tinyjob.bean.entity.TMailConfig;
@@ -99,7 +99,7 @@ public class JobLogService {
         sb.append(jobLog.getJobParam());
         sb.append(DateFormatUtils.format(jobLog.getExecuteAt(), "yyyy-MM-dd HH:mm:ss:SSS"));
         String content = sb.toString();
-        String sign = new SM3Hash(content, ScheduleConst.JOB_LOG_HASH_SALT).toHex();
+        String sign = DigestUtils.sha256Hex(content + ScheduleConst.JOB_LOG_HASH_SALT);
         return sign;
     }
 }

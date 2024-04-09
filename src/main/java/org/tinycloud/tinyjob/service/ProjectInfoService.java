@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.tinycloud.security.util.AuthUtil;
 import org.tinycloud.tinyjob.bean.dto.ProjectAddDto;
 import org.tinycloud.tinyjob.bean.dto.ProjectEditDto;
 import org.tinycloud.tinyjob.bean.dto.ProjectQueryDto;
@@ -19,6 +18,7 @@ import org.tinycloud.tinyjob.bean.vo.ProjectSelectVo;
 import org.tinycloud.tinyjob.constant.GlobalConstant;
 import org.tinycloud.tinyjob.mapper.ProjectInfoMapper;
 import org.tinycloud.tinyjob.model.PageModel;
+import org.tinycloud.tinyjob.utils.AuthUtils;
 import org.tinycloud.tinyjob.utils.BeanConvertUtils;
 
 import java.util.List;
@@ -68,7 +68,7 @@ public class ProjectInfoService {
         projectInfo.setProjectName(dto.getProjectName());
         projectInfo.setRemark(dto.getRemark());
         projectInfo.setDelFlag(GlobalConstant.NOT_DELETED);
-        projectInfo.setCreatedBy((String) AuthUtil.getLoginId());
+        projectInfo.setCreatedBy((String) AuthUtils.getLoginId());
         int rows = this.projectInfoMapper.insert(projectInfo);
         return rows > 0;
     }
@@ -79,7 +79,7 @@ public class ProjectInfoService {
         wrapper.eq(TProjectInfo::getId, dto.getId());
         wrapper.set(TProjectInfo::getProjectName, dto.getProjectName());
         wrapper.set(TProjectInfo::getRemark, dto.getRemark());
-        wrapper.set(TProjectInfo::getUpdatedBy, (String) AuthUtil.getLoginId());
+        wrapper.set(TProjectInfo::getUpdatedBy, (String) AuthUtils.getLoginId());
         int rows = this.projectInfoMapper.update(null, wrapper);
         return rows > 0;
     }
@@ -89,7 +89,7 @@ public class ProjectInfoService {
         LambdaUpdateWrapper<TProjectInfo> wrapper = new LambdaUpdateWrapper<>();
         wrapper.eq(TProjectInfo::getId, id);
         wrapper.set(TProjectInfo::getDelFlag, GlobalConstant.DELETED);
-        wrapper.set(TProjectInfo::getUpdatedBy, (String) AuthUtil.getLoginId());
+        wrapper.set(TProjectInfo::getUpdatedBy, (String) AuthUtils.getLoginId());
         int rows = this.projectInfoMapper.update(null, wrapper);
         return rows > 0;
     }

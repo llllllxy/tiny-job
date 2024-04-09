@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.tinycloud.security.util.AuthUtil;
 import org.tinycloud.tinyjob.bean.dto.JobInfoAddDto;
 import org.tinycloud.tinyjob.bean.dto.JobInfoEditDto;
 import org.tinycloud.tinyjob.bean.dto.JobInfoQueryDto;
@@ -27,6 +26,7 @@ import org.tinycloud.tinyjob.exception.BusinessException;
 import org.tinycloud.tinyjob.exception.TaskException;
 import org.tinycloud.tinyjob.mapper.JobInfoMapper;
 import org.tinycloud.tinyjob.model.PageModel;
+import org.tinycloud.tinyjob.utils.AuthUtils;
 import org.tinycloud.tinyjob.utils.BeanConvertUtils;
 import org.tinycloud.tinyjob.utils.JsonUtils;
 import org.tinycloud.tinyjob.utils.quartz.CronUtils;
@@ -114,7 +114,7 @@ public class JobInfoService {
         LambdaUpdateWrapper<TJobInfo> wrapper = new LambdaUpdateWrapper<>();
         wrapper.eq(TJobInfo::getId, id);
         wrapper.set(TJobInfo::getStatus, JobStatusEnum.NORMAL.getValue());
-        wrapper.set(TJobInfo::getUpdatedBy, AuthUtil.getLoginId());
+        wrapper.set(TJobInfo::getUpdatedBy, AuthUtils.getLoginId());
 
         int rows = jobInfoMapper.update(null, wrapper);
         if (rows > 0) {
@@ -136,7 +136,7 @@ public class JobInfoService {
         LambdaUpdateWrapper<TJobInfo> wrapper = new LambdaUpdateWrapper<>();
         wrapper.eq(TJobInfo::getId, id);
         wrapper.set(TJobInfo::getStatus, JobStatusEnum.PAUSE.getValue());
-        wrapper.set(TJobInfo::getUpdatedBy, AuthUtil.getLoginId());
+        wrapper.set(TJobInfo::getUpdatedBy, AuthUtils.getLoginId());
 
         int rows = jobInfoMapper.update(null, wrapper);
         if (rows > 0) {
@@ -158,7 +158,7 @@ public class JobInfoService {
         LambdaUpdateWrapper<TJobInfo> wrapper = new LambdaUpdateWrapper<>();
         wrapper.eq(TJobInfo::getId, id);
         wrapper.set(TJobInfo::getDelFlag, GlobalConstant.DELETED);
-        wrapper.set(TJobInfo::getUpdatedBy, (String) AuthUtil.getLoginId());
+        wrapper.set(TJobInfo::getUpdatedBy, (String) AuthUtils.getLoginId());
 
         int rows = jobInfoMapper.update(null, wrapper);
         if (rows > 0) {
@@ -193,7 +193,7 @@ public class JobInfoService {
 
         TJobInfo jobInfo = BeanConvertUtils.convertTo(dto, TJobInfo::new);
         jobInfo.setStatus(JobStatusEnum.PAUSE.getValue());
-        jobInfo.setCreatedBy((String) AuthUtil.getLoginId());
+        jobInfo.setCreatedBy((String) AuthUtils.getLoginId());
         jobInfo.setDelFlag(GlobalConstant.NOT_DELETED);
 
         int rows = jobInfoMapper.insert(jobInfo);
@@ -232,7 +232,7 @@ public class JobInfoService {
         }
 
         TJobInfo jobInfo = BeanConvertUtils.convertTo(dto, TJobInfo::new);
-        jobInfo.setUpdatedBy((String) AuthUtil.getLoginId());
+        jobInfo.setUpdatedBy((String) AuthUtils.getLoginId());
         int rows = jobInfoMapper.updateById(jobInfo);
         if (rows > 0) {
             jobInfo = jobInfoMapper.selectById(jobInfo.getId());

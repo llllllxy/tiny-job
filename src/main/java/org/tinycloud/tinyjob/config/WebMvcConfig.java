@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.tinycloud.security.interceptor.AuthenticeInterceptor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +30,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         List<String> excludePath = new ArrayList<String>();
         // 开放登录接口
+        excludePath.add("/");
         excludePath.add("/auth/login");
         excludePath.add("/auth/getCode");
         // 开放前端静态资源和静态页面

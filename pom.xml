@@ -48,6 +48,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-quartz</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-jdbc</artifactId>
+        </dependency>
         <!-- 单元测试支持 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -103,11 +107,6 @@
             <groupId>com.sun.mail</groupId>
             <artifactId>jakarta.mail</artifactId>
             <version>1.6.7</version>
-        </dependency>
-        <dependency>
-            <groupId>top.lxyccc</groupId>
-            <artifactId>tiny-security-boot-starter</artifactId>
-            <version>1.0.4</version>
         </dependency>
     </dependencies>
 

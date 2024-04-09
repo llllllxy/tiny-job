@@ -2,7 +2,6 @@ package org.tinycloud.tinyjob.service;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import org.tinycloud.security.util.AuthUtil;
 import org.tinycloud.tinyjob.bean.dto.AuthEditInfoDto;
 import org.tinycloud.tinyjob.bean.dto.AuthEditPasswordDto;
 import org.tinycloud.tinyjob.bean.dto.AuthLoginDto;
@@ -14,6 +13,7 @@ import org.tinycloud.tinyjob.exception.BusinessException;
 import org.tinycloud.tinyjob.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.tinycloud.tinyjob.utils.AuthUtils;
 import org.tinycloud.tinyjob.utils.BeanConvertUtils;
 import org.tinycloud.tinyjob.utils.secure.BCrypt;
 
@@ -63,7 +63,7 @@ public class AuthService {
 
 
     public UserInfoVo getUserInfo() {
-        String username = (String) AuthUtil.getLoginId();
+        String username = (String) AuthUtils.getLoginId();
         TUser entity = this.userMapper.selectOne(
                 Wrappers.<TUser>lambdaQuery().eq(TUser::getUsername, username)
                         .eq(TUser::getDelFlag, GlobalConstant.NOT_DELETED));
@@ -80,7 +80,7 @@ public class AuthService {
             throw new BusinessException(ApiErrorCode.THE_NEWPASSWORD_ENTERED_TWICE_DOES_NOT_MATCH.getCode(),
                     ApiErrorCode.THE_NEWPASSWORD_ENTERED_TWICE_DOES_NOT_MATCH.getDesc());
         }
-        String username = (String) AuthUtil.getLoginId();
+        String username = (String) AuthUtils.getLoginId();
         TUser entity = this.userMapper.selectOne(
                 Wrappers.<TUser>lambdaQuery().eq(TUser::getUsername, username)
                         .eq(TUser::getDelFlag, GlobalConstant.NOT_DELETED));

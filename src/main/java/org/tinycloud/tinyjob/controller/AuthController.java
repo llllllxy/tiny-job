@@ -1,11 +1,11 @@
 package org.tinycloud.tinyjob.controller;
 
-import org.tinycloud.security.provider.AuthProvider;
-import org.tinycloud.security.util.AuthUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.tinycloud.tinyjob.bean.dto.AuthEditInfoDto;
 import org.tinycloud.tinyjob.bean.dto.AuthEditPasswordDto;
 import org.tinycloud.tinyjob.bean.dto.AuthLoginDto;
 import org.tinycloud.tinyjob.bean.vo.UserInfoVo;
+import org.tinycloud.tinyjob.constant.GlobalConstant;
 import org.tinycloud.tinyjob.model.ApiResult;
 import org.tinycloud.tinyjob.service.AuthService;
 import org.slf4j.Logger;
@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 /**
@@ -25,6 +25,7 @@ import java.util.*;
  * @author liuxingyu01
  * @since 2023-06-01 15:00
  */
+@Slf4j
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -33,18 +34,17 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @Autowired
-    private AuthProvider authProvider;
-
     /**
      * 登录
      */
     @PostMapping("/login")
-    public ApiResult<?> login(@Validated @RequestBody AuthLoginDto authLoginDto) {
+    public ApiResult<?> login(@Validated @RequestBody AuthLoginDto authLoginDto, HttpSession session) {
         // 进行用户名和密码校验
         authService.authentication(authLoginDto);
         // 把username作为loginId，执行会话创建操作
-        String token = authProvider.login(authLoginDto.getUsername());
+        session.setAttribute(GlobalConstant.SESSION_KEY, authLoginDto.getUsername());
+        String token = session.getId();
+        log.info("token = " + token);
         return ApiResult.success(token, "登录成功，欢迎回来！");
     }
 
@@ -53,8 +53,8 @@ public class AuthController {
      * 退出登录
      */
     @GetMapping("/logout")
-    public ApiResult<?> logout(HttpServletRequest request) {
-        authProvider.logout(request);
+    public ApiResult<?> logout(HttpSession session) {
+        session.invalidate();
         return ApiResult.success("退出登录成功！");
     }
 
@@ -63,8 +63,8 @@ public class AuthController {
      * 会话校验
      */
     @GetMapping("/getUsername")
-    public ApiResult<?> getUsername() {
-        return ApiResult.success(AuthUtil.getLoginId(), "获取成功");
+    public ApiResult<?> getUsername(HttpSession session) {
+        return ApiResult.success(session.getAttribute(GlobalConstant.SESSION_KEY), "获取成功");
     }
 
     /**
@@ -147,10 +147,10 @@ public class AuthController {
      * 修改密码
      */
     @PostMapping("/editPassword")
-    public ApiResult<?> editPassword(@Validated @RequestBody AuthEditPasswordDto dto, HttpServletRequest request) {
+    public ApiResult<?> editPassword(@Validated @RequestBody AuthEditPasswordDto dto, HttpSession session) {
         boolean result = authService.editPassword(dto);
         if (result) {
-            authProvider.logout(request);
+            session.invalidate();
         }
         return ApiResult.success(result, "修改密码成功！");
     }

@@ -29,4 +29,6 @@ public final class GlobalConstant {
      * 已停用
      */
     public static final String DISABLED = "1";
+
+    public static String SESSION_KEY = "loginId";
 }

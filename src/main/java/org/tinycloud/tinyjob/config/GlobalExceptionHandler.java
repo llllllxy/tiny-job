@@ -1,7 +1,5 @@
 package org.tinycloud.tinyjob.config;
 
-import org.tinycloud.security.exception.NoPermissionException;
-import org.tinycloud.security.exception.UnAuthorizedException;
 import org.tinycloud.tinyjob.constant.CommonCode;
 import org.tinycloud.tinyjob.exception.BusinessException;
 import org.tinycloud.tinyjob.model.ApiResult;
@@ -85,16 +83,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public ApiResult<?> handleBusinessException(BusinessException e) {
         return buildResponseEntity(e.getCode(), e.getMessage());
-    }
-
-    @ExceptionHandler(UnAuthorizedException.class)
-    public ApiResult<?> handleUnAuthorizedException(UnAuthorizedException e) {
-        return buildResponseEntity(String.valueOf(e.getCode()), e.getMessage());
-    }
-
-    @ExceptionHandler(NoPermissionException.class)
-    public ApiResult<?> handleNoPermissionException(NoPermissionException e) {
-        return buildResponseEntity(String.valueOf(e.getCode()), e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)

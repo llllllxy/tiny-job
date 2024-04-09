@@ -4,12 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.tinycloud.security.util.AuthUtil;
 import org.tinycloud.tinyjob.bean.dto.MailConfigEditDto;
 import org.tinycloud.tinyjob.bean.entity.TMailConfig;
 import org.tinycloud.tinyjob.bean.vo.MailConfigVo;
 import org.tinycloud.tinyjob.constant.GlobalConstant;
 import org.tinycloud.tinyjob.mapper.MailConfigMapper;
+import org.tinycloud.tinyjob.utils.AuthUtils;
 import org.tinycloud.tinyjob.utils.BeanConvertUtils;
 
 @Service
@@ -41,7 +41,7 @@ public class MailConfigService {
             wrapper.set(TMailConfig::getEmailAccount, dto.getEmailAccount());
             wrapper.set(TMailConfig::getEmailPassword, dto.getEmailPassword());
             wrapper.set(TMailConfig::getReceiveEmail, dto.getReceiveEmail());
-            wrapper.set(TMailConfig::getUpdatedBy, (String) AuthUtil.getLoginId());
+            wrapper.set(TMailConfig::getUpdatedBy, (String) AuthUtils.getLoginId());
 
             num = mailConfigMapper.update(null, wrapper);
         } else { // 插入
@@ -51,7 +51,7 @@ public class MailConfigService {
             mailConfig.setEmailAccount(dto.getEmailAccount());
             mailConfig.setEmailPassword(dto.getEmailPassword());
             mailConfig.setReceiveEmail(dto.getReceiveEmail());
-            mailConfig.setCreatedBy((String) AuthUtil.getLoginId());
+            mailConfig.setCreatedBy((String) AuthUtils.getLoginId());
             mailConfig.setDelFlag(GlobalConstant.NOT_DELETED);
             num = mailConfigMapper.insert(mailConfig);
         }

@@ -56,8 +56,8 @@ public class ScheduleUtils {
             // 简单定时器构建器，可指定任务的间隔时间和重复次数
             SimpleScheduleBuilder simpleScheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
                     .withIntervalInSeconds(job.getIntervalSeconds())
-                    //.withRepeatCount(repeatCount)
-                    .repeatForever(); // 不再限制次数，无限次数
+                    .repeatForever(); // 不限执行次数，无限次数
+            simpleScheduleBuilder = handleSimpleScheduleMisfirePolicy(job, simpleScheduleBuilder);
 
             trigger = TriggerBuilder.newTrigger()
                     .withIdentity(getTriggerKey(jobId, jobGroup))
@@ -92,7 +92,33 @@ public class ScheduleUtils {
 
 
     /**
-     * 设置定时任务策略
+     * 设置cron定时任务策略（失火策略）
+     * .withMisfireHandlingInstructionIgnoreMisfires()，所有未触发的执行都会立即执行，然后触发器再按计划运行
+     * .withMisfireHandlingInstructionNowWithExistingCount()，表示如果有任何一次错过的执行，那么在程序启动的时候会执行一次，然后继续按照正常的频率执行接下来的调度任务，直到程序结束。如果结束时间已经过了，则不会再执行
+     * .withMisfireHandlingInstructionNowWithRemainingCount()，忽略已经错过的任务，以当前时间为触发起点立即触发执行，并按照正常的频率执行，直到任务时间结束。如果当前时间已经超过结束时间，则不会再执行
+     */
+    public static SimpleScheduleBuilder handleSimpleScheduleMisfirePolicy(TJobInfo job, SimpleScheduleBuilder cb)
+            throws TaskException {
+        switch (job.getMisfirePolicy()) {
+            case ScheduleConst.MISFIRE_DEFAULT:
+                return cb;
+            case ScheduleConst.MISFIRE_IGNORE_MISFIRES:
+                return cb.withMisfireHandlingInstructionIgnoreMisfires();
+            case ScheduleConst.MISFIRE_FIRE_AND_PROCEED:
+                return cb.withMisfireHandlingInstructionNowWithExistingCount();
+            case ScheduleConst.MISFIRE_DO_NOTHING: // 什么都不做
+                return cb.withMisfireHandlingInstructionNowWithRemainingCount();
+            default:
+                throw new TaskException("The task misfire policy '" + job.getMisfirePolicy()
+                        + "' cannot be used in cron schedule tasks", TaskException.Code.CONFIG_ERROR);
+        }
+    }
+
+    /**
+     * 设置Simple定时任务策略（失火策略）
+     * .withMisfireHandlingInstructionIgnoreMisfires()，所有未触发的执行都会立即执行，然后触发器再按计划运行
+     * .withMisfireHandlingInstructionFireAndProceed()，立即执行第一个错误的执行并丢弃其他（即所有错误的执行合并在一起），也就是说无论错过了多少次触发器的执行，都只会立即执行一次，然后触发器再按计划运行
+     * .withMisfireHandlingInstructionDoNothing()，所有未触发的执行都将被丢弃，然后再触发器的下一个调度周期按计划运行
      */
     public static CronScheduleBuilder handleCronScheduleMisfirePolicy(TJobInfo job, CronScheduleBuilder cb)
             throws TaskException {
@@ -113,9 +139,9 @@ public class ScheduleUtils {
 
 
     /**
-     * 执行一次
+     * 执行一次任务
      */
-    public static void executeonceScheduler(Scheduler scheduler, TJobInfo job) throws SchedulerException, TaskException {
+    public static void executeOnceSchedulerJob(Scheduler scheduler, TJobInfo job) throws SchedulerException, TaskException {
         try {
             JobDataMap dataMap = new JobDataMap();
             dataMap.put(ScheduleConst.JOB_PROPERTIES, job);

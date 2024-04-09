@@ -98,7 +98,7 @@ public class JobInfoService {
      */
     public void executeonce(Long id) throws SchedulerException, TaskException {
         TJobInfo jobInfo = jobInfoMapper.selectById(id);
-        ScheduleUtils.executeonceScheduler(scheduler, jobInfo);
+        ScheduleUtils.executeOnceSchedulerJob(scheduler, jobInfo);
     }
 
 

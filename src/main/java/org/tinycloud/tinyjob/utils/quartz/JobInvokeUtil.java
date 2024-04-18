@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.tinycloud.tinyjob.utils.http.HttpStrategy;
 import org.tinycloud.tinyjob.utils.route.ExecutorRouteStrategyEnum;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,9 +66,12 @@ public class JobInvokeUtil {
         }
         Map<String, Object> paramMap = JsonUtils.readValue(jobParam, Map.class);
         Map<String, Object> headerMap = JsonUtils.readValue(jobHeader, Map.class);
+        Map<String, Object> otherMap = new HashMap<>();
+        otherMap.put("failRetryTimes", jobInfo.getFailRetryTimes());
+        otherMap.put("executorTimeout", jobInfo.getExecutorTimeout());
 
         // 策略模式调用，更加高级
-        String returnInfo = HttpStrategy.getResult(jobType, finalUrl, paramMap, headerMap);
+        String returnInfo = HttpStrategy.getResult(jobType, finalUrl, paramMap, headerMap, otherMap);
 
         // 这里可以根据returnInfo里包含的返回值来进行判断任务是否成功或者失败（抛出Exception异常即可），可以根据业务进行个性化定制
 

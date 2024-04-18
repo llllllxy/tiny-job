@@ -16,30 +16,34 @@ import java.util.Map;
  */
 public class HttpStrategy {
 
-    private static final Map<String, HttpFunction<String, Map<String, Object>, Map<String, Object>, String>> httpTypeMap
+    private static final Map<String, HttpFunction<String, Map<String, Object>, Map<String, Object>, Map<String, Object>, String>> httpTypeMap
             = new HashMap<>();
 
     /*
      * 使用static块初始化业务逻辑分派Map，其中value 存放的是 lambda表达式
      */
     static {
-        httpTypeMap.put(JobTypeEnum.GET.getCode(), (finalUrl, paramMap, headerMap) -> {
-            return HttpClientUtils.get(finalUrl, paramMap, headerMap);
+        httpTypeMap.put(JobTypeEnum.GET.getCode(), (finalUrl, paramMap, headerMap, otherMap) -> {
+            return HttpUtils.get(finalUrl, paramMap, headerMap, otherMap);
         });
-        httpTypeMap.put(JobTypeEnum.POST.getCode(), (finalUrl, paramMap, headerMap) -> {
-            return HttpClientUtils.post(finalUrl, paramMap, headerMap);
+        httpTypeMap.put(JobTypeEnum.POST.getCode(), (finalUrl, paramMap, headerMap, otherMap) -> {
+            return HttpUtils.post(finalUrl, paramMap, headerMap, otherMap);
         });
-        httpTypeMap.put(JobTypeEnum.POST_JSON.getCode(), (finalUrl, paramMap, headerMap) -> {
-            return HttpClientUtils.postJson(finalUrl, paramMap, headerMap);
+        httpTypeMap.put(JobTypeEnum.POST_JSON.getCode(), (finalUrl, paramMap, headerMap, otherMap) -> {
+            return HttpUtils.postJson(finalUrl, paramMap, headerMap, otherMap);
         });
     }
 
 
-    public static String getResult(String jobType, String finalUrl, Map<String, Object> paramMap, Map<String, Object> headerMap) throws Exception {
+    public static String getResult(String jobType,
+                                   String finalUrl,
+                                   Map<String, Object> paramMap,
+                                   Map<String, Object> headerMap,
+                                   Map<String, Object> otherMap) throws Exception {
         // 根据jobType去查函数式接口
-        HttpFunction<String, Map<String, Object>, Map<String, Object>, String> result = httpTypeMap.get(jobType);
+        HttpFunction<String, Map<String, Object>, Map<String, Object>, Map<String, Object>, String> result = httpTypeMap.get(jobType);
         if (result != null) {
-            return result.apply(finalUrl, paramMap, headerMap);
+            return result.apply(finalUrl, paramMap, headerMap, otherMap);
         } else {
             return "没有对应的业务处理器，请检查！";
         }

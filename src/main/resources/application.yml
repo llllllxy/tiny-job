@@ -65,7 +65,7 @@ spring:
             isClustered: true
             clusterCheckinInterval: 10000
             useProperties: false
-            maxMisfiresToHandleAtATime: 1
+            maxMisfiresToHandleAtATime: 10
             misfireThreshold: 12000
             txIsolationLevelSerializable: true
           threadPool:

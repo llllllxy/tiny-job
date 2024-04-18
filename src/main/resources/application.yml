@@ -63,7 +63,7 @@ spring:
             driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
             tablePrefix: QRTZ_
             isClustered: true
-            clusterCheckinInterval: 10000
+            clusterCheckinInterval: 15000
             useProperties: false
             maxMisfiresToHandleAtATime: 10
             misfireThreshold: 12000

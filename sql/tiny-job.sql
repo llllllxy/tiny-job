@@ -11,7 +11,7 @@
  Target Server Version : 50733
  File Encoding         : 65001
 
- Date: 09/04/2024 14:55:16
+ Date: 18/04/2024 17:43:45
 */
 
 SET NAMES utf8mb4;
@@ -383,15 +383,17 @@ CREATE TABLE `t_job_info`  (
   `created_at` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
+  `fail_retry_times` int(11) NULL DEFAULT NULL COMMENT '失败重试次数',
+  `executor_timeout` int(11) NULL DEFAULT NULL COMMENT '任务超时时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '定时任务表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_job_info
 -- ----------------------------
-INSERT INTO `t_job_info` VALUES (4, 1, 1, '测试任务', 'DEFALUT', 'GET', '/api.php', '{\"resource_id\":\"6006\",\"format\":\"json\",\"query\":\"101.43.9.251\",\"oe\":\"utf8\"}', '', 'ROUND', 'CRON', '0/9 * * * * ?', NULL, '3', '1', '2023-07-24 17:49:27', '1', 0, 'admin', 'admin', '2023-06-19 14:12:31', '2023-07-24 17:49:22', '严格：每9秒一次');
-INSERT INTO `t_job_info` VALUES (5, 1, 2, '测试POST_JSON任务', 'DEFALUT', 'POST_JSON', '/test/postjson', '', '', 'RANDOM', 'CRON', '0/12 * * * * ?', NULL, '3', '0', '2023-07-21 14:58:00', '1', 0, 'admin', 'admin', '2023-06-21 15:51:38', '2023-07-24 17:49:22', 'XXXX');
-INSERT INTO `t_job_info` VALUES (6, 2, 3, '手机号归属地查询', 'COMMON', 'GET', '/api/common/teladress', '{\"mobile\":\"17862719592\"}', '', 'FIRST', 'SIMPLE', NULL, 11, '3', '1', '2023-08-15 10:00:49', '1', 0, 'admin', 'admin', '2023-07-21 15:33:52', '2023-08-15 10:00:48', '');
+INSERT INTO `t_job_info` VALUES (4, 1, 1, '测试任务', 'DEFALUT', 'GET', '/api.php', '{\"resource_id\":\"6006\",\"format\":\"json\",\"query\":\"101.43.9.251\",\"oe\":\"utf8\"}', '', 'ROUND', 'CRON', '0/9 * * * * ?', NULL, '3', '1', '2023-07-24 17:49:27', '1', 0, 'admin', 'admin', '2023-06-19 14:12:31', '2023-07-24 17:49:22', '严格：每9秒一次', NULL, NULL);
+INSERT INTO `t_job_info` VALUES (5, 1, 2, '测试POST_JSON任务', 'DEFALUT', 'POST_JSON', '/test/postjson', '', '', 'RANDOM', 'CRON', '0/12 * * * * ?', NULL, '3', '0', '2023-07-21 14:58:00', '1', 0, 'admin', 'admin', '2023-06-21 15:51:38', '2023-07-24 17:49:22', 'XXXX', NULL, NULL);
+INSERT INTO `t_job_info` VALUES (6, 2, 3, '手机号归属地查询', 'COMMON', 'GET', '/api/common/teladress', '{\"mobile\":\"17862719592\"}', '', 'FIRST', 'SIMPLE', NULL, 11, '3', '1', '2023-08-15 10:00:49', '1', 0, 'admin', 'admin', '2023-07-21 15:33:52', '2023-08-15 10:00:48', '', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_job_log
@@ -485,10 +487,6 @@ CREATE TABLE `t_mail_config`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统备份配置表' ROW_FORMAT = DYNAMIC;
 
--- ----------------------------
--- Records of t_mail_config
--- ----------------------------
-INSERT INTO `t_mail_config` VALUES (2, 'smtp.111.com', '25', 'leisure@111.com', 'MuysavcjZwHXAShR', '184974699@qq.com', 0, NULL, '2023-07-27 17:10:24', '2023-07-27 17:10:24', 'admin', NULL);
 
 -- ----------------------------
 -- Table structure for t_project_info

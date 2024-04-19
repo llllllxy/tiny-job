@@ -116,4 +116,14 @@ public class JobInfoEditDto  implements Serializable {
     @NotEmpty(message = "路由策略不能为空")
     @Length(max = 32, min = 1, message = "路由策略不能超过500个字符")
     private String strategy;
+
+    /**
+     * 失败重试次数
+     */
+    private Integer failRetryTimes;
+
+    /**
+     * 任务超时时间（单位毫秒）
+     */
+    private Integer executorTimeout;
 }

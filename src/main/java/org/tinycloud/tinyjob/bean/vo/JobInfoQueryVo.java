@@ -135,4 +135,14 @@ public class JobInfoQueryVo implements Serializable {
      * 路由策略（FIRST、LAST、ROUND、RANDOM）
      */
     private String strategy;
+
+    /**
+     * 失败重试次数
+     */
+    private Integer failRetryTimes;
+
+    /**
+     * 任务超时时间（单位毫秒）
+     */
+    private Integer executorTimeout;
 }

@@ -1,6 +1,5 @@
 package org.tinycloud.tinyjob.utils.http;
 
-import org.apache.commons.codec.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
@@ -73,8 +72,8 @@ public class HttpUtils {
      * @return 请求结果
      */
     public static String get(String url, Map<String, Object> paramMap, Map<String, Object> headerMap, Map<String, Object> otherMap) throws Exception {
-        int retryTimes = (otherMap == null || otherMap.get("failRetryTimes") == null) ? 1
-                : Integer.parseInt(otherMap.get("failRetryTimes").toString());
+        int retryTimes = (otherMap == null || otherMap.get("failRetryTimes") == null) ? 0
+                : Integer.parseInt(otherMap.get("failRetryTimes").toString()); // 重试次数，默认0次；如果是3的话，则最多会执行4次
         int executorTimeout = (otherMap == null || otherMap.get("executorTimeout") == null) ? HTTP_READ_TIMEOUT
                 : Integer.parseInt(otherMap.get("executorTimeout").toString());
 
@@ -109,7 +108,7 @@ public class HttpUtils {
             int retryCount = 0;
             do {
                 response = httpclient.execute(httpGet);
-                result = EntityUtils.toString(response.getEntity(), Charsets.UTF_8);
+                result = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
                 if (response.getStatusLine().getStatusCode() != HTTP_SUCCESS_STATUS_CODE) {
                     logger.error("Error in get Request URL is [{}], params [{}]. Result:[{}]", url, paramMap, result);
                     HttpClientUtils.closeQuietly(response);
@@ -117,8 +116,8 @@ public class HttpUtils {
                 } else {
                     break;
                 }
-            } while (retryCount < retryTimes);
-            if (retryCount >= retryTimes) {
+            } while (retryCount <= retryTimes);
+            if (retryCount > retryTimes) {
                 throw new RuntimeException("Exceeded maximum retry attempts");
             }
         } catch (Exception e) {
@@ -140,7 +139,7 @@ public class HttpUtils {
      * @return 请求结果
      */
     public static String post(String url, Map<String, Object> formDataParam, Map<String, Object> headerMap, Map<String, Object> otherMap) throws Exception {
-        int retryTimes = (otherMap == null || otherMap.get("failRetryTimes") == null) ? 1
+        int retryTimes = (otherMap == null || otherMap.get("failRetryTimes") == null) ? 0
                 : Integer.parseInt(otherMap.get("failRetryTimes").toString());
         int executorTimeout = (otherMap == null || otherMap.get("executorTimeout") == null) ? HTTP_READ_TIMEOUT
                 : Integer.parseInt(otherMap.get("executorTimeout").toString());
@@ -163,7 +162,7 @@ public class HttpUtils {
                     formParams.add(new BasicNameValuePair(entry.getKey(), entry.getValue().toString()));
                 }
                 // 设置参数
-                UrlEncodedFormEntity urlEntity = new UrlEncodedFormEntity(formParams, Charsets.UTF_8);
+                UrlEncodedFormEntity urlEntity = new UrlEncodedFormEntity(formParams, StandardCharsets.UTF_8);
                 httpPost.setEntity(urlEntity);
             }
             if (null != headerMap && !headerMap.isEmpty()) {
@@ -176,7 +175,7 @@ public class HttpUtils {
             int retryCount = 0;
             do {
                 response = httpclient.execute(httpPost);
-                result = EntityUtils.toString(response.getEntity(), Charsets.UTF_8);
+                result = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
                 if (response.getStatusLine().getStatusCode() != HTTP_SUCCESS_STATUS_CODE) {
                     logger.error("Error in post Request URL is [{}], params [{}]. Result:[{}]", url, formDataParam, result);
                     HttpClientUtils.closeQuietly(response);
@@ -184,8 +183,8 @@ public class HttpUtils {
                 } else {
                     break;
                 }
-            } while (retryCount < retryTimes);
-            if (retryCount >= retryTimes) {
+            } while (retryCount <= retryTimes);
+            if (retryCount > retryTimes) {
                 throw new RuntimeException("Exceeded maximum retry attempts");
             }
         } catch (Exception e) {
@@ -207,7 +206,7 @@ public class HttpUtils {
      * @return 请求结果
      */
     public static String postJson(String url, Map<String, Object> paramMap, Map<String, Object> headerMap, Map<String, Object> otherMap) throws Exception {
-        int retryTimes = (otherMap == null || otherMap.get("failRetryTimes") == null) ? 1
+        int retryTimes = (otherMap == null || otherMap.get("failRetryTimes") == null) ? 0
                 : Integer.parseInt(otherMap.get("failRetryTimes").toString());
         int executorTimeout = (otherMap == null || otherMap.get("executorTimeout") == null) ? HTTP_READ_TIMEOUT
                 : Integer.parseInt(otherMap.get("executorTimeout").toString());
@@ -240,7 +239,7 @@ public class HttpUtils {
             int retryCount = 0;
             do {
                 response = httpclient.execute(httpPost);
-                result = EntityUtils.toString(response.getEntity(), Charsets.UTF_8);
+                result = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
                 if (response.getStatusLine().getStatusCode() != HTTP_SUCCESS_STATUS_CODE) {
                     logger.error("Error in postJson Request URL is [{}], params [{}]. Result:[{}]", url, jsonParam, result);
                     HttpClientUtils.closeQuietly(response);
@@ -248,8 +247,8 @@ public class HttpUtils {
                 } else {
                     break;
                 }
-            } while (retryCount < retryTimes);
-            if (retryCount >= retryTimes) {
+            } while (retryCount <= retryTimes);
+            if (retryCount > retryTimes) {
                 throw new RuntimeException("Exceeded maximum retry attempts");
             }
         } catch (Exception e) {
@@ -319,10 +318,11 @@ public class HttpUtils {
         hashMap.put("query", "101.43.9.251");
         hashMap.put("oe", "utf8");
 
-        String map = get(url, hashMap, null, null);
-        System.out.println(map);
+        Map<String, Object> otherMap = new HashMap<>();
+        otherMap.put("failRetryTimes", 3);
+        otherMap.put("executorTimeout", 5000);
 
-        String map2 = get(url2, hashMap, null, null);
-        System.out.println(map2);
+        String result = get(url, hashMap, null, otherMap);
+        System.out.println(result);
     }
 }

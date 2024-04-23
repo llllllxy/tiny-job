@@ -13,6 +13,7 @@ public enum ExecutorRouteStrategyEnum {
     RANDOM("route_random", new ExecutorRouteRandom()),
     LFU("route_lfu", new ExecutorRouteLFU()),
     LRU("route_lru", new ExecutorRouteLRU()),
+    CONSISTENT_HASH("route_consistenthash", new ExecutorRouteConsistentHash()),
 
     ;
 

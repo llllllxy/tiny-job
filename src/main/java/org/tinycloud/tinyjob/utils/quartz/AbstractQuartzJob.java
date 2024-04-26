@@ -40,20 +40,6 @@ public abstract class AbstractQuartzJob implements org.quartz.Job, Serializable 
     private static final ThreadLocal<Date> threadLocal = new ThreadLocal<>();
 
 
-    /**
-     * Spring线程池
-     */
-    private static ThreadPoolTaskExecutor asyncExecutor;
-
-    private static ThreadPoolTaskExecutor getAsyncExecutor() {
-        if (asyncExecutor == null) {
-            Object bean = SpringContextUtils.getBean("asyncServiceExecutor");
-            asyncExecutor = (ThreadPoolTaskExecutor) bean;
-        }
-        return asyncExecutor;
-    }
-
-
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
         TJobInfo jobInfo = new TJobInfo();
@@ -116,8 +102,9 @@ public abstract class AbstractQuartzJob implements org.quartz.Job, Serializable 
             jobLog.setStatus(JobLogStatusEnum.SUCCESS.getValue()); // 任务执行结果：成功
         }
 
+        ThreadPoolTaskExecutor asyncExecutor = SpringContextUtils.getBean("asyncServiceExecutor");
         // 这里做异步操作，提高性能
-        getAsyncExecutor().execute(() -> {
+        asyncExecutor.execute(() -> {
             // 第一步，记录任务执行日志
             SpringContextUtils.getBean(JobLogService.class).addJobLog(jobLog);
             // 第二步、更新t_job_info表的下次执行时间

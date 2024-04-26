@@ -43,8 +43,9 @@ public class SpringContextUtils implements ApplicationContextAware, DisposableBe
     /**
      * 从静态变量ApplicationContext中取得Bean, 自动转型为所赋值对象的类型.
      */
-    public static Object getBean(String name) {
-        return getApplicationContext().getBean(name);
+    @SuppressWarnings("unchecked")
+    public static <T> T getBean(String name) {
+        return (T) getApplicationContext().getBean(name);
     }
 
     /**
@@ -72,8 +73,9 @@ public class SpringContextUtils implements ApplicationContextAware, DisposableBe
 
     /**
      * 获取指定类型对应的所有Bean的列表
+     *
      * @param clazz 类、接口
-     * @param <T> Bean类型
+     * @param <T>   Bean类型
      * @return List<Bean>
      */
     public static <T> List<T> getBeanList(Class<T> clazz) {
@@ -88,7 +90,7 @@ public class SpringContextUtils implements ApplicationContextAware, DisposableBe
     /**
      * 获取指定类型对应的所有Bean，包括子类
      *
-     * @param <T>  Bean类型
+     * @param <T>   Bean类型
      * @param clazz 类、接口，null表示获取所有bean
      * @return 类型对应的bean，key是bean注册的name，value是Bean
      */

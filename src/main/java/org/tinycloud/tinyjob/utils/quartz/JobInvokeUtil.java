@@ -27,26 +27,12 @@ import java.util.Map;
 public class JobInvokeUtil {
     private static final Logger log = LoggerFactory.getLogger(JobInvokeUtil.class);
 
-    private static HostsInfoService hostsInfoService;
-
-    private static HostsInfoService getHostsInfoService() {
-        if (hostsInfoService == null) {
-            HostsInfoService bean = SpringContextUtils.getBean(HostsInfoService.class);
-            if (bean == null) {
-                log.error("HostsInfoService bean is null");
-            }
-            hostsInfoService = bean;
-            return hostsInfoService;
-        }
-        return hostsInfoService;
-    }
-
     public static JobResult invoke(TJobInfo jobInfo) throws Exception {
         // log.info("invoke jobInfo: {}", jobInfo);
 
         // 第一步，根据host_id 获取最终负载均衡的地址
         Long hostId = jobInfo.getHostId();
-        List<String> hosts = getHostsInfoService().getAddrs(hostId);
+        List<String> hosts = SpringContextUtils.getBean(HostsInfoService.class).getAddrs(hostId);
         if (CollectionUtils.isEmpty(hosts)) {
             throw new Exception("主机地址未配置，无法执行任务！");
         }

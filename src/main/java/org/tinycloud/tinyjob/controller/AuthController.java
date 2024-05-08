@@ -1,6 +1,5 @@
 package org.tinycloud.tinyjob.controller;
 
-import lombok.extern.slf4j.Slf4j;
 import org.tinycloud.tinyjob.bean.dto.AuthEditInfoDto;
 import org.tinycloud.tinyjob.bean.dto.AuthEditPasswordDto;
 import org.tinycloud.tinyjob.bean.dto.AuthLoginDto;
@@ -25,7 +24,6 @@ import java.util.*;
  * @author liuxingyu01
  * @since 2023-06-01 15:00
  */
-@Slf4j
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -44,7 +42,7 @@ public class AuthController {
         // 把username作为loginId，执行会话创建操作
         session.setAttribute(GlobalConstant.SESSION_KEY, authLoginDto.getUsername());
         String token = session.getId();
-        log.info("token = " + token);
+        logger.info("token = " + token);
         return ApiResult.success(token, "登录成功，欢迎回来！");
     }
 

@@ -78,7 +78,13 @@ public class AuthController {
      */
     @GetMapping("/init")
     public ApiResult<?> init() {
-        Map<String, Object> initInfo = new HashMap<String, Object>();
+        Map<String, Object> initInfo = new HashMap<>();
+
+        Map<String, String> menuItem0 = new HashMap<>();
+        menuItem0.put("title", "仪表盘");
+        menuItem0.put("href", "page/dashboard.html");
+        menuItem0.put("icon", "fa fa-navicon");
+        menuItem0.put("target", "_self");
 
         Map<String, String> menuItem1 = new HashMap<>();
         menuItem1.put("title", "项目管理");
@@ -117,6 +123,7 @@ public class AuthController {
         menuItem6.put("target", "_blank");
 
         List<Map<String, String>> menuList = new ArrayList<>();
+        menuList.add(menuItem0);
         menuList.add(menuItem1);
         menuList.add(menuItem2);
         menuList.add(menuItem3);
@@ -126,7 +133,7 @@ public class AuthController {
 
         Map<String, String> homeInfo = new HashMap<>();
         homeInfo.put("title", "首页");
-        homeInfo.put("href", "page/welcome-1.html?t=1");
+        homeInfo.put("href", "page/welcome.html");
 
         Map<String, String> logoInfo = new HashMap<>();
         logoInfo.put("title", "任务调度中心");

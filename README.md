@@ -16,7 +16,7 @@
 1、后端：
 - SpringBoot 2.6.11
 - Quartz 2.3.2
-- Mybatis-Plus 3.5.3.2
+- Mybatis-Plus 3.5.7
 - Httpclient 4.5.13
 
 2、前端：

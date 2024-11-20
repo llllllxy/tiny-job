@@ -594,6 +594,46 @@
             </fieldset>
         </div>
     </div>
+
+
+    <div class="easyui-layout"
+         style="width: 830px; height: 830px; border: 1px rgb(202, 196, 196) solid; border-radius: 5px; margin-top: 5px;">
+
+        <div data-options="region:'south',border:false" style="height: 830px">
+            <fieldset style="border-radius: 3px; height: 810px;">
+                <legend>Cron表达式教程</legend>
+
+                <h5>CronTrigger</h5>
+                <p>CronTriggers往往比SimpleTrigger更有用，如果您需要基于日历的概念，而非SimpleTrigger完全指定的时间间隔，复发的发射工作的时间表。
+                    CronTrigger，你可以指定触发的时间表如“每星期五中午”，或“每个工作日9:30时”，甚至“每5分钟一班9:00和10:00逢星期一上午，星期三星期五“。
+                    即便如此，SimpleTrigger一样，CronTrigger拥有的startTime指定的时间表时生效，指定的时间表时，应停止（可选）结束时间。</p>
+                <h5>Cron表达式</h5>
+                <p>cron的表达式被用来配置CronTrigger实例。 cron的表达式是字符串，实际上是由七子表达式，描述个别细节的时间表。这些子表达式是分开的空白，代表：</p>
+                <p>1. Seconds</p>
+                <p>2. Minutes</p>
+                <p>3. Hours</p>
+                <p>4. Day-of-Month</p>
+                <p>5. Month</p>
+                <p>6. Day-of-Week</p>
+                <p>7. Year (可选字段)</p>
+                <p>例 "0 0 12 ? * WED" 在每星期三下午12:00 执行,</p>
+                <p> 个别子表达式可以包含范围, 例如，在前面的例子里("WED")可以替换成 "MON-FRI", "MON, WED, FRI"甚至"MON-WED,SAT". “*” 代表整个时间段.</p>
+                <p>每一个字段都有一套可以指定有效值，如</p>
+                <p>Seconds (秒) ：可以用数字0－59 表示，</p>
+                <p>Minutes(分) ：可以用数字0－59 表示，</p>
+                <p>Hours(时) ：可以用数字0-23表示,</p>
+                <p>Day-of-Month(天) ：可以用数字1-31 中的任一一个值，但要注意一些特别的月份</p>
+                <p>Month(月) ：可以用0-11 或用字符串 “JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV and DEC” 表示</p>
+                <p>Day-of-Week(每周)：可以用数字1-7表示（1 ＝ 星期日）或用字符口串“SUN, MON, TUE, WED, THU, FRI and SAT”表示</p>
+                <p>“/”：为特别单位，表示为“每”如“0/15”表示每隔15分钟执行一次,“0”表示为从“0”分开始, “3/20”表示表示每隔20分钟执行一次，“3”表示从第3分钟开始执行</p>
+                <p>“?”：表示每月的某一天，或第周的某一天</p>
+                <p>“L”：用于每月，或每周，表示为每月的最后一天，或每个月的最后星期几如“6L”表示“每月的最后一个星期五”</p>
+                <p>“W”：表示为最近工作日，如“15W”放在每月（day-of-month）字段上表示为“到本月15日最近的工作日”</p>
+                <p>““#”：是用来指定“的”每月第n个工作日,例 在每周（day-of-week）这个字段中内容为"6#3" or "FRI#3" 则表示“每月第三个星期五”</p>
+            </fieldset>
+        </div>
+    </div>
+
 </center>
 <script type="text/javascript" src="/lib/jquery/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="/lib/cron/jquery.easyui.min.js"></script>
